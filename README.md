@@ -9,7 +9,7 @@ This is a custom alternative now that Microsoft is killing Skype qik so we can n
 * `mkdir /Greg; mkdir /Greg/www; mkdir /Greg/db`
 * extract this repo in /Greg/www
 * extract the latest static build of ffmpeg into /Greg/www/ffmpeg, from here: https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-32bit-static.tar.xz
-* Run `docker run -d -p 80:80 -v /Greg/www:/var/www -v /Greg/db:/var/lib/mysql --name heresgreg btobolaski/lamp
+* Run `docker run -d -p 80:80 -v /Greg/www:/var/www -v /Greg/db:/var/lib/mysql --name heresgreg btobolaski/lamp`
 * Attach to the instance and import the DB schema called DBStructure.sql 
 * `docker exec -i -t containerid /bin/bash`
 * `mysql -u app -p app < /var/www/DBStructure.sql` and password is `app_password`
