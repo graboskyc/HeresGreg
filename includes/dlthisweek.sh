@@ -1,0 +1,1 @@
+wget http://localhost:9999/includes/pushthisweek.php
