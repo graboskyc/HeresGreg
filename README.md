@@ -1,8 +1,8 @@
-# README #
+# README
 
 This is a custom alternative now that Microsoft is killing Skype qik so we can no longer share videos of our baby with their grandmothers. It is not very secure but instead meant as a basic way to stop people who randomly stumbled upon the site.
 
-### How do I get set up? ###
+## How do I get set up?
 
 * Get a linux box and install docker
 * Create a directory in / to store data, here called Greg
@@ -19,5 +19,15 @@ This is a custom alternative now that Microsoft is killing Skype qik so we can n
 * navigate to your site on port 80 and should be all set
 * For advanced features, edit includes/util.php and set the APPNAME to your child's name and create a pushbullet channel and API key and fill that out for push notifications
 
-### Screenshots
+## Features
+* Push notifications via pushbullet for new videos uploaded and weekly summary (this week in) from past years
+* media re-encoding in batch for better streaming
+* responsive built on top of bootstrap for computers, tablets, and phones
+* comments built on top of disqus
+* filter overlays for places and holidays
+* upload videos and animated gifs
+* ability to favorite videos
+* view videos by most recent (home page), by day/year, favorite, filter, etc
+
+## Screenshots
 ![](SCREENSHOTSFORGITHUB/01.JPG)
