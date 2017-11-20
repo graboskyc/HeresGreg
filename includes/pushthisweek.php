@@ -21,7 +21,7 @@ foreach($result as $r)
         'type' => "file",
         'file_name' => "file",
         'file_type' => "image/jpeg",
-        'file_url' => SITEURL."/".$r["path"].".jpg",
+        'file_url' => SITEURL."/media/".$r["path"].".jpg",
         'channel_tag' => "".PUSHBULLETCHAN,
         'url' => SITEURL."/media/smaller/".$r["path"]
     );

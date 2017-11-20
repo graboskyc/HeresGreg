@@ -16,6 +16,8 @@ ini_set('max_execution_time', 30000);
 ini_set('upload_tmp_dir', '/var/www/tmp');
 error_reporting(E_ALL);
 
+//phpinfo();
+
 if(!isset($_SESSION['un']) || !isset($_SESSION['uid'])) { header('LOCATION: login.php'); }
 require_once('includes/util.php');
 require_once('includes/push.php');
