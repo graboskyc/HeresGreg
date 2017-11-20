@@ -1,13 +1,14 @@
 #!/bin/bash
 
-bigFiles=(/Greg/www/media/*.mp4)
+bigFiles=(/mnt/media/*.mp4)
 
 for file in ${bigFiles[*]}
 do 
 	filename="${file##*/}"
-	if [ ! -f /Greg/www/media/smaller/$filename ]
+	if [ ! -f /mnt/media/smaller/$filename ]
 	then 
 		echo $filename
-		/Greg/www/ffmpeg/ffmpeg -i /Greg/www/media/$filename -vf scale=-1:640 /Greg/www/media/smaller/$filename
+		/mnt/ffmpeg/ffmpeg -i /mnt/media/$filename -vf scale=-1:640 /mnt/media/smaller/$filename
+		rm -f /mnt/media/$filename
 	fi
 done
