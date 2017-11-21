@@ -20,29 +20,6 @@ function NewGuid(){
 function DrawMainMenu($hideUpload, $hidRegistration) {
     ?>
     <center>
-    <?php
-        if(!$hideUpload) {
-    ?>
-            <div class="row">
-                <div class="col-xs-12"><center><h2><span class="glyphicon glyphicon-film" aria-hidden="true" ></span>&nbsp;Upload Videos</h2></center></div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
-                    <button type="button" class="btn btn-success menubtn" onclick="openUpload()">
-                        <span class="glyphicon glyphicon-facetime-video" aria-hidden="true" ></span>
-                        Record
-                    </button>
-                </div>
-                <div class="col-xs-6">
-                    <button type="button" class="btn btn-info menubtn" onclick="openUploadExisting()">
-                        <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true" ></span>
-                        Upload
-                    </button>
-                </div>
-            </div>
-    <?php
-        }
-    ?>
             <div class="row">
                 <div class="col-xs-12"><center><h2><span class="glyphicon glyphicon-play-circle" aria-hidden="true" ></span>&nbsp;Watch Videos</h2></center></div>
             </div>
@@ -98,41 +75,49 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
                     </button>
                 </div>
             </div>
+ 
             <div class="row">
-            <?php
-            if(!$hideUpload) {
-                if(isAdmin($_SESSION["un"])) {
-                ?>
-                <div class="col-xs-4">
-                <button type="button" class="btn btn-danger menubtn" onclick="window.location='c_manualpush.php?redir=index.php';">
-                    <span class="glyphicon glyphicon-send" aria-hidden="true" ></span>
-                    Manual Push Chan
-                </button>
-                </div>
-
-                <div class="col-xs-4">
-                <button type="button" class="btn btn-danger menubtn" onclick="window.location='alert.php';">
-                    <span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>
-                    Create Alert
-                </button>
-                </div>
-
-                <div class="col-xs-4">
-                <button type="button" class="btn btn-danger menubtn" onclick="window.location='user.php';">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true" ></span>
-                    Create User
-                </button>
-                </div>
-
-                <?php
-                }
-            }
-            ?>
-            <div class="col-xs-12">
+                <div class="col-xs-12">
                     <a class="pushbullet-subscribe-widget menubtn" data-channel="Greg" data-widget="button" data-size="small"></a>
 <script type="text/javascript">(function(){var a=document.createElement('script');a.type='text/javascript';a.async=true;a.src='https://widget.pushbullet.com/embed.js';var b=document.getElementsByTagName('script')[0];b.parentNode.insertBefore(a,b);})();</script>
                 </div>
             </div>
+
+      
+            <?php
+
+                if(isAdmin($_SESSION["un"])) {
+                ?>
+                 <div class="row">
+                    <div class="col-xs-12"><center><h2><span class="glyphicon glyphicon-hand-up" aria-hidden="true" ></span>&nbsp;Administration</h2></center></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='c_manualpush.php?redir=index.php';">
+                        <span class="glyphicon glyphicon-send" aria-hidden="true" ></span>
+                        Manual Push Chan
+                    </button>
+                    </div>
+
+                    <div class="col-xs-4">
+                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='alert.php';">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>
+                        Create Alert
+                    </button>
+                    </div>
+
+                    <div class="col-xs-4">
+                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='user.php';">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true" ></span>
+                        Create User
+                    </button>
+                    </div>
+                </div>
+
+                <?php
+
+                }
+                ?>
         </center>
     <?php
 }

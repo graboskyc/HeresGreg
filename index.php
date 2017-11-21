@@ -137,8 +137,8 @@ $mediaList = array_reverse($mediaList);
       <div class="header clearfix">
         <nav>
             <ul class="nav nav-pills pull-right">
-                <button type="button" class="btn btn-default" id="btn_upload" onclick="openUpload()">
-                    <span class="glyphicon glyphicon-facetime-video" aria-hidden="true" ></span>
+                <button type="button" class="btn btn-default" id="btn_upload" onclick="openUploadExisting()">
+                    <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true" ></span>
                 </button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#myModal">
                     <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true" ></span>
