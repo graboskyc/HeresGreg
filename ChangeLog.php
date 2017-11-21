@@ -268,7 +268,9 @@ error_reporting(E_ALL);
           </div>
           <div id="collapseThirteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThirteen">
             <div class="panel-body">
-              <ul><li>Added utility to put on alert messages on home page</li></ul>
+              <ul><li>Added utility to put on alert messages on home page</li>
+              <li>New favicons</li>
+              <li>More clean support for multiple installs</li></ul>
             </div>
           </div>
         </div>
@@ -296,13 +298,13 @@ error_reporting(E_ALL);
         <script>
         var disqus_config = function () {
 
-        this.page.url = "http://grabosky.dyndns.org:9999/ChangeLog.php";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.url = "<?php echo SITEURL; ?>/ChangeLog.php";  // Replace PAGE_URL with your page's canonical URL variable
         this.page.identifier = "CHANGELOG"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
         };
         
         (function() { 
         var d = document, s = d.createElement('script');
-        s.src = '//greg-grabosky-net.disqus.com/embed.js';
+        s.src = '//<?php echo DISQUSURL; ?>.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
         })();
