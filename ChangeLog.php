@@ -226,6 +226,21 @@ error_reporting(E_ALL);
           </div>
         </div>
 
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingTwelve">
+            <h4 class="panel-title">
+              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwelve" aria-expanded="true" aria-controls="collapseTwelve">
+                V2.8 <span class="smallvnote">(click to expand)</span>
+              </a>
+            </h4>
+          </div>
+          <div id="collapseTwelve" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwelve">
+            <div class="panel-body">
+              <ul><li>Code cleanup for reuse and moved into docker container on top of Linux</li></ul>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <?php

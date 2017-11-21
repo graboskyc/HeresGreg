@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2017 at 09:34 PM
+-- Generation Time: Nov 21, 2017 at 05:04 PM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 5.6.15
 
@@ -19,6 +19,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `qik`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `alerts`
+--
+
+CREATE TABLE `alerts` (
+  `message_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `start` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `end` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `msg` varchar(1500) NOT NULL,
+  `bootstraptype` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -55,6 +70,12 @@ CREATE TABLE `user` (
 --
 
 --
+-- Indexes for table `alerts`
+--
+ALTER TABLE `alerts`
+  ADD PRIMARY KEY (`message_id`);
+
+--
 -- Indexes for table `media`
 --
 ALTER TABLE `media`
@@ -71,10 +92,15 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `alerts`
+--
+ALTER TABLE `alerts`
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=726;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=727;
 --
 -- AUTO_INCREMENT for table `user`
 --

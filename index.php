@@ -129,6 +129,10 @@ $mediaList = array_reverse($mediaList);
         </nav>
         <h3 class="text-muted">Here's <?php echo APPNAME;?></h3>
       </div>
+
+      <?php
+        echo getAlerts($conn);
+      ?>
       
       <div class="row" style="margin-top: 0px auto;border-top: transparent solid 10px;">
           <?php echo $outstr; ?>

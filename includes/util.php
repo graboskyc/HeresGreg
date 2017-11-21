@@ -3,8 +3,8 @@
 define("PRODUCTVERSION", "2.8");
 define("APPNAME", "Greg");
 define("PUSHBULLETAPIKEY", "");
-define("PUSHBULLETCHAN", "greg");
-define("SITEURL", "http://");
+define("PUSHBULLETCHAN", "");
+define("SITEURL", "");
 
 function NewGuid(){
     if (function_exists('com_create_guid')){
@@ -423,6 +423,23 @@ function getStats($conn) {
             $statData["userVids"] = $r["userVids"];
     }
     return $statData;
+}
+
+function getAlerts($conn) {
+    $sql = "SELECT u.username, a.msg, a.bootstraptype FROM alerts as a left join user as u on a.user_id = u.user_id WHERE start < NOW() and end > now() order by end desc limit 1";
+
+    $retstr = "";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    $statData = array();
+    foreach($result as $r)
+    {
+        $retstr = '<div class="alert alert-'.$r['bootstraptype'].' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.$r['msg'].'</div>';
+    }
+
+    return $retstr;    
 }
 
 ?>
