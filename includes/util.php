@@ -89,27 +89,27 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
                 if(isAdmin($_SESSION["un"])) {
                 ?>
                  <div class="row">
-                    <div class="col-xs-12"><center><h2><span class="glyphicon glyphicon-hand-up" aria-hidden="true" ></span>&nbsp;Administration</h2></center></div>
+                    <div class="col-xs-12"><center><h2><span class="glyphicon glyphicon-lock" aria-hidden="true" ></span>&nbsp;Administration</h2></center></div>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
                     <button type="button" class="btn btn-danger menubtn" onclick="window.location='c_manualpush.php?redir=index.php';">
                         <span class="glyphicon glyphicon-send" aria-hidden="true" ></span>
-                        Manual Push Chan
+                        Pushbullet
                     </button>
                     </div>
 
                     <div class="col-xs-4">
                     <button type="button" class="btn btn-danger menubtn" onclick="window.location='alert.php';">
                         <span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>
-                        Create Alert
+                        Alert
                     </button>
                     </div>
 
                     <div class="col-xs-4">
                     <button type="button" class="btn btn-danger menubtn" onclick="window.location='user.php';">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true" ></span>
-                        Create User
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true" ></span>
+                        Users
                     </button>
                     </div>
                 </div>

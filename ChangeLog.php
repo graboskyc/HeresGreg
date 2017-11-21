@@ -270,7 +270,9 @@ error_reporting(E_ALL);
             <div class="panel-body">
               <ul><li>Added utility to put on alert messages on home page</li>
               <li>New favicons</li>
-              <li>More clean support for multiple installs</li></ul>
+              <li>More clean support for multiple installs</li>
+              <li>Simplified menus since no one records live anymore</li>
+              <li>Added admin tools for creating alerts and users</li></ul>
             </div>
           </div>
         </div>

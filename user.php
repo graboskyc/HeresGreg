@@ -56,7 +56,7 @@ require_once('includes/util.php');
     <div class="container">
 
       <form class="form-signin" method="post" action="c_user.php">
-        <h2 class="form-signin-heading">Create a User</h2>
+        <h2 class="form-signin-heading"><span class="glyphicon glyphicon-user" aria-hidden="true" ></span>Create a User</h2>
 
         <label for="user" class="sr-only">User</label>
         <input type="text" id="usermsg" name="user" class="form-control" placeholder="user" required autofocus>

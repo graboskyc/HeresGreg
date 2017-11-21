@@ -56,7 +56,7 @@ require_once('includes/util.php');
     <div class="container">
 
       <form class="form-signin" method="post" action="c_newAlert.php">
-        <h2 class="form-signin-heading">Create an Alert</h2>
+        <h2 class="form-signin-heading"><span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>&nbsp; Create an Alert</h2>
 
         <label for="msg" class="sr-only">Alert Message</label>
         <input type="text" id="msg" name="msg" class="form-control" placeholder="Message" required autofocus>
@@ -76,6 +76,25 @@ require_once('includes/util.php');
         </select>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+
+        <h2 class="form-signin-heading">Current Alerts</h2>
+
+        <table class="table table-striped">
+        <thead><tr><th>Message</th><th>Start</th><th>End</th></tr></thead>
+        <tbody>
+        <?php
+        $conn = connectDB();
+        $sql = "SELECT msg, start, end from alerts order by end desc";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $mediaList = array();
+        foreach($result as $r)
+        {
+          echo "<tr><td>".$r['msg']."</td><td>".$r['start']."</td><td>".$r['end']."</td></tr>";
+        }
+        ?>
+        </tbody></table>
       </form>
 
     </div> <!-- /container -->
