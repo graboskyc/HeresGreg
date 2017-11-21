@@ -7,6 +7,7 @@ define("PUSHBULLETCHAN", "");
 define("DISQUSURL", "");
 define("SITEURL", "");
 define("THEMECOLOR", "0063AF");
+define("SITEADMINSCSV", "");
 
 function NewGuid(){
     if (function_exists('com_create_guid')){
@@ -100,7 +101,7 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
             <div class="row">
             <?php
             if(!$hideUpload) {
-                if($_SESSION["uid"] == 2) {
+                if(isAdmin($_SESSION["un"])) {
                 ?>
                 <div class="col-xs-4">
                 <button type="button" class="btn btn-danger menubtn" onclick="window.location='c_manualpush.php?redir=index.php';">
@@ -143,7 +144,7 @@ function DrawRCMenu() {
             </div>
         </div>
     <?php
-    if(($_SESSION['uid'] == 2) || ($_SESSION['uid'] == 3)) {
+    if(isAdmin($__SESSION['un'])) {
     ?>
         <div class="row">
             <div class="col-xs-6">
@@ -399,7 +400,7 @@ function updateUser($conn, $lv) {
 
 function isAdmin($un)
 {
-	$adminList = array("graboskyc");
+	$adminList = explode(",", SITEADMINSCSV);
 	$retVal = false;
 
 	if(in_array(strtolower($un), $adminList))
