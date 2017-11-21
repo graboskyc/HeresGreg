@@ -109,21 +109,26 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
                     Manual Push Chan
                 </button>
                 </div>
+
                 <div class="col-xs-4">
-                <button type="button" class="btn btn-success menubtn" onclick="window.location='alert.php';">
+                <button type="button" class="btn btn-danger menubtn" onclick="window.location='alert.php';">
                     <span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>
-                    Create Banner Alert
+                    Create Alert
                 </button>
                 </div>
+
                 <div class="col-xs-4">
-                <?php
-                } else { 
-                ?>
-                <div class="col-xs-12">
+                <button type="button" class="btn btn-danger menubtn" onclick="window.location='user.php';">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true" ></span>
+                    Create User
+                </button>
+                </div>
+
                 <?php
                 }
             }
             ?>
+            <div class="col-xs-12">
                     <a class="pushbullet-subscribe-widget menubtn" data-channel="Greg" data-widget="button" data-size="small"></a>
 <script type="text/javascript">(function(){var a=document.createElement('script');a.type='text/javascript';a.async=true;a.src='https://widget.pushbullet.com/embed.js';var b=document.getElementsByTagName('script')[0];b.parentNode.insertBefore(a,b);})();</script>
                 </div>
