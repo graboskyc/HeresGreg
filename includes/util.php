@@ -1,6 +1,6 @@
 <?php
 
-define("PRODUCTVERSION", "2.8");
+define("PRODUCTVERSION", "2.9");
 define("APPNAME", "Greg");
 define("PUSHBULLETAPIKEY", "");
 define("PUSHBULLETCHAN", "");
@@ -100,12 +100,19 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
             if(!$hideUpload) {
                 if($_SESSION["uid"] == 2) {
                 ?>
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                 <button type="button" class="btn btn-danger menubtn" onclick="window.location='c_manualpush.php?redir=index.php';">
                     <span class="glyphicon glyphicon-send" aria-hidden="true" ></span>
                     Manual Push Chan
                 </button>
-                </div><div class="col-xs-6">
+                </div>
+                <div class="col-xs-4">
+                <button type="button" class="btn btn-success menubtn" onclick="window.location='c_alert.php';">
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>
+                    Create Banner Alert
+                </button>
+                </div>
+                <div class="col-xs-4">
                 <?php
                 } else { 
                 ?>
