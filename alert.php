@@ -14,7 +14,7 @@ require_once('includes/util.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="favicon.ico">
-    <meta name="theme-color" content="#333333" />
+    <meta name="theme-color" content="#<?php echo THEMECOLOR;?>" />
     <title>Create an Alert for <?php echo APPNAME;?></title>
 
     <!-- Bootstrap core CSS -->

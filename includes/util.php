@@ -5,6 +5,7 @@ define("APPNAME", "Greg");
 define("PUSHBULLETAPIKEY", "");
 define("PUSHBULLETCHAN", "");
 define("SITEURL", "");
+define("THEMECOLOR", "0063AF");
 
 function NewGuid(){
     if (function_exists('com_create_guid')){
@@ -107,7 +108,7 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
                 </button>
                 </div>
                 <div class="col-xs-4">
-                <button type="button" class="btn btn-success menubtn" onclick="window.location='c_alert.php';">
+                <button type="button" class="btn btn-success menubtn" onclick="window.location='alert.php';">
                     <span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>
                     Create Banner Alert
                 </button>
