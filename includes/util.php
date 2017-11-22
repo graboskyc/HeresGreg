@@ -1,13 +1,5 @@
 <?php
-
-define("PRODUCTVERSION", "2.9");
-define("APPNAME", "Greg");
-define("PUSHBULLETAPIKEY", "");
-define("PUSHBULLETCHAN", "");
-define("DISQUSURL", "");
-define("SITEURL", "");
-define("THEMECOLOR", "0063AF");
-define("SITEADMINSCSV", "");
+require_once('config.php');
 
 function NewGuid(){
     if (function_exists('com_create_guid')){
@@ -134,7 +126,7 @@ function DrawRCMenu() {
             </div>
         </div>
     <?php
-    if(isAdmin($__SESSION['un'])) {
+    if(isAdmin($_SESSION['un'])) {
     ?>
         <div class="row">
             <div class="col-xs-6">
@@ -164,6 +156,7 @@ function DrawRCMenu() {
         array_push($geoList, array('Funplex.png',"The<br>Funplex"));
         array_push($geoList, array('Grandparents.png',"At<br>Grandparents"));
         array_push($geoList, array('Farm.png',"Johnsons<br>Farm"));
+        array_push($geoList, array('LS.png',"Little<br>Sport"));
         array_push($geoList, array('MLA.png',"My Little<br>Adventures"));
         array_push($geoList, array('OCMD.png',"OC<br>MD"));
         array_push($geoList, array('Park.png',"Park<br>&nbsp;"));

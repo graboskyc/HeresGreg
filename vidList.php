@@ -158,7 +158,7 @@ if(isset($_GET['view'])) {
       <div class="jumbotron" id="jumbomainvid">
        <div id="vidcntr" style="position: relative;" class="rr">
             <video controls loop autoplay width="100%" height="100%" id="mainvid" onplay="responsiveVidResize()"  class="rr">
-                <source src="media/<?php echo $mediaList[0]->Path; ?>" type="video/mp4">
+                <source src="media/smaller/<?php echo $mediaList[0]->Path; ?>" type="video/mp4">
             </video>
         </div>
         <div id="jumbooverlay" style="position: relative; display:none;"  class="rr" onclick="toggleVidPlay()">
