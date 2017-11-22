@@ -383,13 +383,20 @@ function updateUser($conn, $lv) {
 
 function isAdmin($un)
 {
-	$adminList = explode(",", SITEADMINSCSV);
-	$retVal = false;
+    global $conn;
+    $sql = "Select isAdmin from user where username = '".$un."'";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll();
 
-	if(in_array(strtolower($un), $adminList))
-	{
-		$retVal = true;
-	}
+    $retVal = false;
+
+    foreach($result as $r) {
+        if ($r['isAdmin'] == 1) {
+            $retVal = true;
+        }
+    }
+
 	return $retVal;
 }
 

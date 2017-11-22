@@ -50,6 +50,12 @@
 
       <form class="form-signin" method="post" action="c_login.php">
         <h2 class="form-signin-heading"><?php if(isset($_GET['error']) > 0) { echo $_GET['error']; } else { echo "Sign In To See ".APPNAME; } ?></h2>
+
+        <?php
+        $conn = connectDB();
+        echo getAlerts($conn);
+        ?>
+
         <label for="username" class="sr-only">Username</label>
         <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
         <label for="passcode" class="sr-only">Password</label>

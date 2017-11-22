@@ -6,5 +6,4 @@ define("PUSHBULLETCHAN", "");
 define("DISQUSURL", "");
 define("SITEURL", "");
 define("THEMECOLOR", "0063AF");
-define("SITEADMINSCSV", "");
 ?>

@@ -63,6 +63,9 @@ require_once('includes/util.php');
 
         <label for="passcode" class="sr-only">Passcode</label>
         <input type="text" id="passcode" name="passcode" class="form-control" placeholder="passcode" equired>
+
+        <label for="isadmin" class="sr-only">Admin?</label>
+        <input type="text" id="isadmin" name="isadmin" class="form-control" value="0" equired>
         
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
 
