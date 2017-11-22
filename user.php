@@ -76,7 +76,7 @@ require_once('includes/util.php');
         <tbody>
         <?php
         $conn = connectDB();
-        $sql = "SELECT username, passcode, lastactivity from user";
+        $sql = "SELECT username, passcode, lastactivity from user order by lastactivity desc";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll();
