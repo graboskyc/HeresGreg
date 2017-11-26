@@ -272,7 +272,8 @@ error_reporting(E_ALL);
               <li>New favicons</li>
               <li>More clean support for multiple installs</li>
               <li>Simplified menus since no one records live anymore</li>
-              <li>Added admin tools for creating alerts and users</li></ul>
+              <li>Added admin tools for creating alerts and users</li>
+              <li>New Filter page since quantity of videos is huge</li></ul>
             </div>
           </div>
         </div>

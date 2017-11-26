@@ -37,7 +37,7 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
                     </button>
                 </div>
                 <div class="col-xs-4">
-                    <button type="button" class="btn btn-primary menubtn" onclick="window.location='vidList.php?view=filter';">
+                    <button type="button" class="btn btn-primary menubtn" onclick="window.location='filterList.php';">
                         <span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>
                         Filters
                     </button>

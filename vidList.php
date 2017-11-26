@@ -18,7 +18,12 @@ if(isset($_GET['view'])) {
   }
   if(strpos($_GET['view'], "_")) {
     $d = explode("_",$_GET['view']);
-    $andfav = " AND MONTH(created)=".$d[1]." AND YEAR(created)=".$d[0]." "; $pageName = "Year";
+    if($d[0]=="filter") {
+      $andfav = " AND filterName='".$d[1]."' "; $pageName = "Filter";
+    }
+    else {
+      $andfav = " AND MONTH(created)=".$d[1]." AND YEAR(created)=".$d[0]." "; $pageName = "Year";
+    }
   }
 }
 ?>
