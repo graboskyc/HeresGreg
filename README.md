@@ -13,11 +13,10 @@ This is a custom alternative now that Microsoft is killing Skype qik so we can n
 * Attach to the instance and import the DB schema called DBStructure.sql 
 * `docker exec -i -t containerid /bin/bash`
 * `mysql -u app -p app < /var/www/DBStructure.sql` and password is `app_password`
-* Add yourself at least one user
-* `mysql -u app -p app`
-* `insert into user (username,passcode) values ('namehere','passcodehere')`
+* Default username and passcode is `admin`
 * navigate to your site on port 80 and should be all set
-* For advanced features, edit includes/util.php and set the APPNAME to your child's name and create a pushbullet channel and API key and fill that out for push notifications
+* For advanced features, edit includes/config.php and set the APPNAME to your child's name and create a pushbullet channel and API key and fill that out for push notifications
+* note that a PHP.ini file is included in case the default does not work due to bad upload settings (size, temp folders, etc)
 
 ## Features
 * Push notifications via pushbullet for new videos uploaded and weekly summary (this week in) from past years
