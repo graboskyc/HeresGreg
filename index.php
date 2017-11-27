@@ -129,6 +129,7 @@ $mediaList = array_reverse($mediaList);
         .footer { margin-top:30px !important;}
        .filterbtn { margin-top:15px; text-align:center; width:100%; vertical-align:middle; }
        .menubtn { margin-top:15px; text-align:center; width:100%; vertical-align:middle; }
+       body { font-size:12px !important;}
     </style>
   </head>
   <body>
