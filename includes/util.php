@@ -372,13 +372,15 @@ function closeDB()
 }
 
 function updateUser($conn, $lv) {
-    $sql = "UPDATE user set lastview=?, lastactivity = NOW() where user_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindValue(1, $lv);
-    $stmt->bindValue(2, $_SESSION['uid']);
-	$stmt->execute();
-    
-    $_SESSION['lv'] = $lv;
+    if($_SESSION['lv'] < $lv) {
+        $sql = "UPDATE user set lastview=?, lastactivity = NOW() where user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(1, $lv);
+        $stmt->bindValue(2, $_SESSION['uid']);
+        $stmt->execute();
+        
+        $_SESSION['lv'] = $lv;
+    }
 }
 
 function isAdmin($un)

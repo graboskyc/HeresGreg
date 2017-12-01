@@ -15,6 +15,7 @@ if($r = $result[0])
 {
 	if($r['passcode'] == $pw)
 	{
+		$_SESSION['lv'] = $r['lastview'];
 		$_SESSION['un'] = $un;
 		$_SESSION['uid'] = $r['user_id'];
 		header('LOCATION: index.php');
@@ -23,6 +24,7 @@ if($r = $result[0])
 	{
 		$_SESSION['un'] = '';
 		$_SESSION['uid'] = '';
+		$_SESSION['lv'] = '';
 		session_destroy();
 		header('LOCATION: login.php?error=Bad Username Or Password');
 	}
@@ -30,7 +32,8 @@ if($r = $result[0])
 else
 {
 	$_SESSION['un'] = '';
-        $_SESSION['uid'] = '';
+		$_SESSION['uid'] = '';
+		$_SESSION['lv'] = '';
         session_destroy();
         header('LOCATION: login.php?error=Bad Username Or Password');
 }

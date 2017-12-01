@@ -15,9 +15,9 @@ if($r = $result[0])
 {
 	if($r['passcode'] == $pw)
 	{
+		$_SESSION['lv'] = $r['lastview'];
 		$_SESSION['un'] = $un;
 		$_SESSION['uid'] = $r['user_id'];
-        $_SESSION['lv'] = $r['lastview'];
 		header('LOCATION: index.php');
 	}
 	else
