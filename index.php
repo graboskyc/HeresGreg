@@ -129,7 +129,10 @@ $mediaList = array_reverse($mediaList);
         .footer { margin-top:30px !important;}
        .filterbtn { margin-top:15px; text-align:center; width:100%; vertical-align:middle; }
        .menubtn { margin-top:15px; text-align:center; width:100%; vertical-align:middle; }
-       body { font-size:12px !important;}
+       body { font-size:12px !important; position: relative;}
+       html, body {
+  overflow-x: hidden;
+}
     </style>
   </head>
   <body>
@@ -138,7 +141,7 @@ $mediaList = array_reverse($mediaList);
       <div class="header clearfix">
         <nav>
             <ul class="nav nav-pills pull-right">
-                <button type="button" class="btn btn-default" id="btn_upload" onclick="openUploadExisting()">
+                <button type="button" class="btn btn-success" id="btn_upload" onclick="openUploadExisting()">
                     <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true" ></span>
                 </button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#myModal">
