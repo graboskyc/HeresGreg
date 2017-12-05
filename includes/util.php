@@ -182,56 +182,36 @@ function DrawRCMenu() {
             
         }
         ?>
-        
 
         <div class="row">
             <div class="col-xs-12"><center><h2><span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>&nbsp;Holiday Filters</h2></center></div>
         </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-info filterbtn" data-filterval="Christmas.png" onclick="setFilterOnVid(this);">
-                    Christmas<br>&nbsp;
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-info filterbtn" data-filterval="Carni2017.png" onclick="setFilterOnVid(this);">
-                    Carnival<br>&nbsp;
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-info filterbtn" data-filterval="Halloween.png" onclick="setFilterOnVid(this);">
-                    Halloween<br>&nbsp;
-                </button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-info filterbtn" data-filterval="Easter.png" onclick="setFilterOnVid(this);">
-                    Easter<br>&nbsp;
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-info filterbtn" data-filterval="StPatrickDay.png" onclick="setFilterOnVid(this);">
-                    St. Paddy<br>Day
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-info filterbtn" data-filterval="Turkey.png" onclick="setFilterOnVid(this);">
-                    Turkey<br>Day<br>
-                </button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-info filterbtn" data-filterval="VDay.png" onclick="setFilterOnVid(this);">
-                    Valentines<br>Day
-                </button>
-            </div>
-            <div class="col-xs-4">
-            </div>
-        </div>
+
+        <?php
+
+        $holiList = array();
+        array_push($holiList, array('BDay.png',"Birth<br>Day"));
+        array_push($holiList, array('Christmas.png',"Christmas<br>&nbsp;"));
+        array_push($holiList, array('Carni2017.png',"Carnival<br>&nbsp;"));
+        array_push($holiList, array('Halloween.png',"Halloween<br>&nbsp;"));
+        array_push($holiList, array('Easter.png',"Easter<br>&nbsp;"));
+        array_push($holiList, array('StPatrickDay.png',"St. Paddy<br>Day"));
+        array_push($holiList, array('Turkey.png',"Turkey<br>Day"));
+        array_push($holiList, array('VDay.png',"Valentines<br>Day"));
+
+        foreach ($holiList as $kvp) {
+            $i++;
+            $t++;
+            if($i == 1) { echo "<div class='row'>";}
+            echo '<div class="col-xs-4">';
+            echo '<button type="button" class="btn btn-info filterbtn" data-filterval="'.$kvp[0].'" onclick="setFilterOnVid(this);">';
+            echo $kvp[1];
+            echo '</button>';
+            echo '</div>';
+            if(($i == 3) || ($t == count($holiList)))  { echo "</div>"; $i = 0;}
+            
+        }
+        ?>
 
         <div class="row">
             <div class="col-xs-12"><center><h2><span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>&nbsp;Fun Filters</h2></center></div>
