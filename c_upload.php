@@ -52,6 +52,8 @@ if (move_uploaded_file($_FILES['video']['tmp_name'], $uploadfile)) {
     }
 
     CreateThumb($filename);
+
+    VisionRequest($filename);
     
 	//closeDB();
     

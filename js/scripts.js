@@ -32,6 +32,7 @@ var resetDisq = function (newIdentifier, newUrl, newTitle) {
 function setMain(path, e) {
    var fp = "";
    var filter = $(e).data("filter");
+   var cva = $(e).data("cvajson");
    console.log(filter);
     $.ajax({
         url:'media/smaller/'+path,
@@ -52,6 +53,8 @@ function setMain(path, e) {
                 $("#overlayimage").attr("src","");
                 $("#jumbooverlay").css("display","none");
             }
+
+            $("#jumbomainvidtitle").html(cva);
 
             $(e).find("center div div").removeClass("newVid");
 
@@ -75,6 +78,8 @@ function setMain(path, e) {
                 $("#overlayimage").attr("src","");
                 $("#jumbooverlay").css("display","none");
             }
+
+            $("#jumbomainvidtitle").html(cva);
 
             $(e).find("center div div").removeClass("newVid");
 
@@ -119,7 +124,7 @@ function responsiveVidResize() {
         var newoverlayheight = ($('#mainvid').height() - 80)*1;
         $("#jumbooverlay").css("margin-top","-"+$('#mainvid').height()+"px");
         //$("#jumbooverlay").css("height",newoverlayheight+"px");
-        $("#jumbooverlay").css("width",vidW+"px");
+        $("#jumbooverlay").css("width",vidW*1-100+"px");
     }
     
     $('html,body').animate({scrollTop: $('#jumbomainvid').offset().top},'fast');

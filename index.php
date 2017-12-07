@@ -22,7 +22,8 @@ $sql = "SELECT
                 u.username as username,
                 m.created as created,
                 m.isFavorite as isFavorite,
-                m.filterName as filterName
+                m.filterName as filterName,
+                m.cvajson as cva
         FROM
                 media m 
         LEFT join
@@ -41,7 +42,7 @@ $result = $stmt->fetchAll();
 $mediaList = array();
 foreach($result as $r)
 {
-        $li = new MediaLI($r['id'], $r['path'], $r['created'], $r['username'], $r['isFavorite'], $r["filterName"]);
+        $li = new MediaLI($r['id'], $r['path'], $r['created'], $r['username'], $r['isFavorite'], $r["filterName"], $r['cva']);
         $mediaList[] = $li;
 }
 
@@ -52,7 +53,13 @@ $i = 1;
 foreach ($mediaList as $item) {
     $firstId="";
     if($i==4) { $firstId = "id='absoluteLatestVid'";}
-    $outstr = $outstr . '<div class="col-xs-3" data-filter="'.$item->Filter.'" onclick="setMain(\''.$item->Path.'\', this);" '.$firstId.' oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;" ><center>';
+
+    $tagList = array();
+    foreach($item->CVAJSON->tags as $tag) {
+      array_push($tagList, $tag->name);
+    }
+
+    $outstr = $outstr . '<div class="col-xs-3" data-filter="'.$item->Filter.'" onclick="setMain(\''.$item->Path.'\', this);" '.$firstId.' oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;" data-cvajson=\''.implode(", ",$tagList).'\' ><center>';
     
     if($item->IsFavorite == 1) { $outstr = $outstr . '<div class="vidThumb" data-filter="'.$item->Filter.'" style="background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;margin: 0 auto; -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);">'; }
     else { $outstr = $outstr . '<div class="vidThumb" data-filter="'.$item->Filter.'" style="border-radius: 50%;background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;">'; }

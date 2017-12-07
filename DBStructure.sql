@@ -114,5 +114,6 @@ ALTER TABLE `user`
 
 ALTER TABLE `user` ADD `isAdmin` BOOLEAN NOT NULL DEFAULT FALSE AFTER `lastview`;
 ALTER TABLE `media` ADD `ofBaby` TINYINT NOT NULL AFTER `filterName`;
+ALTER TABLE `media` ADD `cvajson` TEXT NOT NULL AFTER `ofBaby`;
 
 INSERT INTO `user` (username, passcode, isAdmin) VALUES ('admin', 'admin', TRUE);

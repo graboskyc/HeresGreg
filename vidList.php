@@ -119,7 +119,8 @@ if(isset($_GET['view'])) {
                     u.username as username,
                     m.created as created,
                     m.isFavorite as isFavorite,
-                    m.filterName as filterName
+                    m.filterName as filterName,
+                    m.cvajson as cva
             FROM
                     media m 
             LEFT join
@@ -138,7 +139,7 @@ if(isset($_GET['view'])) {
     $mediaList = array();
     foreach($result as $r)
     {
-            $li = new MediaLI($r['id'], $r['path'], $r['created'], $r['username'], $r['isFavorite'], $r["filterName"]);
+            $li = new MediaLI($r['id'], $r['path'], $r['created'], $r['username'], $r['isFavorite'], $r["filterName"], $r['cva']);
             $mediaList[] = $li;
     }
     ?>
@@ -173,6 +174,7 @@ if(isset($_GET['view'])) {
             ?>
             <img class="rr" id="overlayimage" src="<?php echo $overlayImgSrc ?>" />
         </div>
+        <h6 style="font-size:18px;color:#fff !important;" id="jumbomainvidtitle"></h6>
       </div>
 
       <div class="row">
@@ -202,9 +204,15 @@ if(isset($_GET['view'])) {
             
             if($i == 0) { echo '<!--BEGIN Row--><div class="row" style="margin-bottom:40px;" >'; }
 
-                echo '<div class="col-xs-4" onclick="setMain(\''.$item->Path.'\', this);" data-filter="'.$item->Filter.'"><center>';
+                $tagList = array();
+                foreach($item->CVAJSON->tags as $tag) {
+                  array_push($tagList, $tag->name);
+                }
+
+                echo '<div class="col-xs-4" onclick="setMain(\''.$item->Path.'\', this);" data-filter="'.$item->Filter.'" data-cvajson=\''.implode(", ",$tagList).'\'><center>';
+                    
                     if($item->IsFavorite == 1) { echo '<div class="vidThumb" data-filter="'.$item->Filter.'" style="background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;margin: 0 auto; polygon(50% 0, 100% 15%, 100% 85%, 50% 100%, 0 85%, 0 15%); -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);" oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;"></div>'; }
-                    else { echo '<div class="vidThumb" data-filter="'.$item->Filter.'" oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;" style="border-radius: 50%;background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;"></div>'; }
+                    else { echo '<div class="vidThumb" data-filter="'.$item->Filter.'"  oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;" style="border-radius: 50%;background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;"></div>'; }
                     echo "<br>";
                     if(strlen($item->Filter)>3) { echo '<span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>&nbsp;';}
                     echo ucfirst($item->CreatedBy);

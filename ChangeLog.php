@@ -259,21 +259,37 @@ error_reporting(E_ALL);
         </div>
 
         <div class="panel panel-default">
-          <div class="panel-heading" role="tab" id="headingThirteen">
+        <div class="panel-heading" role="tab" id="headingThirteen">
+          <h4 class="panel-title">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThirteen" aria-expanded="true" aria-controls="collapseThirteen">
+              V2.9 <span class="smallvnote">(click to expand)</span>
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThirteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThirteen">
+          <div class="panel-body">
+            <ul><li>Added utility to put on alert messages on home page</li>
+            <li>New favicons</li>
+            <li>More clean support for multiple installs</li>
+            <li>Simplified menus since no one records live anymore</li>
+            <li>Added admin tools for creating alerts and users</li>
+            <li>New Filter page since quantity of videos is huge</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="heading14">
             <h4 class="panel-title">
-              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThirteen" aria-expanded="true" aria-controls="collapseThirteen">
-                V2.9 <span class="smallvnote">(click to expand)</span>
+              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse14" aria-expanded="true" aria-controls="collapse14">
+                V2.10 <span class="smallvnote">(click to expand)</span>
               </a>
             </h4>
           </div>
-          <div id="collapseThirteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThirteen">
+          <div id="collapse14" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading14">
             <div class="panel-body">
-              <ul><li>Added utility to put on alert messages on home page</li>
-              <li>New favicons</li>
-              <li>More clean support for multiple installs</li>
-              <li>Simplified menus since no one records live anymore</li>
-              <li>Added admin tools for creating alerts and users</li>
-              <li>New Filter page since quantity of videos is huge</li></ul>
+              <ul><li>New birthday overlay</li>
+              <li>Implemented azure cognitive vision API</li></ul>
             </div>
           </div>
         </div>

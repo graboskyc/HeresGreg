@@ -11,8 +11,9 @@ class MediaLI {
     private $TimeSince = "";
     public $CreatedBy = "";
     public $Filter = "";
+    public $CVAJSON = "";
 
-    public function __construct($mid, $path, $cdt, $cb, $if, $f="")
+    public function __construct($mid, $path, $cdt, $cb, $if, $f="", $cva="{}")
     {
         $this->MediaID = $mid;
         $this->Path = $path;
@@ -20,6 +21,7 @@ class MediaLI {
         $this->CreatedBy = $cb;
         $this->IsFavorite = $if;
         $this->Filter = $f;
+        $this->CVAJSON = json_decode($cva);
         
         $this->CreatedDT = strtotime($cdt);
         $now = strtotime("now");
