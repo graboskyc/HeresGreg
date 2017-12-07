@@ -2,38 +2,44 @@
 require_once('config.php');
 
 function VisionRequest($file) {
-    $image = $file . ".jpg";
 
-    $url = 'https://'.AZURECOGVISREG.'.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Tags&language=en';
-    
-    // Request body
-    $data = '{"url":"'.SITEURL.'/media/'.$image.'"}';
-    
-    //open connection
-    $ch = curl_init();
-    
-    //set the url, number of POST vars, POST data
-    curl_setopt($ch,CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                        'Content-Type: application/json',
-                        'Ocp-Apim-Subscription-Key: '.AZURECOGVISKEY,
-                        'Content-Length: ' . strlen($data)
-    ));
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    
-    //execute post
-    $response = curl_exec($ch);
-    
-    //close connection
-    curl_close($ch);
-    
-    $conn = connectDB();
-    $sql = "UPDATE media set cvajson = '".$response."' where path = '".$file."'";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    if(strlen(AZURECOGVISKEY) > 4) {
+        $image = $file . ".jpg";
+
+        $url = 'https://'.AZURECOGVISREG.'.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Tags&language=en';
+        
+        // Request body
+        $data = '{"url":"'.SITEURL.'/media/'.$image.'"}';
+        
+        //open connection
+        $ch = curl_init();
+        
+        //set the url, number of POST vars, POST data
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                            'Content-Type: application/json',
+                            'Ocp-Apim-Subscription-Key: '.AZURECOGVISKEY,
+                            'Content-Length: ' . strlen($data)
+        ));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        
+        //execute post
+        $response = curl_exec($ch);
+        
+        //close connection
+        curl_close($ch);
+    }
+    else {
+        $response = '{"tags":[]}';
+    }
+        
+        $conn = connectDB();
+        $sql = "UPDATE media set cvajson = '".$response."' where path = '".$file."'";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
 }
 
 function NewGuid(){
