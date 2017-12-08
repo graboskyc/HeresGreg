@@ -33,7 +33,7 @@ function VisionRequest($file) {
         curl_close($ch);
     }
     else {
-        $response = '{"tags":[]}';
+        $response = '{"tags":[], "description":{"captions":[{"text":""}]}}';
     }
         
         $conn = connectDB();
