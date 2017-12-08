@@ -208,8 +208,9 @@ if(isset($_GET['view'])) {
                 foreach($item->CVAJSON->tags as $tag) {
                   array_push($tagList, $tag->name);
                 }
+                $caption = $item->CVAJSON->description->captions[0]->text;
 
-                echo '<div class="col-xs-4" onclick="setMain(\''.$item->Path.'\', this);" data-filter="'.$item->Filter.'" data-cvajson=\''.implode(", ",$tagList).'\'><center>';
+                echo '<div class="col-xs-4" onclick="setMain(\''.$item->Path.'\', this);" data-filter="'.$item->Filter.'" data-cvajson=\''.implode(", ",$tagList).'\' data-cvacaption=\''.$caption.'\'><center>';
                     
                     if($item->IsFavorite == 1) { echo '<div class="vidThumb" data-filter="'.$item->Filter.'" style="background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;margin: 0 auto; polygon(50% 0, 100% 15%, 100% 85%, 50% 100%, 0 85%, 0 15%); -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);" oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;"></div>'; }
                     else { echo '<div class="vidThumb" data-filter="'.$item->Filter.'"  oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;" style="border-radius: 50%;background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;"></div>'; }

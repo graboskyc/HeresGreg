@@ -33,6 +33,7 @@ function setMain(path, e) {
    var fp = "";
    var filter = $(e).data("filter");
    var cva = $(e).data("cvajson");
+   var cap = $(e).data("cvacaption");
    console.log(filter);
     $.ajax({
         url:'media/smaller/'+path,
@@ -54,7 +55,7 @@ function setMain(path, e) {
                 $("#jumbooverlay").css("display","none");
             }
 
-            $("#jumbomainvidtitle").html(cva);
+            $("#jumbomainvidtitle").html(cva + "<br>" + cap);
 
             $(e).find("center div div").removeClass("newVid");
 
@@ -79,7 +80,7 @@ function setMain(path, e) {
                 $("#jumbooverlay").css("display","none");
             }
 
-            $("#jumbomainvidtitle").html(cva);
+            $("#jumbomainvidtitle").html(cva + "<br>" + cap);
 
             $(e).find("center div div").removeClass("newVid");
 

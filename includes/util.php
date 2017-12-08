@@ -6,7 +6,7 @@ function VisionRequest($file) {
     if(strlen(AZURECOGVISKEY) > 4) {
         $image = $file . ".jpg";
 
-        $url = 'https://'.AZURECOGVISREG.'.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Tags&language=en';
+        $url = 'https://'.AZURECOGVISREG.'.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Description,Tags&language=en';
         
         // Request body
         $data = '{"url":"'.SITEURL.'/media/'.$image.'"}';
