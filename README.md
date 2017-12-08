@@ -18,6 +18,21 @@ This is a custom alternative now that Microsoft is killing Skype qik so we can n
 * For advanced features, edit includes/config.php and set the APPNAME to your child's name and create a pushbullet channel and API key and fill that out for push notifications
 * note that a PHP.ini file is included in case the default does not work due to bad upload settings (size, temp folders, etc)
 
+## Configuation
+Found in includes/config.php:
+
+| Key | Purpose | Notes |
+|----|---|-|
+|PRODUCTVERSION | Current release of product | should be changed by developer, not users |
+| APPNAME | Name of application in title bar, pages, etc | default is "Here's Greg" so value should be "Greg" |
+| PUSHBULLETAPIKEY | API key for pushbullet.com service | enables push notifications when videos uploaded. leave blank if not using|
+| PUSHBULLETCHAN | Channel to which to post the notification to | |
+| DISQUSURL | Signing up for a Disqus.com service, this is the URL they give you | |
+| SITEURL | FQDN to root of site | Include HTTP:// |
+| THEMECOLOR | Hex code for theme color supported by most mobile browsers | 6 digit hex without the # |
+| AZURECOGVISREG | If using Azure cognative vision API, the region to use | leave blank if not using. should be something like "westcentralus" |
+| AZURECOGVISKEY | API key for azure cognative vision API | leave blank if not using
+
 ## Features
 * Push notifications via pushbullet for new videos uploaded and weekly summary (this week in) from past years
 * media re-encoding in batch for better streaming
