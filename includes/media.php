@@ -1,5 +1,6 @@
 <?php
 date_default_timezone_set('America/New_York');
+require_once('util.php');
 
 class MediaLI {
     
@@ -21,6 +22,21 @@ class MediaLI {
         $this->CreatedBy = $cb;
         $this->IsFavorite = $if;
         $this->Filter = $f;
+
+        if(strpos($cva, "invalid subscription key") > -1) {
+            $now = date("Y-m-d H:i:s");
+            $tomorrow = date("Y-m-d H:i:s", strtotime("+1 day"));
+            CreateAlert("99", $now, $tomorrow, "Azure subscription is expired!", "danger" );
+            $cva = '{"tags":[{"name":"Invalid Azure Key!","confidence":1}],"description":{"tags":["Invalid Azure Key!"],"captions":[{"text":"Invalid Azure Key!","confidence":1}]},"requestId":"","metadata":{"height":1080,"width":1920,"format":"Jpeg"}}';
+        } 
+
+        if(strlen($cva) < 10) {
+            $now = date("Y-m-d H:i:s");
+            $tomorrow = date("Y-m-d H:i:s", strtotime("+1 day"));
+            CreateAlert("99", $now, $tomorrow, "Media ID ".$this->MediaID." missing CVA", "warning" );
+            $cva = '{"tags":[{"name":"MISSING CVA JSON!","confidence":1}],"description":{"tags":["MISSING CVA JSON!"],"captions":[{"text":"MISSING CVA JSON!","confidence":1}]},"requestId":"","metadata":{"height":1080,"width":1920,"format":"Jpeg"}}';
+        }
+
         $this->CVAJSON = json_decode($cva);
         
         $this->CreatedDT = strtotime($cdt);

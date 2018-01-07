@@ -1,6 +1,18 @@
 <?php
 require_once('config.php');
 
+function CreateAlert($uid, $start, $end, $msg, $type) {
+    $conn = connectDB();
+    $sql = "INSERT INTO `alerts` (`user_id`, `start`, `end`, `msg`, `bootstraptype`) VALUES (?, ?, ?, ?, ?);";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(1, $uid);
+    $stmt->bindValue(2, $start);
+    $stmt->bindValue(3, $end);
+    $stmt->bindValue(4, $msg);
+    $stmt->bindValue(5, $type);
+    $stmt->execute();
+}
+
 function VisionRequest($file) {
 
     if(strlen(AZURECOGVISKEY) > 4) {
