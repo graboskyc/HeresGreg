@@ -209,14 +209,17 @@ function DrawRCMenu() {
         array_push($geoList, array('Funplex.png',"The<br>Funplex"));
         array_push($geoList, array('Grandparents.png',"At<br>Grandparents"));
         array_push($geoList, array('Farm.png',"Johnsons<br>Farm"));
+        array_push($geoList, array('Library.png',"Library<br>&nbsp;"));
         array_push($geoList, array('LS.png',"Little<br>Sport"));
         array_push($geoList, array('MLA.png',"My Little<br>Adventures"));
         array_push($geoList, array('OCMD.png',"OC<br>MD"));
         array_push($geoList, array('Park.png',"Park<br>&nbsp;"));
         array_push($geoList, array('Philly.png',"Philly<br>&nbsp;"));
         array_push($geoList, array('PTM.png',"Plz Touch<br>Museum"));
+        array_push($geoList, array('PIU.png',"Pump It<br>Up"));
         array_push($geoList, array('Sesame.png',"Sesame<br>Place"));
         array_push($geoList, array('SixFlags.png',"Six<br>Flags"));
+        array_push($geoList, array('SkyZone.png',"Sky<br>Zone"));
         array_push($geoList, array('WRS.png',"We Rock<br>Spectrum"));
         array_push($geoList, array('Zoo.png',"Zoo<br>&nbsp;"));
 
@@ -252,6 +255,9 @@ function DrawRCMenu() {
         array_push($holiList, array('Turkey.png',"Turkey<br>Day"));
         array_push($holiList, array('VDay.png',"Valentines<br>Day"));
 
+        $i = 0;
+        $t = 0;
+
         foreach ($holiList as $kvp) {
             $i++;
             $t++;
@@ -269,74 +275,40 @@ function DrawRCMenu() {
         <div class="row">
             <div class="col-xs-12"><center><h2><span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>&nbsp;Fun Filters</h2></center></div>
         </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="Car.png" onclick="setFilterOnVid(this);">
-                    Car
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="Cat1.png" onclick="setFilterOnVid(this);">
-                    Cat Fat
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="Cat2.png" onclick="setFilterOnVid(this);">
-                    Cat Corner
-                </button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="Cookie.png" onclick="setFilterOnVid(this);">
-                    Cookie
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="MCD.png" onclick="setFilterOnVid(this);">
-                    French Fry
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="GB.png" onclick="setFilterOnVid(this);">
-                    GhostBusters
-                </button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="Lego.png" onclick="setFilterOnVid(this);">
-                    Lego
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="Mickey.png" onclick="setFilterOnVid(this);">
-                    Mickey
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="Notes01.png" onclick="setFilterOnVid(this);">
-                    Music Notes 1
-                </button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="Notes02.png" onclick="setFilterOnVid(this);">
-                    Music Notes 2
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="Train.png" onclick="setFilterOnVid(this);">
-                    Train
-                </button>
-            </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-warning filterbtn" data-filterval="Water.png" onclick="setFilterOnVid(this);">
-                    Water
-                </button>
-            </div>  
-        </div>
+
+        <?php
+        $funList = array();
+        array_push($funList, array('Car.png',"Car"));
+        array_push($funList, array('Cat1.png',"Cat Fat"));
+        array_push($funList, array('Cat2.png',"Cat Corner"));
+        array_push($funList, array('Cookie.png',"Cookie"));
+        array_push($funList, array('MCD.png',"French Fry"));
+        array_push($funList, array('GB.png',"GhostBusters"));
+        array_push($funList, array('Lego.png',"Lego"));
+        array_push($funList, array('Mickey.png',"Mickey"));
+        array_push($funList, array('Notes01.png',"Music Notes 1"));
+        array_push($funList, array('Notes02.png',"Music Notes 2"));
+        array_push($funList, array('Snow.png',"Snow"));
+        array_push($funList, array('Train.png',"Train"));
+        array_push($funList, array('Water.png',"Water"));
+
+        $i = 0;
+        $t = 0;
+
+        foreach ($funList as $kvp) {
+            $i++;
+            $t++;
+            if($i == 1) { echo "<div class='row'>";}
+            echo '<div class="col-xs-4">';
+            echo '<button type="button" class="btn btn-warning filterbtn" data-filterval="'.$kvp[0].'" onclick="setFilterOnVid(this);">';
+            echo $kvp[1];
+            echo '</button>';
+            echo '</div>';
+            if(($i == 3) || ($t == count($funList)))  { echo "</div>"; $i = 0;}
+            
+        }
+        ?>
+        
 
         <div class="row"> 
             <div class="col-xs-12">
