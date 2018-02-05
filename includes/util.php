@@ -216,6 +216,7 @@ function DrawRCMenu() {
         array_push($geoList, array('Park.png',"Park<br>&nbsp;"));
         array_push($geoList, array('Philly.png',"Philly<br>&nbsp;"));
         array_push($geoList, array('PTM.png',"Plz Touch<br>Museum"));
+        array_push($geoList, array('Pool.png',"Pool<br>&nbsp;"));
         array_push($geoList, array('PIU.png',"Pump It<br>Up"));
         array_push($geoList, array('Sesame.png',"Sesame<br>Place"));
         array_push($geoList, array('SixFlags.png',"Six<br>Flags"));
@@ -251,6 +252,7 @@ function DrawRCMenu() {
         array_push($holiList, array('Carni2017.png',"Carnival<br>&nbsp;"));
         array_push($holiList, array('Halloween.png',"Halloween<br>&nbsp;"));
         array_push($holiList, array('Easter.png',"Easter<br>&nbsp;"));
+        array_push($holiList, array('JulyFourth.png',"July<br>4th"));
         array_push($holiList, array('StPatrickDay.png',"St. Paddy<br>Day"));
         array_push($holiList, array('Turkey.png',"Turkey<br>Day"));
         array_push($holiList, array('VDay.png',"Valentines<br>Day"));
