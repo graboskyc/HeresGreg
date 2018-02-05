@@ -233,6 +233,28 @@ if(isset($_GET['swipecontrol'])) {
                 }
             });
         });
+        $(document).keydown(function(e) {
+            switch(e.which) {
+                case 37: // left
+                window.location="swipe.php?id=<?php echo $_GET['id'];?>&swipecontrol=left";
+                break;
+
+                case 38: // up
+                window.location='swipe.php?id=random';
+                break;
+
+                case 39: // right
+                window.location="swipe.php?id=<?php echo $_GET['id'];?>&swipecontrol=right";
+                break;
+
+                case 40: // down
+                $('#filterModal').modal('show');
+                break;
+
+                default: return; // exit this handler for other keys
+            }
+            e.preventDefault(); // prevent the default action (scroll / move caret)
+        });
         function setFilterOnVid(e) {
             var id = '<?php echo $_GET['id']; ?>';
             var filterName = $(e).attr("data-filterval");
