@@ -174,7 +174,7 @@ if(isset($_GET['view'])) {
             ?>
             <img class="rr" id="overlayimage" src="<?php echo $overlayImgSrc ?>" />
         </div>
-        <h6 style="font-size:18px;color:#fff !important;" id="jumbomainvidtitle"></h6>
+        <h6 style="font-size:18px;color:#fff !important;display:none;" id="jumbomainvidtitle"></h6>
       </div>
 
       <div class="row">
@@ -220,6 +220,7 @@ if(isset($_GET['view'])) {
                     //if(strlen($item->Filter)>3) { echo "</b>";}
                     echo "<br>";
                     echo $item->TimeSinceS;
+                    echo '<br /><span class="disqus-comment-count" data-disqus-identifier="'.$item->Path.'"></span>';
                 echo '</center></div>';
 
             if($i == 2) { echo '</div><!--END Row-->'; }
@@ -234,7 +235,9 @@ if(isset($_GET['view'])) {
 
 
       <footer class="footer" style="margin-top: 0px auto;border-top: transparent solid 10px;">
-          <p class="text-right" style="margin-top:-40px !important; border-top:solid 3px #cccccc;padding:10px;">Made with &nbsp; ❤️ &nbsp; for Greg <a href="ChangeLog.php" style="font-size:10px;margin-left:15px;">v<?php echo PRODUCTVERSION;?></a></p>
+          <p class="text-right" style="margin-top:-40px !important; border-top:solid 3px #cccccc;padding:10px;">Made with &nbsp; ❤️ &nbsp; 
+          <a onclick='$("#jumbomainvidtitle").show();' style="color:#777 !important;">for Greg <a/>
+          <a href="ChangeLog.php" style="font-size:10px;margin-left:15px;">v<?php echo PRODUCTVERSION;?></a></p>
      </footer>
 
     </div> <!-- /container -->
@@ -273,6 +276,7 @@ if(isset($_GET['view'])) {
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/scripts.js"></script>
+    <script id="dsq-count-scr" src="//<?php echo DISQUSURL; ?>.disqus.com/count.js" async></script>
   </body>
 </html>
 

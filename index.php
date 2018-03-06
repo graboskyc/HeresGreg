@@ -74,6 +74,7 @@ foreach ($mediaList as $item) {
     $outstr = $outstr . ucfirst($item->CreatedBy);
     //if(strlen($item->Filter)>3) { $outstr = $outstr . "</b>";}
     $outstr = $outstr .'<br />'.$item->TimeSinceS;
+    $outstr = $outstr . '<br /><span class="disqus-comment-count" data-disqus-identifier="'.$item->Path.'"></span>';
 $outstr = $outstr . '</center></div>';
 updateUser($conn, $item->MediaID);
 $i++;
@@ -283,6 +284,7 @@ $mediaList = array_reverse($mediaList);
 
         }
     </script>
+    <script id="dsq-count-scr" src="//<?php echo DISQUSURL; ?>.disqus.com/count.js" async></script>
   </body>
 </html>
 
