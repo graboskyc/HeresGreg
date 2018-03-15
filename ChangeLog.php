@@ -292,7 +292,25 @@ error_reporting(E_ALL);
               <li>Implemented azure cognitive vision API</li></ul>
             </div>
           </div>
-        </div>
+      </div>
+
+      <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="heading15">
+            <h4 class="panel-title">
+              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse15" aria-expanded="true" aria-controls="collapse15">
+                V2.20 <span class="smallvnote">(click to expand)</span>
+              </a>
+            </h4>
+          </div>
+          <div id="collapse15" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading15">
+            <div class="panel-body">
+              <ul><li>New overlays for bowling, kidfit, buildabear, paws farm, autoshow, church, 4th of july, pool, wizard world, library, snow, and others</li>
+              <li>Better handling of vision api errors</li>
+              <li>Can control swipe page with keyboard arrow keys</li></ul>
+            </div>
+          </div>
+      </div>
+
 
       </div>
 

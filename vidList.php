@@ -220,7 +220,7 @@ if(isset($_GET['view'])) {
                     //if(strlen($item->Filter)>3) { echo "</b>";}
                     echo "<br>";
                     echo $item->TimeSinceS;
-                    echo '<br /><span class="disqus-comment-count" data-disqus-identifier="'.$item->Path.'"></span>';
+                    echo '<br /><span class="disqus-comment-count" data-disqus-identifier="'.$item->Path.'" style="font-size:10px;"></span>';
                 echo '</center></div>';
 
             if($i == 2) { echo '</div><!--END Row-->'; }

@@ -74,7 +74,7 @@ foreach ($mediaList as $item) {
     $outstr = $outstr . ucfirst($item->CreatedBy);
     //if(strlen($item->Filter)>3) { $outstr = $outstr . "</b>";}
     $outstr = $outstr .'<br />'.$item->TimeSinceS;
-    $outstr = $outstr . '<br /><span class="disqus-comment-count" data-disqus-identifier="'.$item->Path.'"></span>';
+    $outstr = $outstr . '<br /><span class="disqus-comment-count" data-disqus-identifier="'.$item->Path.'" style="font-size:10px;"></span>';
 $outstr = $outstr . '</center></div>';
 updateUser($conn, $item->MediaID);
 $i++;

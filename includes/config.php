@@ -1,5 +1,5 @@
 <?php
-define("PRODUCTVERSION", "2.10");
+define("PRODUCTVERSION", "2.20");
 define("APPNAME", "Greg");
 define("PUSHBULLETAPIKEY", "");
 define("PUSHBULLETCHAN", "");

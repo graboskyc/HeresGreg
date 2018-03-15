@@ -203,12 +203,14 @@ function DrawRCMenu() {
         <?php
         $geoList = array();
         array_push($geoList, array('Aquarium.png',"Aquarium<br>&nbsp;"));
+        array_push($geoList, array('Bowling.png',"Bowling<br>&nbsp;"));
         array_push($geoList, array('ChuckECheese.png',"Chuck E<br>Cheese"));
         array_push($geoList, array('DM.png',"Discovery<br>Museum"));
         array_push($geoList, array('FI.png',"Franklin<br>Institute"));
         array_push($geoList, array('Funplex.png',"The<br>Funplex"));
         array_push($geoList, array('Grandparents.png',"At<br>Grandparents"));
         array_push($geoList, array('Farm.png',"Johnsons<br>Farm"));
+        array_push($geoList, array('KidFit.png',"Kid<br>Fit"));
         array_push($geoList, array('Library.png',"Library<br>&nbsp;"));
         array_push($geoList, array('LS.png',"Little<br>Sport"));
         array_push($geoList, array('MLA.png',"My Little<br>Adventures"));
