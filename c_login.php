@@ -18,6 +18,7 @@ if($r = $result[0])
 		$_SESSION['lv'] = $r['lastview'];
 		$_SESSION['un'] = $un;
 		$_SESSION['uid'] = $r['user_id'];
+		updateUser($conn, -1);
 		header('LOCATION: index.php');
 	}
 	else

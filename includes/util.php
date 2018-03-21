@@ -83,22 +83,16 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-6">
                     <button type="button" class="btn btn-primary menubtn" onclick="window.location='dateList.php';">
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true" ></span>
                         Date
                     </button>
                 </div>
-                <div class="col-xs-4">
+                <div class="col-xs-6">
                     <button type="button" class="btn btn-primary menubtn" onclick="window.location='filterList.php';">
                         <span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>
                         Filters
-                    </button>
-                </div>
-                <div class="col-xs-4">
-                    <button type="button" class="btn btn-primary menubtn" onclick="window.location='vidList.php?';">
-                        <span class="glyphicon glyphicon-time" aria-hidden="true" ></span>
-                        All
                     </button>
                 </div>
             </div>
@@ -293,6 +287,7 @@ function DrawRCMenu() {
         array_push($funList, array('Mickey.png',"Mickey"));
         array_push($funList, array('Notes01.png',"Music Notes 1"));
         array_push($funList, array('Notes02.png',"Music Notes 2"));
+        array_push($funList, array('Paint.png',"Painting"));
         array_push($funList, array('Snow.png',"Snow"));
         array_push($funList, array('Train.png',"Train"));
         array_push($funList, array('Water.png',"Water"));
@@ -390,6 +385,12 @@ function updateUser($conn, $lv) {
         $stmt->execute();
         
         $_SESSION['lv'] = $lv;
+    }
+    elseif($lv == -1) {
+        $sql = "UPDATE user set lastactivity = NOW() where user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(1, $_SESSION['uid']);
+        $stmt->execute();
     }
 }
 
