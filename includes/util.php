@@ -203,7 +203,7 @@ function DrawRCMenu() {
         </div>
         <?php
         $conn = connectDB();
-        $sql = "SELECT * from filter where isArchived = 0 order by visiblename desc";
+        $sql = "SELECT * from filter where isArchived = 0 order by visiblename asc";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
