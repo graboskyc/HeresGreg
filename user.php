@@ -49,11 +49,28 @@ require_once('includes/util.php');
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+    .container {
+				width:400px !important;
+			}
+      form {
+        max-width:400px !important;
+      }
+    </style>
   </head>
 
   <body>
 
-    <div class="container">
+    <div class="container" >
+      <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-left" style="padding-left:10px;">
+                <button type="button" class="btn btn-default" onclick="window.location='index.php';">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true" ></span>
+                </button>
+            </ul>
+        </nav>
+      </div>
 
       <form class="form-signin" method="post" action="c_user.php">
         <h2 class="form-signin-heading"><span class="glyphicon glyphicon-user" aria-hidden="true" ></span>Create a User</h2>
@@ -72,7 +89,7 @@ require_once('includes/util.php');
         <h2 class="form-signin-heading">Current Users</h2>
 
         <table class="table table-striped">
-        <thead><tr><th>Username</th><th>Last Activity</th><th>Deactivate</th></tr></thead>
+        <thead><tr><th>Username</th><th>Last Activity</th><th>Deactivate</th><th>QR<th></tr></thead>
         <tbody>
         <?php
         $conn = connectDB();
@@ -87,7 +104,9 @@ require_once('includes/util.php');
           if($r['isArchived'] == 1) {
             $dString = '<button type="button" class="btn btn-danger btn-sm" onclick="window.location=\'c_archiveUser.php?uid='.$r['user_id'].'\';"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></button>';
           }
-          echo "<tr><td>".$r['username']."</td><td>".$r['lastactivity']."</td><td>".$dString."</td></tr>";
+          echo "<tr><td>".$r['username']."</td><td>".$r['lastactivity']."</td><td>".$dString."</td>";
+          echo '<td><button type="button" class="btn btn-default btn-sm" onclick="window.open(\'c_qrMaker.php?username='.$r['username'].'&passcode='.$r['passcode'].'\');"><span class="glyphicon glyphicon-qrcode" aria-hidden="true" ></span></button></td>';
+          echo "</tr>";
         }
         ?>
         </tbody></table>

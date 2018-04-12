@@ -49,11 +49,30 @@ require_once('includes/util.php');
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style>
+    .container {
+				width:400px !important;
+			}
+      form {
+        max-width:400px !important;
+      }
+    </style>
   </head>
 
   <body>
 
     <div class="container">
+
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-left" style="padding-left:10px;">
+                <button type="button" class="btn btn-default" onclick="window.location='index.php';">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true" ></span>
+                </button>
+            </ul>
+        </nav>
+      </div>
 
       <form class="form-signin" method="post" action="c_newAlert.php">
         <h2 class="form-signin-heading"><span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>&nbsp; Create an Alert</h2>
