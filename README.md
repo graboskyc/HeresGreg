@@ -17,6 +17,7 @@ This is a custom alternative now that Microsoft is killing Skype qik so we can n
 * navigate to your site on port 80 and should be all set
 * For advanced features, edit includes/config.php and set the APPNAME to your child's name and create a pushbullet channel and API key and fill that out for push notifications
 * note that a PHP.ini file is included in case the default does not work due to bad upload settings (size, temp folders, etc)
+* To enable resize to smaller videos for better streaming, in root edit cron (`sudo crontab -e`) and enter `*/5 * * * * /Greg/www/ffmpeg/resize.sh` to resize videos to lower quality every 5 mins
 
 ## Configuation
 Found in includes/config.php:
@@ -46,6 +47,18 @@ Found in includes/config.php:
 * upload videos and animated gifs
 * ability to favorite videos
 * view videos by most recent (home page), by day/year, favorite, filter, etc
+* user permissions for site owners (parents) versus regular users (viewers)
+* alerts to be placed on pages for site maintenace, etc
 
 ## Screenshots
+### Main page
 ![](SCREENSHOTSFORGITHUB/01.JPG)
+
+### ADMIN - User management
+![](SCREENSHOTSFORGITHUB/02.JPG)
+
+### ADMIN - Filter management
+![](SCREENSHOTSFORGITHUB/03.JPG)
+
+### ADMIN - Alert management
+![](SCREENSHOTSFORGITHUB/04.JPG)
