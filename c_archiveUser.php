@@ -17,7 +17,7 @@ $stmt->execute();
 
 //closeDB();
 
-header("Location: user.php");
+header("Location: a_user.php");
 
 
 ?>

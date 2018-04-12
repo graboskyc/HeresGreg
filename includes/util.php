@@ -139,14 +139,14 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
                     </div>
 
                     <div class="col-xs-4">
-                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='alert.php';">
+                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='a_alert.php';">
                         <span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>
                         Alert
                     </button>
                     </div>
 
                     <div class="col-xs-4">
-                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='user.php';">
+                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='a_user.php';">
                         <span class="glyphicon glyphicon-lock" aria-hidden="true" ></span>
                         Users
                     </button>
