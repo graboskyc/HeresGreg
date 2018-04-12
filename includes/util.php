@@ -195,31 +195,29 @@ function DrawRCMenu() {
             <div class="col-xs-12"><center><h2><span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>&nbsp;Geo Filters</h2></center></div>
         </div>
         <?php
+        $conn = connectDB();
+        $sql = "SELECT * from filter where isArchived = 0 order by visiblename desc";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
         $geoList = array();
-        array_push($geoList, array('Aquarium.png',"Aquarium<br>&nbsp;"));
-        array_push($geoList, array('Bowling.png',"Bowling<br>&nbsp;"));
-        array_push($geoList, array('ChuckECheese.png',"Chuck E<br>Cheese"));
-        array_push($geoList, array('DM.png',"Discovery<br>Museum"));
-        array_push($geoList, array('FI.png',"Franklin<br>Institute"));
-        array_push($geoList, array('Funplex.png',"The<br>Funplex"));
-        array_push($geoList, array('Grandparents.png',"At<br>Grandparents"));
-        array_push($geoList, array('Farm.png',"Johnsons<br>Farm"));
-        array_push($geoList, array('KidFit.png',"Kid<br>Fit"));
-        array_push($geoList, array('Library.png',"Library<br>&nbsp;"));
-        array_push($geoList, array('LS.png',"Little<br>Sport"));
-        array_push($geoList, array('MLA.png',"My Little<br>Adventures"));
-        //array_push($geoList, array('OCMD.png',"OC<br>MD"));
-        array_push($geoList, array('Park.png',"Park<br>&nbsp;"));
-        array_push($geoList, array('PawsFarm.png',"Paws<br>Farm"));
-        array_push($geoList, array('Philly.png',"Philly<br>&nbsp;"));
-        array_push($geoList, array('PTM.png',"Plz Touch<br>Museum"));
-        array_push($geoList, array('Pool.png',"Pool<br>&nbsp;"));
-        array_push($geoList, array('PIU.png',"Pump It<br>Up"));
-        array_push($geoList, array('Sesame.png',"Sesame<br>Place"));
-        array_push($geoList, array('SixFlags.png',"Six<br>Flags"));
-        array_push($geoList, array('SkyZone.png',"Sky<br>Zone"));
-        array_push($geoList, array('WRS.png',"We Rock<br>Spectrum"));
-        array_push($geoList, array('Zoo.png',"Zoo<br>&nbsp;"));
+        $holiList = array();
+        $funList = array();
+
+        foreach($result as $r)
+        {
+            if($r['type'] == "geo"){
+                array_push($geoList, array($r['filename'], $r['visiblename']));
+            }
+            elseif($r['type'] == "holiday"){
+                array_push($holiList, array($r['filename'], $r['visiblename']));
+            }
+            elseif($r['type'] == "fun"){
+                array_push($funList, array($r['filename'], $r['visiblename']));
+            }
+        }
 
         $i = 0;
         $t = 0;
@@ -243,17 +241,6 @@ function DrawRCMenu() {
 
         <?php
 
-        $holiList = array();
-        array_push($holiList, array('BDay.png',"Birth<br>Day"));
-        array_push($holiList, array('Christmas.png',"Christmas<br>&nbsp;"));
-        array_push($holiList, array('Carni2017.png',"Carnival<br>&nbsp;"));
-        array_push($holiList, array('Halloween.png',"Halloween<br>&nbsp;"));
-        array_push($holiList, array('Easter.png',"Easter<br>&nbsp;"));
-        array_push($holiList, array('JulyFourth.png',"July<br>4th"));
-        array_push($holiList, array('StPatrickDay.png',"St. Paddy<br>Day"));
-        array_push($holiList, array('Turkey.png',"Turkey<br>Day"));
-        array_push($holiList, array('VDay.png',"Valentines<br>Day"));
-
         $i = 0;
         $t = 0;
 
@@ -276,22 +263,6 @@ function DrawRCMenu() {
         </div>
 
         <?php
-        $funList = array();
-        array_push($funList, array('Car.png',"Car"));
-        array_push($funList, array('Cat1.png',"Cat Fat"));
-        array_push($funList, array('Cat2.png',"Cat Corner"));
-        array_push($funList, array('Cookie.png',"Cookie"));
-        array_push($funList, array('MCD.png',"French Fry"));
-        array_push($funList, array('GB.png',"GhostBusters"));
-        array_push($funList, array('Lego.png',"Lego"));
-        array_push($funList, array('Mickey.png',"Mickey"));
-        array_push($funList, array('Notes01.png',"Music Notes 1"));
-        array_push($funList, array('Notes02.png',"Music Notes 2"));
-        array_push($funList, array('Paint.png',"Painting"));
-        array_push($funList, array('Snow.png',"Snow"));
-        array_push($funList, array('Train.png',"Train"));
-        array_push($funList, array('Water.png',"Water"));
-
         $i = 0;
         $t = 0;
 

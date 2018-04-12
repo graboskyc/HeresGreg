@@ -84,4 +84,71 @@ CREATE TABLE `user` (
 
 -- Dump completed on 2018-04-12 13:05:59
 
+
+CREATE TABLE `filter` (
+  `filter_id` int(11) NOT NULL AUTO_INCREMENT,
+  `visiblename` varchar(50) NOT NULL,
+  `filename` varchar(50) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`filter_id`)
+);
+
+
 INSERT INTO `user` (username, passcode, isAdmin) VALUES ('admin', 'admin', 0);
+
+insert into filter (visiblename,filename,type,isArchived) VALUES
+('Aquarium<br>&nbsp;','Aquarium.png','geo',0),
+('Autoshow','Autoshow.png','event',1),
+('Birth<br>Day','BDay.png','holiday',0),
+('Bowling<br>&nbsp;','Bowling.png','geo',0),
+('Build a<br>Bear','BuildABear.png','event',1),
+('Car<br>','Car.png','fun',0),
+('Carnival<br>&nbsp;','Carni2017.png','holiday',0),
+('Cat Fat','Cat1.png','fun',0),
+('Cat Corner','Cat2.png','fun',0),
+('Christmas<br>&nbsp;','Christmas.png','holiday',0),
+('Chuck E<br>Cheese','ChuckECheese.png','geo',0),
+('Church<br>','Church.png','event',1),
+('Cookie','Cookie.png','fun',0),
+('Discovery<br>Museum','DM.png','geo',0),
+('Easter<br>&nbsp;','Easter.png','holiday',0),
+('Johnsons<br>Farm','Farm.png','geo',0),
+('Franklin<br>Institute','FI.png','geo',0),
+('The<br>Funplex','Funplex.png','geo',0),
+('GhostBusters','GB.png','fun',0),
+('At<br>Grandparents','Grandparents.png','geo',0),
+('Gregs Home<br>Movies','GregsHomeMovies.png','fun',1),
+('Halloween<br>&nbsp;','Halloween.png','holiday',0),
+('July<br>4th','JulyFourth.png','holiday',0),
+('Kid<br>Fit','KidFit.png','geo',0),
+('Lego','Lego.png','fun',0),
+('Library<br>&nbsp;','Library.png','geo',0),
+('Little<br>Sport','LS.png','geo',0),
+('French Fry','MCD.png','fun',0),
+('Mothers<br>Day','md17.png','holiday',1),
+('Mickey','Mickey.png','fun',0),
+('My Little<br>Adventures','MLA.png','geo',0),
+('Music Notes 1','Notes01.png','fun',0),
+('Music Notes 2','Notes02.png','fun',0),
+('OC<br>MD','OCMD.png','geo',1),
+('Painting','Paint.png','fun',0),
+('Park<br>&nbsp;','Park.png','geo',0),
+('Paws<br>Farm','PawsFarm.png','geo',0),
+('Philly<br>&nbsp;','Philly.png','geo',0),
+('Pump It<br>Up','PIU.png','geo',0),
+('Pool<br>&nbsp;','Pool.png','geo',0),
+('Plz Touch<br>Museum','PTM.png','geo',0),
+('Sesame<br>Place','Sesame.png','geo',0),
+('Six<br>Flags','SixFlags.png','geo',0),
+('Sky<br>Zone','SkyZone.png','geo',0),
+('Snow','Snow.png','fun',0),
+('St. Paddy<br>Day','StPatrickDay.png','holiday',0),
+('Test<br>Pattern','TestPattern.png','fun',1),
+('Train','Train.png','fun',0),
+('Turkey<br>Day','Turkey.png','holiday',0),
+('Valentines<br>Day','VDay.png','holiday',0),
+('Water','Water.png','fun',0),
+('Wizard<br>World','Wizardworld.png','event',1),
+('We Rock<br>Spectrum','WRS.png','geo',0),
+('Zoo<br>&nbsp;','Zoo.png','geo',0);
