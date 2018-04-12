@@ -48,11 +48,22 @@ Found in includes/config.php:
 * ability to favorite videos
 * view videos by most recent (home page), by day/year, favorite, filter, etc
 * user permissions for site owners (parents) versus regular users (viewers)
-* alerts to be placed on pages for site maintenace, etc
+* alerts to be placed on pages for site maintenance, etc
+* Can use Azure cognitive vision api to see whats going on in the video and transcribe that to text
+  * Requires API keys, could cost you money. Once enabled, visit any video page (like by month or filter, scroll to bottom, press "for Greg" or whatever site name is, and it will appear. This is disabled by default because people find it creepy.)
 
 ## Screenshots
 ### Main page
 ![](SCREENSHOTSFORGITHUB/01.JPG)
+
+### App menu
+![](SCREENSHOTSFORGITHUB/05.JPG)
+
+### Right click menu for videos (apply filters, etc)
+![](SCREENSHOTSFORGITHUB/06.JPG)
+
+### Vision API example output
+![](SCREENSHOTSFORGITHUB/07.JPG)
 
 ### ADMIN - User management
 ![](SCREENSHOTSFORGITHUB/02.JPG)
