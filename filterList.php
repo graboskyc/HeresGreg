@@ -74,7 +74,7 @@ error_reporting(E_ALL);
 
       <?php
         $conn = connectDB();
-        $sql = "SELECT filter_id, filename, visiblename, COUNT(id) as 'total' FROM media m right join filter f on m.filterName = f.filename GROUP BY filter_id ";
+        $sql = "SELECT filter_id, filename, visiblename, type, COUNT(id) as 'total' FROM media m right join filter f on m.filterName = f.filename GROUP BY filter_id ";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -89,9 +89,15 @@ error_reporting(E_ALL);
         foreach($result as $r)
         {
           $i++;
+          $preposition = "at";
+          if($r["type"]=="geo") { $preposition = "at"; }
+          elseif($r["type"]=="holiday") { $preposition = "on"; }
+          elseif($r["type"]=="event") { $preposition = "at"; }
+          elseif($r["type"]=="fun") { $preposition = "with"; }
+
           $retStr = $retStr . '<li>
             <span class="label label-info widelbl spnct_'.$r['total'].'" id="spnct_'.$r['total'].'"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> 
-            &nbsp;'.$r['total'].'</i></span><a href="vidList.php?view=filter_'.$r['filename'].'"> at <b>'.strip_tags(str_replace("<br>", " ", $r['visiblename'])).'</b>
+            &nbsp;'.$r['total'].'</i></span><a href="vidList.php?view=filter_'.$r['filename'].'"> '.$preposition.' <b>'.strip_tags(str_replace("<br>", " ", $r['visiblename'])).'</b>
             </a></li>';
 
           if($r['total']>$ctmax) { $ctmax = $r['total'];}
