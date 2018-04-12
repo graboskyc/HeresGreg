@@ -32,7 +32,7 @@ if (move_uploaded_file($_FILES['file_attachment']['tmp_name'], $uploadfile)) {
     
 	//closeDB();
     
-    header("Location: index.php");
+    header("Location: a_filter.php");
 } else {
     // fail
     echo "Failed uploading... Tell Chris.";
