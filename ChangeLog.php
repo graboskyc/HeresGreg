@@ -295,23 +295,47 @@ error_reporting(E_ALL);
       </div>
 
       <div class="panel panel-default">
-          <div class="panel-heading" role="tab" id="heading15">
+      <div class="panel-heading" role="tab" id="heading15">
+        <h4 class="panel-title">
+          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse15" aria-expanded="true" aria-controls="collapse15">
+            V2.20 &amp; V2.21<span class="smallvnote">(click to expand)</span>
+          </a>
+        </h4>
+      </div>
+      <div id="collapse15" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading15">
+        <div class="panel-body">
+          <ul><li>New overlays for bowling, kidfit, buildabear, paws farm, autoshow, church, 4th of july, pool, wizard world, library, snow, and others</li>
+          <li>Better handling of vision api errors</li>
+          <li>Can control swipe page with keyboard arrow keys</li>
+          <li>Fixed last activity bug</li></ul>
+        </div>
+      </div>
+      </div>
+
+      <!-- I always mess up this changelog so this is good. copy paste here -->
+
+      <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="heading16">
             <h4 class="panel-title">
-              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse15" aria-expanded="true" aria-controls="collapse15">
-                V2.20 &amp; V2.21<span class="smallvnote">(click to expand)</span>
+              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse16" aria-expanded="true" aria-controls="collapse16">
+                V2.30 &amp; v2.40<span class="smallvnote">(click to expand)</span>
               </a>
             </h4>
           </div>
-          <div id="collapse15" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading15">
+          <div id="collapse16" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading16">
             <div class="panel-body">
-              <ul><li>New overlays for bowling, kidfit, buildabear, paws farm, autoshow, church, 4th of july, pool, wizard world, library, snow, and others</li>
-              <li>Better handling of vision api errors</li>
-              <li>Can control swipe page with keyboard arrow keys</li>
-              <li>Fixed last activity bug</li></ul>
+              <ul><li>renamed all admin pages with a_ prefix for easier management</li>
+              <li>Moved db connection details to config.php rather than hard coded</li>
+              <li>Can delete users</li>
+              <li>Put QR code generator on users page</li>
+              <li>Filters are now stored in db rather than hard coded</li>
+              <li>Added admin page to upload new filters</li></ul>
             </div>
           </div>
       </div>
 
+
+      <!-- do not copy/paste below -->
 
       </div>
 

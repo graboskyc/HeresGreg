@@ -131,24 +131,31 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
                     <div class="col-xs-12"><center><h2><span class="glyphicon glyphicon-lock" aria-hidden="true" ></span>&nbsp;Administration</h2></center></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4">
+                    <div class="col-xs-3">
                     <button type="button" class="btn btn-danger menubtn" onclick="window.location='c_manualpush.php?redir=index.php';">
                         <span class="glyphicon glyphicon-send" aria-hidden="true" ></span>
                         Pushbullet
                     </button>
                     </div>
 
-                    <div class="col-xs-4">
+                    <div class="col-xs-3">
                     <button type="button" class="btn btn-danger menubtn" onclick="window.location='a_alert.php';">
                         <span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>
                         Alert
                     </button>
                     </div>
 
-                    <div class="col-xs-4">
+                    <div class="col-xs-3">
                     <button type="button" class="btn btn-danger menubtn" onclick="window.location='a_user.php';">
                         <span class="glyphicon glyphicon-lock" aria-hidden="true" ></span>
                         Users
+                    </button>
+                    </div>
+
+                    <div class="col-xs-3">
+                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='a_filter.php';">
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>
+                        Filters
                     </button>
                     </div>
                 </div>
