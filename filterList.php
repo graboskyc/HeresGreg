@@ -74,7 +74,7 @@ error_reporting(E_ALL);
 
       <?php
         $conn = connectDB();
-        $sql = "SELECT filter_id, filterName, visiblename, COUNT(id) as 'total' FROM media m right join filter f on m.filterName = f.filename GROUP BY filter_id ";
+        $sql = "SELECT filter_id, filename, visiblename, COUNT(id) as 'total' FROM media m right join filter f on m.filterName = f.filename GROUP BY filter_id ";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -90,8 +90,8 @@ error_reporting(E_ALL);
         {
           $i++;
           $retStr = $retStr . '<li>
-            <span class="label label-info widelbl" id="spnct_'.$r['total'].'"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> 
-            &nbsp;'.$r['total'].'</i></span><a href="vidList.php?view=filter_'.$r['filterName'].'"> at <b>'.strip_tags(str_replace("<br>", " ", $r['visiblename'])).'</b>
+            <span class="label label-info widelbl spnct_'.$r['total'].'" id="spnct_'.$r['total'].'"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> 
+            &nbsp;'.$r['total'].'</i></span><a href="vidList.php?view=filter_'.$r['filename'].'"> at <b>'.strip_tags(str_replace("<br>", " ", $r['visiblename'])).'</b>
             </a></li>';
 
           if($r['total']>$ctmax) { $ctmax = $r['total'];}
@@ -119,8 +119,8 @@ error_reporting(E_ALL);
     <script src="js/scripts.js"></script>
     <script type="text/javascript">
       $(function() {
-          $('#spnct_<?php echo $ctmax;?>').removeClass("label-info").addClass("label-success");
-          $('#spnct_<?php echo $ctmin;?>').removeClass("label-info").addClass("label-danger");
+          $('.spnct_<?php echo $ctmax;?>').removeClass("label-info").addClass("label-success");
+          $('.spnct_<?php echo $ctmin;?>').removeClass("label-info").addClass("label-danger");
       });
     </script>
   </body>
