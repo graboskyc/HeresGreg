@@ -104,7 +104,9 @@ require_once('includes/util.php');
           if($r['isArchived'] == 1) {
             $dString = '<button type="button" class="btn btn-danger btn-sm" onclick="window.location=\'c_archiveUser.php?uid='.$r['user_id'].'\';"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></button>';
           }
-          echo "<tr><td>".$r['username']."</td><td>".$r['lastactivity']."</td><td>".$dString."</td>";
+          echo "<tr>";
+          echo "<td class='pcpo' placement='left' data-toggle='popover' title='Passcode' data-content='".$r['passcode']."'>".$r['username']."</td>";
+          echo "<td>".$r['lastactivity']."</td><td>".$dString."</td>";
           echo '<td><button type="button" class="btn btn-default btn-sm" onclick="window.open(\'c_qrMaker.php?username='.$r['username'].'&passcode='.$r['passcode'].'\');"><span class="glyphicon glyphicon-qrcode" aria-hidden="true" ></span></button></td>';
           echo "</tr>";
         }
@@ -115,6 +117,13 @@ require_once('includes/util.php');
     </div> <!-- /container -->
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
     <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('[data-toggle="popover"]').popover({html : true});
+      });
+    </script>
   </body>
 </html>
