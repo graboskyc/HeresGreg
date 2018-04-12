@@ -30,8 +30,12 @@ Found in includes/config.php:
 | DISQUSURL | Signing up for a Disqus.com service, this is the URL they give you | |
 | SITEURL | FQDN to root of site | Include HTTP:// |
 | THEMECOLOR | Hex code for theme color supported by most mobile browsers | 6 digit hex without the # |
-| AZURECOGVISREG | If using Azure cognative vision API, the region to use | leave blank if not using. should be something like "westcentralus" |
-| AZURECOGVISKEY | API key for azure cognative vision API | leave blank if not using
+| DBHOST | host of sql db | leave default if using docker method |
+| DBNAME | name of sql db | leave default if using docker method |
+| DBUSERNAME | username for database | leave default if using docker method |
+| DBPASSWD | password for database | leave default if using docker method |
+| AZURECOGVISREG | If using Azure cognitive vision API, the region to use | leave blank if not using. should be something like "westcentralus" |
+| AZURECOGVISKEY | API key for azure cognitive vision API | leave blank if not using
 
 ## Features
 * Push notifications via pushbullet for new videos uploaded and weekly summary (this week in) from past years

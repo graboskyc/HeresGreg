@@ -336,28 +336,15 @@ function DrawRCMenu() {
     <?php
 }
 
-function getDBInfo($which='qs')
+function getDBInfo()
 {
-	// connection string: Database=frsh201A4IQco2xd;Data Source=us-cdbr-azure-east-b.cloudapp.net;User Id=bbc9aaf0c6c390;Password=b2b4dd79
-	if($which=='qs')
-	{
-                        $DB = array(
-                                "host" => "localhost",
-                                "username" => "app",
-                                "password" => "app_password",
-                                "db" => "app"
-			);
-	}
-	else
-	{
-			$DB = array(
-                                "host" => "us-cdbr-azure-east-b.cloudapp.net",
-                                "username" => "bbc9aaf0c6c390",
-                                "password" => "b2b4dd79",
-                                "db" => "frsh201A4IQco2xd;"
-                        );
-	}
-        return $DB;
+    $DB = array(
+        "host" => DBHOST,
+        "username" => DBUSERNAME,
+        "password" => DBPASSWD,
+        "db" => DBNAME
+    );
+    return $DB;
 }
 
 function connectDB()
