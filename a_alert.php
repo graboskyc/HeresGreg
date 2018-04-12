@@ -80,20 +80,28 @@ require_once('includes/util.php');
         <label for="msg" class="sr-only">Alert Message</label>
         <input type="text" id="msg" name="msg" class="form-control" placeholder="Message" required autofocus>
 
+        <br>
+
         <label for="start" class="sr-only">Start</label>
         <input type="text" id="start" name="start" class="form-control" value=" 2017-11-21 00:00:00" required>
 
+        <br>
+        
         <label for="end" class="sr-only">End</label>
         <input type="text" id="end" name="end" class="form-control" value=" 2017-11-21 00:00:00" required>
 
+        <br>
+        
         <label for="type" class="sr-only">Type</label>
         <select class="form-control" name="type">
-          <option>success</option>
-          <option>info</option>
-          <option>warning</option>
-          <option>danger</option>
+          <option value="success">Green Success</option>
+          <option value="info">Blue Info</option>
+          <option value="warning">Yellow Warning</option>
+          <option value="danger">Red Danger</option>
         </select>
 
+        <br><br>
+        
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
 
         <h2 class="form-signin-heading">Current Alerts</h2>
