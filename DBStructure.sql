@@ -34,6 +34,23 @@ CREATE TABLE `alerts` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `filter`
+--
+
+DROP TABLE IF EXISTS `filter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `filter` (
+  `filter_id` int(11) NOT NULL AUTO_INCREMENT,
+  `visiblename` varchar(50) NOT NULL,
+  `filename` varchar(50) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `isArchived` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`filter_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `media`
 --
 
@@ -82,18 +99,7 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-12 13:05:59
-
-
-CREATE TABLE `filter` (
-  `filter_id` int(11) NOT NULL AUTO_INCREMENT,
-  `visiblename` varchar(50) NOT NULL,
-  `filename` varchar(50) NOT NULL,
-  `type` varchar(10) NOT NULL,
-  `isArchived` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`filter_id`)
-);
-
+-- Dump completed on 2018-04-12 18:05:03
 
 INSERT INTO `user` (username, passcode, isAdmin) VALUES ('admin', 'admin', 0);
 
