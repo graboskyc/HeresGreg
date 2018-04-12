@@ -329,7 +329,8 @@ error_reporting(E_ALL);
               <li>Can delete users</li>
               <li>Put QR code generator on users page</li>
               <li>Filters are now stored in db rather than hard coded</li>
-              <li>Added admin page to upload new filters</li></ul>
+              <li>Added admin page to upload new filters</li>
+              <li>Filters can be viewed by admin and disabled.</li></ul>
             </div>
           </div>
       </div>

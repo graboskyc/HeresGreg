@@ -105,8 +105,8 @@ require_once('includes/util.php');
 
         <br>
 
-        <label class="btn btn-default btn-file">
-				Browse For PNG To Upload
+        <label class="btn btn-default btn-file" style="width:100%;">
+				Browse For PNG To Upload. <br>Dimension should be a clear png of 580x760px.
 					<input type="file" name="file_attachment" id="file_attachment" style="display: none;">
         </label>
         
@@ -115,6 +115,31 @@ require_once('includes/util.php');
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
 
       </form>
+
+      <h2 class="form-signin-heading">Current Filters</h2>
+
+      <table class="table table-striped">
+      <thead><tr><th>Filter</th><th>Disable</th><th>View<th></tr></thead>
+      <tbody>
+      <?php
+      $conn = connectDB();
+      $sql = "SELECT * from filter order by visiblename asc";
+      $stmt = $conn->prepare($sql);
+      $stmt->execute();
+      $result = $stmt->fetchAll();
+      $mediaList = array();
+      foreach($result as $r)
+      {
+        $dString = '<button type="button" class="btn btn-success btn-sm" onclick="window.location=\'c_archiveFilter.php?fid='.$r['filter_id'].'\';"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></button>';
+        if($r['isArchived'] == 1) {
+          $dString = '<button type="button" class="btn btn-danger btn-sm" onclick="window.location=\'c_archiveFilter.php?fid='.$r['filter_id'].'\';"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></button>';
+        }
+        echo "<tr><td>".$r['filename']."</td><td>".$dString."</td>";
+        echo '<td><button type="button" class="btn btn-default btn-sm" onclick="window.open(\'/overlays/'.$r['filename'].'\');"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span></button></td>';
+        echo "</tr>";
+      }
+      ?>
+      </tbody></table>
 
     </div> <!-- /container -->
 
