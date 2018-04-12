@@ -68,6 +68,7 @@ CREATE TABLE `user` (
   `lastactivity` datetime NOT NULL,
   `lastview` int(11) NOT NULL,
   `isAdmin` tinyint(1) NOT NULL DEFAULT '0',
+  `isArchived` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -81,6 +82,6 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-12 12:36:41
+-- Dump completed on 2018-04-12 13:05:59
 
-INSERT INTO `user` (username, passcode, isAdmin) VALUES ('admin', 'admin', TRUE);
+INSERT INTO `user` (username, passcode, isAdmin) VALUES ('admin', 'admin', 0);

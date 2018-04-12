@@ -72,18 +72,22 @@ require_once('includes/util.php');
         <h2 class="form-signin-heading">Current Users</h2>
 
         <table class="table table-striped">
-        <thead><tr><th>Username</th><th>Last Activity</th></tr></thead>
+        <thead><tr><th>Username</th><th>Last Activity</th><th>Deactivate</th></tr></thead>
         <tbody>
         <?php
         $conn = connectDB();
-        $sql = "SELECT username, passcode, lastactivity from user order by lastactivity desc";
+        $sql = "SELECT user_id, username, passcode, lastactivity, isArchived from user order by lastactivity desc";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll();
         $mediaList = array();
         foreach($result as $r)
         {
-          echo "<tr><td>".$r['username']."</td><td>".$r['lastactivity']."</td></tr>";
+          $dString = '<button type="button" class="btn btn-success btn-sm" onclick="window.location=\'c_archiveUser.php?uid='.$r['user_id'].'\';"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></button>';
+          if($r['isArchived'] == 1) {
+            $dString = '<button type="button" class="btn btn-danger btn-sm" onclick="window.location=\'c_archiveUser.php?uid='.$r['user_id'].'\';"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></button>';
+          }
+          echo "<tr><td>".$r['username']."</td><td>".$r['lastactivity']."</td><td>".$dString."</td></tr>";
         }
         ?>
         </tbody></table>

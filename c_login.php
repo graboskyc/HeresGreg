@@ -6,7 +6,7 @@ $pw = strtolower($_POST['passcode']);
 $conn = connectDB();
 @session_start();
 
-$sql = "SELECT * FROM user WHERE username = '$un'";
+$sql = "SELECT * FROM user WHERE username = '$un' and isArchived = 0";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetchAll();
