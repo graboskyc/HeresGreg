@@ -74,7 +74,7 @@ error_reporting(E_ALL);
 
       <?php
         $conn = connectDB();
-        $sql = "SELECT filterName, COUNT(id) as 'total' FROM media GROUP BY filterName";
+        $sql = "SELECT filter_id, filterName, visiblename, COUNT(id) as 'total' FROM media m right join filter f on m.filterName = f.filename GROUP BY filter_id ";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -88,16 +88,14 @@ error_reporting(E_ALL);
 
         foreach($result as $r)
         {
-          if($r['filterName'] != "") {
-            $i++;
-            $retStr = $retStr . '<li>
-              <span class="label label-info widelbl" id="spnct_'.$r['total'].'"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> 
-              &nbsp;'.$r['total'].'</i></span><a href="vidList.php?view=filter_'.$r['filterName'].'"> at <b>'.$r['filterName'].'</b>
-              </a></li>';
+          $i++;
+          $retStr = $retStr . '<li>
+            <span class="label label-info widelbl" id="spnct_'.$r['total'].'"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> 
+            &nbsp;'.$r['total'].'</i></span><a href="vidList.php?view=filter_'.$r['filterName'].'"> at <b>'.strip_tags(str_replace("<br>", " ", $r['visiblename'])).'</b>
+            </a></li>';
 
-            if($r['total']>$ctmax) { $ctmax = $r['total'];}
-            if(($r['total']<$ctmin) && ($i < count($result))) { $ctmin = $r['total'];}
-          }
+          if($r['total']>$ctmax) { $ctmax = $r['total'];}
+          if(($r['total']<$ctmin) && ($i < count($result))) { $ctmin = $r['total'];}
         }
       ?>
 
