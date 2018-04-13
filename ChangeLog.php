@@ -330,7 +330,8 @@ error_reporting(E_ALL);
               <li>Put QR code generator on users page</li>
               <li>Filters are now stored in db rather than hard coded</li>
               <li>Added admin page to upload new filters</li>
-              <li>Filters can be viewed by admin and disabled.</li></ul>
+              <li>Filters can be viewed by admin and disabled.</li>
+              <li>Search box to search through old videos</li></ul>
             </div>
           </div>
       </div>
