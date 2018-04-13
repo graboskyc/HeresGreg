@@ -68,7 +68,7 @@ function setMain(path, e) {
             $('#mainvid source').attr('src', fp);
             $("#mainvid").load();
 
-            resetDisq(path, "http://grabosky.dyndns.org:9999/media/smaller/"+path, "Video " + path);
+            resetDisq(path, window.location.protocol + "//" + window.location.host +  "/media/smaller/"+path, "Video " + path);
 
             if(filter.length>3) {
                 $("#overlayimage").attr("src","overlays/"+filter);
