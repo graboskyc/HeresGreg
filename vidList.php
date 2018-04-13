@@ -113,7 +113,40 @@ if(isset($_GET['view'])) {
     }
     
     $conn = connectDB();
-    $sql = "SELECT
+
+    if(isset($_GET['qs'])) {
+      $qs = $_GET['qs'];
+      $qs = '\'%'.$qs.'%\'';
+      
+      $sql = "SELECT
+                    m.id as id,
+                    m.path as path,
+                    u.username as username,
+                    m.created as created,
+                    m.isFavorite as isFavorite,
+                    m.filterName as filterName,
+                    m.cvajson as cva
+              FROM
+                    media m 
+              LEFT join
+                    user u
+              ON
+                    m.created_by = u.user_id
+              LEFT JOIN
+                    filter f
+              ON
+                    m.filterName = f.filename
+              WHERE
+                    u.username LIKE $qs OR 
+                    m.cvajson LIKE $qs OR 
+                    m.filterName LIKE $qs OR 
+                    f.visiblename LIKE $qs 
+                    AND archived = 0
+              ORDER BY
+                    created desc";
+    }
+    else {
+      $sql = "SELECT
                     m.id as id,
                     m.path as path,
                     u.username as username,
@@ -132,6 +165,7 @@ if(isset($_GET['view'])) {
                     archived = 0 " . $andfav . "
             ORDER BY
                     created desc";
+    }
 
     $stmt = $conn->prepare($sql);
     $stmt->execute();

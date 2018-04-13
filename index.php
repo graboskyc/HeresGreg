@@ -137,12 +137,27 @@ $mediaList = array_reverse($mediaList);
             background-color:#000000 !important;
         }
         .footer { margin-top:30px !important;}
-       .filterbtn { margin-top:15px; text-align:center; width:100%; vertical-align:middle; }
-       .menubtn { margin-top:15px; text-align:center; width:100%; vertical-align:middle; }
-       body { font-size:12px !important; position: relative;}
-       html, body {
-  overflow-x: hidden;
-}
+        .filterbtn { margin-top:15px; text-align:center; width:100%; vertical-align:middle; }
+        .menubtn { margin-top:15px; text-align:center; width:100%; vertical-align:middle; }
+        body { font-size:12px !important; position: relative;}
+        html, body { overflow-x: hidden; }
+        
+        input#txt_search {
+            width: 25px !important;
+            -webkit-transition: width 0.4s ease-in-out !important;
+            transition: width 0.4s ease-in-out !important;
+            background-image: url("images/Search-Find-48.png");
+            background-position: left center;
+            background-repeat: no-repeat;
+            background-size:20px 20px;
+            padding-left:5px;
+            display: inline !important;
+            padding-top:1px;
+        }
+        input#txt_search:focus {
+            width: 200px !important;
+            background:none;
+        }
     </style>
   </head>
   <body>
@@ -151,6 +166,7 @@ $mediaList = array_reverse($mediaList);
       <div class="header clearfix">
         <nav>
             <ul class="nav nav-pills pull-right">
+                <input type="text" name="txt_search" id="txt_search" class="form-control">
                 <button type="button" class="btn btn-success" id="btn_upload" onclick="openUploadExisting()">
                     <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true" ></span>
                 </button>
@@ -257,6 +273,13 @@ $mediaList = array_reverse($mediaList);
     <script>
         $(function(){ 
             setMain('<?php echo $mediaList[0]->Path; ?>',$('#absoluteLatestVid'));
+            $("#txt_search").val('');
+            $("#txt_search").keypress(function(e) {
+                if (e.which == 13) {
+                    e.preventDefault();
+                    window.location = "vidList.php?qs=" + encodeURIComponent($('#txt_search').val());
+                }
+            })
         });
         function filterMenu(id) {
             $(".filterbtn").attr("data-vidid", id);
