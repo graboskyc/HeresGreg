@@ -126,7 +126,8 @@ if(isset($_GET['view'])) {
                     m.isFavorite as isFavorite,
                     m.filterName as filterName,
                     m.cvajson as cva,
-                    b.babycolor as bc
+                    b.babycolor as bc,
+                    b.babyname as bn
               FROM
                       media m 
               LEFT join
@@ -145,7 +146,8 @@ if(isset($_GET['view'])) {
                     u.username LIKE $qs OR 
                     m.cvajson LIKE $qs OR 
                     m.filterName LIKE $qs OR 
-                    f.visiblename LIKE $qs 
+                    f.visiblename LIKE $qs OR
+                    b.babyname LIKE $qs
                     AND archived = 0
               ORDER BY
                     created desc";
