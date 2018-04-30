@@ -68,11 +68,19 @@ foreach ($mediaList as $item) {
 
     $outstr = $outstr . '<div class="col-xs-3" data-filter="'.$item->Filter.'" onclick="setMain(\''.$item->Path.'\', this);" '.$firstId.' oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;" data-cvajson=\''.implode(", ",$tagList).'\' data-cvacaption=\''.$caption.'\' ><center>';
     
-    if($item->IsFavorite == 1) { $outstr = $outstr . '<div class="vidThumb" data-filter="'.$item->Filter.'" style="background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;margin: 0 auto; -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); border:3px solid #'.$item->BabyColor.';">'; }
+    if($item->IsFavorite == 1) { 
+        $outstr = $outstr . '<div class="vidThumbOuter" style="position:relative; height:64px; width:64px; -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); background:#'.$item->BabyColor.';"">';
+        $outstr = $outstr . '<div class="vidThumb" data-filter="'.$item->Filter.'" style="position:absolute; background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:56px;top:4px;left:4px;width:56px;background-position: center center;z-index:0;margin: 0 auto; -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);">'; 
+    }
+    
     else { $outstr = $outstr . '<div class="vidThumb" data-filter="'.$item->Filter.'" style="border-radius: 50%;background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0; border:5px solid #'.$item->BabyColor.';">'; }
     
     if ($item->MediaID > $lv) { $outstr = $outstr . '<div class="newVid" data-filter="'.$item->Filter.'" id="lv'.$item->MediaID.'"></div>'; } else { $outstr = $outstr . '<div class="oldVid" id="lv'.$item->MediaID.'"></div>'; }
     
+    if($item->IsFavorite == 1) { 
+        $outstr = $outstr . '</div>';
+    }
+
     $outstr = $outstr . '</div>';
     $outstr = $outstr . '<br />';
     if(strlen($item->Filter)>3) { $outstr = $outstr . '<span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>&nbsp;';}

@@ -256,8 +256,13 @@ if(isset($_GET['view'])) {
 
                 echo '<div class="col-xs-4" onclick="setMain(\''.$item->Path.'\', this);" data-filter="'.$item->Filter.'" data-cvajson=\''.implode(", ",$tagList).'\' data-cvacaption=\''.$caption.'\'><center>';
                     
-                    if($item->IsFavorite == 1) { echo '<div class="vidThumb" data-filter="'.$item->Filter.'" style="background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;margin: 0 auto; polygon(50% 0, 100% 15%, 100% 85%, 50% 100%, 0 85%, 0 15%); -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); border:3px solid #'.$item->BabyColor.';" oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;"></div>'; }
+                    if($item->IsFavorite == 1) { 
+                      echo '<div class="vidThumbOuter" style="position:relative; height:64px; width:64px; -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); background:#'.$item->BabyColor.';"">';
+                      echo '<div class="vidThumb" data-filter="'.$item->Filter.'" style="position:absolute;background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:56px;top:4px;left:4px;width:56px;background-position: center center;z-index:0;margin: 0 auto; polygon(50% 0, 100% 15%, 100% 85%, 50% 100%, 0 85%, 0 15%); -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);" oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;"></div>'; 
+                      echo "</div>";
+                    }
                     else { echo '<div class="vidThumb" data-filter="'.$item->Filter.'"  oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;" style="border-radius: 50%;background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #'.$item->BabyColor.';"></div>'; }
+                    
                     echo "<br>";
                     if(strlen($item->Filter)>3) { echo '<span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>&nbsp;';}
                     echo ucfirst($item->CreatedBy);
