@@ -73,14 +73,16 @@ require_once('includes/util.php');
       </div>
 
       <form class="form-signin" method="post" action="c_baby.php">
-        <h2 class="form-signin-heading"><span class="glyphicon glyphicon-user" aria-hidden="true" ></span>Create a Baby</h2>
+        <h2 class="form-signin-heading"><span class="glyphicon glyphicon-baby-formula" aria-hidden="true" ></span>Create a Baby</h2>
 
         <label for="babyuser" class="sr-only">Baby Name</label>
         <input type="text" id="baby" name="baby" class="form-control" placeholder="baby" required autofocus>
 
+        <br />
         <label for="color" class="sr-only">Hex Color, No #</label>
         <input type="text" id="color" name="color" class="form-control" value="000000" equired>
         
+        <br />
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
 
         <h2 class="form-signin-heading">Current Babies</h2>

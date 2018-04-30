@@ -75,7 +75,7 @@ require_once('includes/util.php');
       </div>
 
       <form class="form-signin" method="post" action="c_newFilter.php"  enctype="multipart/form-data">
-        <h2 class="form-signin-heading"><span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span>&nbsp; Create a Filter</h2>
+        <h2 class="form-signin-heading"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>&nbsp; Create a Filter</h2>
 
         <label for="vis" class="sr-only">Visible Name</label>
         <input type="text" id="vis" name="vis" class="form-control" placeholder="Visible Name" required autofocus>

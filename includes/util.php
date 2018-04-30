@@ -132,16 +132,16 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='c_manualpush.php?redir=index.php';">
-                        <span class="glyphicon glyphicon-send" aria-hidden="true" ></span> 
-                        Pushbullet
+                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='a_alert.php';">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span> 
+                        Alert
                     </button>
                     </div>
 
                     <div class="col-xs-6">
-                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='a_alert.php';">
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true" ></span> 
-                        Alert
+                    <button type="button" class="btn btn-danger menubtn" onclick="window.location='a_baby.php';">
+                        <span class="glyphicon glyphicon-baby-formula" aria-hidden="true" ></span> 
+                        Babies
                     </button>
                     </div>
                 </div>
@@ -160,6 +160,17 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
                         Filters
                     </button>
                     </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-3"></div>
+                    <div class="col-xs-6">
+                        <button type="button" class="btn btn-danger menubtn" onclick="window.location='c_manualpush.php?redir=index.php';">
+                            <span class="glyphicon glyphicon-send" aria-hidden="true" ></span> 
+                            Send Push Notification
+                        </button>
+                    </div>
+                    <div class="col-xs-3"></div>
                 </div>
 
                 <?php
