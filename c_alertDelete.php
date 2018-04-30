@@ -7,10 +7,17 @@ error_reporting(E_ALL);
 if(!isset($_SESSION['un']) || !isset($_SESSION['uid'])) { header('LOCATION: login.php'); }
 require_once('includes/util.php');
 
-CreateAlert($_SESSION['uid'], $_POST['start'], $_POST['end'],  $_POST['msg'], $_POST['type']);  
- 
+$id = $_GET['id'];
+
+$conn = connectDB();
+$sql = "DELETE FROM alerts where message_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bindValue(1, $id);
+$stmt->execute();
+
 //closeDB();
 
 header("Location: a_alert.php");
+
 
 ?>

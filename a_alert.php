@@ -107,18 +107,20 @@ require_once('includes/util.php');
         <h2 class="form-signin-heading">Current Alerts</h2>
 
         <table class="table table-striped">
-        <thead><tr><th>Message</th><th>Start</th><th>End</th></tr></thead>
+        <thead><tr><th></th><th>Message</th><th>Start</th><th>End</th></tr></thead>
         <tbody>
         <?php
         $conn = connectDB();
-        $sql = "SELECT msg, start, end from alerts order by end desc";
+        $sql = "SELECT message_id, msg, start, end from alerts order by end desc";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll();
         $mediaList = array();
         foreach($result as $r)
         {
-          echo "<tr><td>".$r['msg']."</td><td>".$r['start']."</td><td>".$r['end']."</td></tr>";
+          echo "<tr><td>";
+          echo '<button type="button" class="btn btn-danger btn-sm" onclick="window.location=\'c_alertDelete.php?id='.$r['message_id'].'\';"><span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></button>';
+          echo '</td><td>'.$r['msg']."</td><td>".$r['start']."</td><td>".$r['end']."</td></tr>";
         }
         ?>
         </tbody></table>
