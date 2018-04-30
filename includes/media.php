@@ -13,8 +13,9 @@ class MediaLI {
     public $CreatedBy = "";
     public $Filter = "";
     public $CVAJSON = "";
+    public $BabyColor = "";
 
-    public function __construct($mid, $path, $cdt, $cb, $if, $f="", $cva="{}")
+    public function __construct($mid, $path, $cdt, $cb, $if, $f="", $cva="{}", $babycolor="000000")
     {
         $this->MediaID = $mid;
         $this->Path = $path;
@@ -22,6 +23,7 @@ class MediaLI {
         $this->CreatedBy = $cb;
         $this->IsFavorite = $if;
         $this->Filter = $f;
+        $this->BabyColor = $babycolor;
 
         if(strpos($cva, "invalid subscription key") > -1) {
             $now = date("Y-m-d H:i:s");

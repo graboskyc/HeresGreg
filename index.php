@@ -23,13 +23,18 @@ $sql = "SELECT
                 m.created as created,
                 m.isFavorite as isFavorite,
                 m.filterName as filterName,
-                m.cvajson as cva
+                m.cvajson as cva,
+                b.babycolor as bc
         FROM
                 media m 
         LEFT join
                 user u
         ON
                 m.created_by = u.user_id
+        LEFT JOIN
+                baby b
+        ON
+                m.ofbaby = b.baby_id
         WHERE
                 archived = 0
         ORDER BY
@@ -42,7 +47,7 @@ $result = $stmt->fetchAll();
 $mediaList = array();
 foreach($result as $r)
 {
-        $li = new MediaLI($r['id'], $r['path'], $r['created'], $r['username'], $r['isFavorite'], $r["filterName"], $r['cva']);
+        $li = new MediaLI($r['id'], $r['path'], $r['created'], $r['username'], $r['isFavorite'], $r["filterName"], $r['cva'], $r['bc']);
         $mediaList[] = $li;
 }
 
@@ -63,8 +68,8 @@ foreach ($mediaList as $item) {
 
     $outstr = $outstr . '<div class="col-xs-3" data-filter="'.$item->Filter.'" onclick="setMain(\''.$item->Path.'\', this);" '.$firstId.' oncontextmenu="filterMenu(\''.$item->MediaID.'\');return false;" data-cvajson=\''.implode(", ",$tagList).'\' data-cvacaption=\''.$caption.'\' ><center>';
     
-    if($item->IsFavorite == 1) { $outstr = $outstr . '<div class="vidThumb" data-filter="'.$item->Filter.'" style="background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;margin: 0 auto; -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);">'; }
-    else { $outstr = $outstr . '<div class="vidThumb" data-filter="'.$item->Filter.'" style="border-radius: 50%;background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;">'; }
+    if($item->IsFavorite == 1) { $outstr = $outstr . '<div class="vidThumb" data-filter="'.$item->Filter.'" style="background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;margin: 0 auto; -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); border:3px solid #'.$item->BabyColor.';">'; }
+    else { $outstr = $outstr . '<div class="vidThumb" data-filter="'.$item->Filter.'" style="border-radius: 50%;background: url(media/'.$item->Path.'.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0; border:5px solid #'.$item->BabyColor.';">'; }
     
     if ($item->MediaID > $lv) { $outstr = $outstr . '<div class="newVid" data-filter="'.$item->Filter.'" id="lv'.$item->MediaID.'"></div>'; } else { $outstr = $outstr . '<div class="oldVid" id="lv'.$item->MediaID.'"></div>'; }
     

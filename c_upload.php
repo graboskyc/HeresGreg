@@ -35,7 +35,7 @@ if (move_uploaded_file($_FILES['video']['tmp_name'], $uploadfile)) {
     PushChan();
     
     $conn = connectDB();
-    $sql = "INSERT INTO media (path, archived, created_by) VALUES (?,0,?)";
+    $sql = "INSERT INTO media (path, archived, created_by, ofbaby) VALUES (?,0,?,1)";
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(1, $filename);
     $stmt->bindValue(2, $_SESSION['uid']);

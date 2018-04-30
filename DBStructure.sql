@@ -34,6 +34,21 @@ CREATE TABLE `alerts` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `baby`
+--
+
+DROP TABLE IF EXISTS `baby`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `baby` (
+  `baby_id` int(11) NOT NULL AUTO_INCREMENT,
+  `babyname` varchar(20) NOT NULL,
+  `babycolor` varchar(6) DEFAULT NULL,
+  PRIMARY KEY (`baby_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `filter`
 --
 
@@ -47,7 +62,7 @@ CREATE TABLE `filter` (
   `type` varchar(10) NOT NULL,
   `isArchived` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`filter_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +83,7 @@ CREATE TABLE `media` (
   `ofBaby` tinyint(4) NOT NULL,
   `cvajson` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=965 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=990 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,6 +113,9 @@ CREATE TABLE `user` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-04-30  0:43:10
+
 
 -- Dump completed on 2018-04-12 18:05:03
 
@@ -158,3 +176,5 @@ insert into filter (visiblename,filename,type,isArchived) VALUES
 ('Wizard<br>World','Wizardworld.png','event',1),
 ('We Rock<br>Spectrum','WRS.png','geo',0),
 ('Zoo<br>&nbsp;','Zoo.png','geo',0);
+
+insert into baby (babyname, babycolor) values ('Greg','0063AF');
