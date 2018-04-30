@@ -242,6 +242,7 @@ $mediaList = array_reverse($mediaList);
     
     <div style="visibility:hidden;">
         <form action="c_upload.php" method="post" enctype="multipart/form-data">
+            <input type="text" name="ofbaby" value="1" />
             <input type="file" name="video" accept="video/*" capture class="btn btn-default" id="video_input"/>
             <input type="submit" value="Upload" class="btn btn-default">
         </form>
