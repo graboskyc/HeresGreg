@@ -1,6 +1,16 @@
 <?php
 require_once('config.php');
 
+function getBabies()
+{
+    global $conn;
+    $sql = "Select baby_id, babyname from baby";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+	return $result;
+}
+
 function CreateAlert($uid, $start, $end, $msg, $type) {
     $conn = connectDB();
     $sql = "INSERT INTO `alerts` (`user_id`, `start`, `end`, `msg`, `bootstraptype`) VALUES (?, ?, ?, ?, ?);";

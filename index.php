@@ -180,7 +180,7 @@ $mediaList = array_reverse($mediaList);
         <nav>
             <ul class="nav nav-pills pull-right">
                 <input type="text" name="txt_search" id="txt_search" class="form-control">
-                <button type="button" class="btn btn-success" id="btn_upload" onclick="openUploadExisting()">
+                <button type="button" class="btn btn-success" id="btn_upload" onclick="openNewUpload()">
                     <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true" ></span>
                 </button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" href="#myModal">
@@ -240,14 +240,6 @@ $mediaList = array_reverse($mediaList);
 
     </div> <!-- /container -->
     
-    <div style="visibility:hidden;">
-        <form action="c_upload.php" method="post" enctype="multipart/form-data">
-            <input type="text" name="ofbaby" value="1" />
-            <input type="file" name="video" accept="video/*" capture class="btn btn-default" id="video_input"/>
-            <input type="submit" value="Upload" class="btn btn-default">
-        </form>
-    </div>
-    
     <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -272,6 +264,34 @@ $mediaList = array_reverse($mediaList);
       </div>
       <div class="modal-body">
         <?php DrawRCMenu(); ?>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="uploadModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Upload</h4>
+      </div>
+      <div class="modal-body">
+        <form action="c_upload.php" method="post" enctype="multipart/form-data">
+            
+            <select name="ofbaby">
+                <?php
+                    $babyList = getBabies();
+                    $multiBaby = false;
+                    if(sizeof($babyList) > 1) { $multiBaby = true; }
+                    foreach($babyList as $b) {
+                        echo "<option value='".$b['baby_id']."'>".$b["babyname"]."</option>";
+                    }
+                ?>
+            </select>
+            <input type="file" name="video" accept="video/*" capture class="btn btn-default" id="video_input"/>
+            <input type="submit" value="Upload" class="btn btn-default">
+        </form>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -318,7 +338,21 @@ $mediaList = array_reverse($mediaList);
         }
         function castGreg() {
             var src = $('#mainvid source').attr('src');
-
+        }
+        function openNewUpload() {
+            $('#video_input').removeAttr("accept");
+            $('#video_input').removeAttr("capture");
+            <?php
+                if($multiBaby) {
+                    echo "multiBabyUpload();";
+                }
+                else {
+                    echo '$("#video_input").click();';
+                }
+            ?>
+        }
+        function multiBabyUpload() {
+            $('#uploadModal').modal('show');
         }
     </script>
     <script id="dsq-count-scr" src="//<?php echo DISQUSURL; ?>.disqus.com/count.js" async></script>
