@@ -312,8 +312,6 @@ error_reporting(E_ALL);
       </div>
       </div>
 
-      <!-- I always mess up this changelog so this is good. copy paste here -->
-
       <div class="panel panel-default">
           <div class="panel-heading" role="tab" id="heading16">
             <h4 class="panel-title">
@@ -331,7 +329,31 @@ error_reporting(E_ALL);
               <li>Filters are now stored in db rather than hard coded</li>
               <li>Added admin page to upload new filters</li>
               <li>Filters can be viewed by admin and disabled.</li>
-              <li>Search box to search through old videos</li></ul>
+              <li>Search box to search through old videos</li>
+              <li>Stats on ChangeLog page updated for multi-baby support</li></ul>
+            </div>
+          </div>
+      </div>
+
+      <!-- I always mess up this changelog so this is good. copy paste here -->
+
+      <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="heading17">
+            <h4 class="panel-title">
+              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse17" aria-expanded="true" aria-controls="collapse17">
+                V2.50<span class="smallvnote">(click to expand)</span>
+              </a>
+            </h4>
+          </div>
+          <div id="collapse17" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading17">
+            <div class="panel-body">
+              <ul><li>Multiple baby support - each baby has a color ring around upload</li>
+              <li>Baby admin page</li>
+              <li>On upload, if multiple babies exist, it prompts you for which to show for, otherwise defaults to only one</li>
+              <li>Can delete alert messages from admin page</li>
+              <li>Re-arranged admin page based on new capabilities</li>
+              <li>Fixed icons on admin pages</li>
+              <li>Search now searches by baby name as well</li></ul>
             </div>
           </div>
       </div>
@@ -353,7 +375,15 @@ error_reporting(E_ALL);
             <li><span class="label label-warning widelbl"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;<?php echo $statData["favVids"];?></i></span> <b>Favorite Videos</b></li>
             <li><span class="label label-primary widelbl"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;<?php echo $statData["filterVids"];?></i></span> <b>Videos With Filters</b></li>
             <li><span class="label label-danger widelbl"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?php echo $statData["userVids"];?></i></span> <b> People Have Uploaded Videos</b></li>
+            <li><span class="label label-info widelbl"><span class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span>&nbsp;<?php echo $statData["babyCt"];?></i></span> <b> Different Babies Have Videos</b></li>
         </ul>
+      </div>
+
+      <div class="well" >
+        <h1>Information</h1>
+        <p>This project has been created with ❤️ for Greg by his dad. I hope one day you look through these 
+        videos and see how much fun we had together growing up.</p>
+        <p>And this app is open source. You can check it out on my <a href="https://github.com/graboskyc/HeresGreg/">github</a>.</p>
       </div>
 
       <div class="well">

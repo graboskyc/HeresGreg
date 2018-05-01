@@ -410,7 +410,8 @@ function getStats($conn) {
         (select count(id) as totalVids from media) as totalVids,
         (select count(id) as favVids from media where isFavorite = 1) as favVids,
         (select count(id) as filterVids from media where CHAR_LENGTH(filterName) > 3) as filterVids,
-        (select count(DISTINCT created_by) from media) as userVids
+        (select count(DISTINCT created_by) from media) as userVids,
+        (select count(DISTINCT ofbaby) from media) as babyCt
     ";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
@@ -422,6 +423,7 @@ function getStats($conn) {
             $statData["favVids"] = $r["favVids"];
             $statData["filterVids"] = $r["filterVids"];
             $statData["userVids"] = $r["userVids"];
+            $statData["babyCt"] = $r["babyCt"];
     }
     return $statData;
 }
