@@ -278,8 +278,7 @@ $mediaList = array_reverse($mediaList);
       </div>
       <div class="modal-body">
         <form action="c_upload.php" method="post" enctype="multipart/form-data">
-            
-            <select name="ofbaby">
+            <select name="ofbaby" class="form-control">
                 <?php
                     $babyList = getBabies();
                     $multiBaby = false;
@@ -289,8 +288,15 @@ $mediaList = array_reverse($mediaList);
                     }
                 ?>
             </select>
-            <input type="file" name="video" accept="video/*" capture class="btn btn-default" id="video_input"/>
-            <input type="submit" value="Upload" class="btn btn-default">
+
+            <br /><br />
+            <label class="btn btn-success btn-md btn-block btn-file">
+				Browse For Video To Upload
+                    <input type="file" name="video" accept="video/*" capture id="video_input" style="display: none;"/>
+            </label>
+            
+            <br /><br />
+            <input type="submit" value="Upload" class="btn btn-md btn-block btn-success" style="display: none;">
         </form>
       </div>
     </div><!-- /.modal-content -->
