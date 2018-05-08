@@ -254,7 +254,13 @@ if(isset($_GET['view'])) {
                 foreach($item->CVAJSON->tags as $tag) {
                   array_push($tagList, $tag->name);
                 }
-                $caption = $item->CVAJSON->description->captions[0]->text;
+                
+                if(sizeof($item->CVAJSON->description->captions) > 0) { 
+                  $caption = $item->CVAJSON->description->captions[0]->text;
+                }
+                else {
+                    $caption = "Caption could not be generated.";
+                }
 
                 echo '<div class="col-xs-4" onclick="setMain(\''.$item->Path.'\', this);" data-filter="'.$item->Filter.'" data-cvajson=\''.implode(", ",$tagList).'\' data-cvacaption=\''.$caption.'\'><center>';
                     
