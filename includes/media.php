@@ -53,7 +53,7 @@ class MediaLI {
         $diffDays = (integer)$diff->format( "%R%a" ); // Extract days count in interval
 
         if ($delta < 60) { $msg = "Now";}
-        elseif (($delta/60) < 61) { $msg = "Minutes ago";}
+        //elseif (($delta/60) < 61) { $msg = "Minutes ago";}
         elseif (($delta/60) < 121) { $msg = "Recently";}
         elseif ($diffDays == 0) { $msg = "Today";}
         elseif ($diffDays == -1) { $msg = "Yesterday";}
