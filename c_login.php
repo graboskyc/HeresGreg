@@ -6,7 +6,7 @@ $pw = strtolower($_POST['passcode']);
 $conn = connectDB();
 @session_start();
 
-$sql = "SELECT * FROM user WHERE username = '$un' and isArchived = 0";
+$sql = "SELECT user_id, lower(passcode) as passcode, username, lastview FROM user WHERE lower(username) = '$un' and isArchived = 0";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetchAll();
