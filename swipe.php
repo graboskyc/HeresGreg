@@ -35,13 +35,19 @@ $sql = "SELECT
                 u.username as username,
                 m.created as created,
                 m.isFavorite as isFavorite,
-                m.filterName as filterName
+                m.filterName as filterName,
+                m.cvajson as cva,
+                b.babycolor as bc
         FROM
                 media m 
         LEFT join
                 user u
         ON
                 m.created_by = u.user_id
+        LEFT JOIN
+                baby b
+        ON
+                m.ofbaby = b.baby_id
         WHERE
                 archived = 0
                 ".$where."
@@ -59,7 +65,7 @@ $result = $stmt->fetchAll();
 $mediaList = array();
 foreach($result as $r)
 {
-        $li = new MediaLI($r['id'], $r['path'], $r['created'], $r['username'], $r['isFavorite'], $r["filterName"]);
+        $li = new MediaLI($r['id'], $r['path'], $r['created'], $r['username'], $r['isFavorite'], $r["filterName"], $r['cva'], $r['bc']);
         $mediaList[0] = $li; 
 }
 
