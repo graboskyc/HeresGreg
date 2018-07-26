@@ -19,9 +19,16 @@ if(isset($_GET['view'])) {
   if(strpos($_GET['view'], "_")) {
     $d = explode("_",$_GET['view']);
     if($d[0]=="filter") {
+      // filter vids
       $andfav = " AND filterName='".$d[1]."' "; $pageName = "Filter";
     }
+    else if (strlen($d[0]) == 1) {
+      // fav quarters
+      $andfav = " AND isFavorite = 1 AND year(created)=".$d[1]." and quarter(created)=".$d[0]." "; 
+      $pageName = "Fav";
+    }
     else {
+      // month year all vids
       $andfav = " AND MONTH(created)=".$d[1]." AND YEAR(created)=".$d[0]." "; $pageName = "Year";
     }
   }

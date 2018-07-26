@@ -80,7 +80,7 @@ function DrawMainMenu($hideUpload, $hidRegistration) {
             </div>
             <div class="row">
                 <div class="col-xs-6">
-                    <button type="button" class="btn btn-warning menubtn" onclick="window.location='vidList.php?view=fav';">
+                    <button type="button" class="btn btn-warning menubtn" onclick="window.location='favList.php';">
                         <span class="glyphicon glyphicon-heart-empty" aria-hidden="true" ></span>
                         Favs
                     </button>
