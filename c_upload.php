@@ -50,6 +50,7 @@ if (move_uploaded_file($_FILES['video']['tmp_name'], $uploadfile)) {
     if (endsWith($_FILES['video']['name'], '.gif')) {
         rename($uploadfile, $uploaddir.$guid.".gif");
         ConvertGIF($guid.".gif", $filename);
+	copy("/var/www/media/".$filename, "/var/www/media/smaller/".$filename);
     }
 
     CreateThumb($filename);
