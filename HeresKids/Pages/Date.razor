@@ -1,0 +1,97 @@
+@layout MainLayout;
+@page "/Date/{Year}/{Month}/{Baby}";
+@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+@using HeresKids.Datamodels;
+
+<div>    
+    @if(!isLoading) {
+        <div class="row" style="margin-top:20px;">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <EmbedVid Path="@selecectedVideo" />
+            </div>
+            <div class="col-1"></div>
+        </div>
+
+        <div class="row" style="margin-top:20px;">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <EmbedDisqus Path="@selecectedVideo" />
+            </div>
+            <div class="col-1"></div>
+        </div>
+
+        <div class="row" style="margin-top:20px;">
+            @foreach (var li in l)
+            {
+                    <div class="col-4" @onclick="@(e => SwitchVideoClick(e, li))" style="text-align: center;">
+                        <center>
+                            @if(li.isFavorite) {
+                                <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                            } else {
+                                <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                            }
+                            <br>
+                            <span style="text-transform: capitalize;">@li.createdby</span>
+                            <br>
+                            <span>@li.created.ToString("MMM dd")</span>
+                        </center>
+                    </div>
+                <br><br>
+            }
+        </div>
+
+    } else {
+        <div style="width: 100%;display: grid;place-items: center;">
+            <KidPic Spin=true Height="175" />
+        </div>
+    }
+
+
+    <br><br><br><br><br><br>
+
+    
+</div>
+
+@code {
+    private RealmUser user = new RealmUser{};
+    private bool isLoading = true;
+
+    [Parameter]
+    public string Year {get; set;}
+    [Parameter]
+    public string Month {get; set;}
+    [Parameter]
+    public string Baby {get; set;}
+    
+    private List<VideoListItem> l;
+    private string selecectedVideo = null;
+
+    private void SwitchVideoClick(MouseEventArgs e, VideoListItem lvi)
+    {
+        SwitchVideo(lvi.path);
+    }
+
+    private void SwitchVideo(string path) {
+        selecectedVideo = path;
+        StateHasChanged();
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
+             isLoading = true;
+            string[] args = {Year.ToString(), Month.ToString(), Baby};
+            l = await JSRuntime.InvokeAsync<List<VideoListItem>>("realmShim_Function", "getVidsForDate", args);
+            SwitchVideo(l.FirstOrDefault().path);
+            isLoading = false;
+            
+        } catch(Exception ex) {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+}
