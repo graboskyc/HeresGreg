@@ -1,0 +1,19 @@
+{
+    "collection": "media",
+    "database": "greg",
+    "roles": [
+        {
+            "name": "subscriber",
+            "apply_when": {
+                "babyname": {
+                    "$in": "%%user.custom_data.subscriptions"
+                }
+            },
+            "read": true,
+            "insert": false,
+            "delete": false,
+            "search": true,
+            "additional_fields": {}
+        }
+    ]
+}

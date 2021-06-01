@@ -1,0 +1,49 @@
+[
+    {
+        "name": "newMediaFunction",
+        "private": true,
+        "run_as_system": true
+    },
+    {
+        "name": "resetFunc",
+        "private": false,
+        "can_evaluate": {}
+    },
+    {
+        "name": "isAdmin",
+        "private": true,
+        "run_as_system": true
+    },
+    {
+        "name": "getLatestVids",
+        "private": false
+    },
+    {
+        "name": "getRandomVid",
+        "private": false
+    },
+    {
+        "name": "getBabies",
+        "private": false
+    },
+    {
+        "name": "setNewMedia",
+        "private": false
+    },
+    {
+        "name": "setAsFav",
+        "private": false
+    },
+    {
+        "name": "setAsArch",
+        "private": false
+    },
+    {
+        "name": "getDateList",
+        "private": false
+    },
+    {
+        "name": "getVidsForDate",
+        "private": false
+    }
+]

@@ -1,0 +1,20 @@
+{
+    "collection": "babies",
+    "database": "greg",
+    "roles": [
+        {
+            "name": "default",
+            "apply_when": {
+                "name": {
+                    "$in": "%%user.custom_data.subscriptions"
+                }
+            },
+            "read": true,
+            "write": false,
+            "insert": false,
+            "delete": false,
+            "search": true,
+            "additional_fields": {}
+        }
+    ]
+}
