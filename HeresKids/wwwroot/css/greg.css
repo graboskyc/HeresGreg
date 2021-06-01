@@ -25,6 +25,8 @@ body,.main,.content {
 
 .ctr_bg {
     background-color: var(--gsky-light);
+    margin: 0 auto; 
+    max-width:800px !important;
 }
 
 .main {
