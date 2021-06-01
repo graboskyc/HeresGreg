@@ -10,8 +10,9 @@
         "config": {
             "autoConfirm": true,
             "resetFunctionName": "resetFunc",
+            "resetPasswordUrl": "https://webhooks.mongodb-realm.com/api/client/v2.0/app/greg-equfv/service/hook/incoming_webhook/resetPassword",
             "runConfirmationFunction": false,
-            "runResetFunction": true
+            "runResetFunction": false
         },
         "disabled": false
     }
