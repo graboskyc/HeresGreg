@@ -3,11 +3,12 @@ exports = async function(year, month, baby){
   var conn = context.services.get("mongodb-atlas").db("greg").collection("media");
   
   var pipeline = [{$match: {
-  archived:false,
-  $expr: {$eq:[parseInt(year), {$year:"$created"}]},
-  $expr: {$eq:[parseInt(month), {$month:"$created"}]},
-  babyname:baby
-
+    $and:[
+  {archived:false},
+  {$expr: {$eq:[parseInt(year), {$year:"$created"}]}},
+  {$expr: {$eq:[parseInt(month), {$month:"$created"}]}},
+  {babyname:baby}
+  ]
   }}, {$project: {
   isFavorite:{$switch: {
     branches: [
