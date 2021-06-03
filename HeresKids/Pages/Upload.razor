@@ -13,9 +13,9 @@
         <div class="row" style="margin-top:30px;">
             @foreach (var b in babies)
             {
-                <div class="col" style="text-align:center;">
+                <div class="col-6" style="padding:20px;">
                     <input type="radio" id="@b.name" name="baby" value="@b.name" @onclick="@(e => SelectBaby(e, b))" style="visibility:hidden">
-                    <label for="@b.name" class="btn btn-lg" style="color:#@b.babycolor !important">@b.name</label><br>
+                    <label for="@b.name" class="btn btn-lg" style="color:var(--gsky-light)!important;text-align:center;background-color:#@b.babycolor !important;width:100%;border-radius:25px;">@b.name</label><br>
                 </div>
             }
         </div>
@@ -49,9 +49,11 @@
     </div>
 
 
-    <br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 </div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 @code {
     private RealmUser user = new RealmUser{};
@@ -69,7 +71,7 @@
         try {
             // upload it
             await using FileStream fs = new("/app/wwwroot/media/"+uploadName, FileMode.Create);
-            await e.File.OpenReadStream(50000000).CopyToAsync(fs);
+            await e.File.OpenReadStream(500000000).CopyToAsync(fs);
 
             // write to Realm
             string[] args = {selectedBaby.name, selectedBaby.babycolor, uploadName};
