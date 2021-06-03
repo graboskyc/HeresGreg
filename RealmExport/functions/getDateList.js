@@ -17,8 +17,8 @@ exports = async function(){
     $sum: 1
   }
 }}, {$sort: {
-  '_id.forYear': 1,
-  '_id.forMonth': 1,
+  '_id.forYear': -1,
+  '_id.forMonth': -1,
   '_id.baby': 1
 }}, {$project: {
   forYear:"$_id.forYear",
