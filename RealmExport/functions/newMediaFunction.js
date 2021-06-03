@@ -30,7 +30,7 @@ exports = async function(changeEvent) {
       from: ourNumber,
       to: docs[i].pn,
       //to: '+16097925029',
-      body: generateBody(docs[i].username, doc.babyname, doc.createdby)
+      body: generateBody(docs[i].name, doc.babyname, doc.createdby)
     });
   }
   return 
