@@ -49,5 +49,18 @@
     {
         "name": "getSpecificVideo",
         "private": false
+    },
+    {
+        "name": "getMyProfile",
+        "private": false
+    },
+    {
+        "name": "setMyProfile",
+        "private": false
+    },
+    {
+        "name": "newAccountCreated",
+        "private": true,
+        "can_evaluate": {}
     }
 ]
