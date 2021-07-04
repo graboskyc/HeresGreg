@@ -6,6 +6,14 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+ADD crontab /etc/cron.d/resize-cron
+RUN chmod 0644 /etc/cron.d/resize-cron
+RUN touch /var/log/cron.log
+RUN apt update
+RUN apt install -y cron
+COPY ffmpeg/resize.sh /ffmpeg/resize.sh
+RUN cron
+
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
 COPY ["HeresKids/HeresKids.csproj", "HeresKids/"]
