@@ -127,4 +127,10 @@ body,.main,.content {
     margin-bottom: var(--gsky-globalsize);
 }
 
-input [type="radio"] { visibility:hidden; }
+input [type="radio"] { 
+    visibility:hidden; 
+}
+
+.radio-button input[type="radio"]:checked+label {
+    color: var(--gsky-highlight-2) !important;
+  }

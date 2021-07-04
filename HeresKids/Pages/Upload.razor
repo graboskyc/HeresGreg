@@ -24,7 +24,7 @@
             <div class="col-3"></div>
             <div class="col-6">
                 @if(selectedBaby != null) {
-                    <label class="custom-file-label" for="customFile">Choose Video</label>
+                    <label class="custom-file-label" for="customFile">@selFileTitle</label>
                     <InputFile OnChange="@LoadFiles" class="form-control custom-file-input" id="customFile" />
                 }
             </div>
@@ -59,6 +59,7 @@
     private RealmUser user = new RealmUser{};
     private bool isLoading = true;
     private string selecectedVideo = null;
+    private string selFileTitle = "Choose Video";
 
     private List<Babies> babies;
     private Babies selectedBaby;
@@ -100,6 +101,7 @@
     {
         Console.WriteLine(b.name, b.babycolor);
         selectedBaby = b;
+        selFileTitle = "Choose Video of " + selectedBaby.name;
     }
 
 
@@ -112,6 +114,7 @@
             string[] args = {};
             babies = await JSRuntime.InvokeAsync<List<Babies>>("realmShim_Function", "getBabies", args);
             selectedBaby = babies.FirstOrDefault();
+            selFileTitle = "Choose Video of " + selectedBaby.name;
             Guid guid = Guid.NewGuid();
             uploadName = guid.ToString().ToUpper() + ".mp4";
             isLoading = false;
