@@ -3,3 +3,7 @@ c_cva.php
 overlays/.DS_Store
 .DS_Store
 overlays/Thumbs.db
+HeresKids/bin
+HeresKids/obj
+RealmExport/services/twil/config.json
+RealmExport/values/twilphone.json

@@ -1,0 +1,38 @@
+
+@inject IJSRuntime JSRuntime;
+
+<div @ref="@disqusBody" id="disqus_ctr" style="width:100%;">
+    <div id="disqus_thread" style="width:100%;"></div>
+</div>
+
+@code {
+    private string _path { get; set; }
+
+    [Parameter]
+    public string Path  { 
+        get { return _path; }
+        set {
+            if(value != _path) {
+                _path = value;
+                InvokeAsync(async() => await ResetDiqus());
+            }
+        }
+    }
+
+    private bool isLoading = true;
+    private ElementReference disqusBody;
+
+    private async Task ResetDiqus() {
+        await JSRuntime.InvokeVoidAsync("disq_reset", _path, "http://grabosky.dyndns.org:9999/media/smaller"+_path, "Video " + _path );
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender) {
+            isLoading=true;
+            await JSRuntime.InvokeVoidAsync("disq_create", disqusBody);
+            isLoading = false;
+        }
+        await ResetDiqus();
+    }
+}
