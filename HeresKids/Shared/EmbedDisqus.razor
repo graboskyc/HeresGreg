@@ -23,7 +23,7 @@
     private ElementReference disqusBody;
 
     private async Task ResetDiqus() {
-        await JSRuntime.InvokeVoidAsync("disq_reset", _path, "http://grabosky.dyndns.org:9999/media/smaller"+_path, "Video " + _path );
+        await JSRuntime.InvokeVoidAsync("disq_reset", _path, "https://heresthekids.grabosky.net/media/smaller"+_path, "Video " + _path );
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
