@@ -1,32 +1,45 @@
 #!/bin/bash
 
 echo
-echo "+======================"
+echo "+================================"
 echo "| START: Heres Greg"
-echo "+======================"
+echo "+================================"
 echo
+
+source .env
+#cd HeresKids
+
+datehash=`date | md5sum | cut -d" " -f1`
+abbrvhash=${datehash: -8}
+echo "Using conn string ${MDBCONNSTR}"
+echo "Using Auth0 domain string ${AUTH0DOMAIN}"
 
 echo 
-echo "GREG: Building webapp"
+echo "Building container using tag ${abbrvhash}"
 echo
-cd HeresKids
-dotnet clean
-cd ..
-echo 
-echo "GREG: Building container"
-echo
-docker build -t graboskyc/heresgregblazor:latest .
+docker build -t graboskyc/heresgregblazor:latest -t graboskyc/heresgregblazor:${abbrvhash} .
 
-echo 
-echo "GREG: Starting container"
-echo
+EXITCODE=$?
 
-docker stop heresgregblazor
-docker rm heresgregblazor
-docker run -t -i -d -p 9999:80 --name heresgregblazor --restart unless-stopped graboskyc/heresgregblazor:latest
+if [ $EXITCODE -eq 0 ]
+    then
 
-echo
-echo "+======================"
-echo "| END: Heres Greg"
-echo "+======================"
-echo
+    echo 
+    echo "Starting container"
+    echo
+    docker stop heresgregblazor
+    docker rm heresgregblazor
+    docker run -t -i -d -p 8000:8080 --name heresgregblazor -e "MDBCONNSTR=${MDBCONNSTR}" -e "AUTH0DOMAIN=${AUTH0DOMAIN}" -e "AUTH0CLIENTID=${AUTH0CLIENTID}" graboskyc/heresgregblazor:${abbrvhash}
+
+    echo
+    echo "+================================"
+    echo "| END:  Heres Greg"
+    echo "+================================"
+    echo
+else
+    echo
+    echo "+================================"
+    echo "| ERROR: Build failed"
+    echo "+================================"
+    echo
+fi
