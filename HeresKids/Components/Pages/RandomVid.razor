@@ -5,50 +5,27 @@
 @inject IJSRuntime JSRuntime;
 @using HeresKids.Datamodels;
 
-<div class="">    
-    @if(!isLoading) {
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
-                <button @onclick="GetAVideo" class="btn btn-gsky-secondary">Get Next Random Video</button>
-            </div>
-            <div class="col-3"></div>
-        </div>
+<PageTitle>Random Video</PageTitle>
 
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6" style="text-align: center;">
-                <h3>@vli.babyname on @vli.created.ToLocalTime().ToString("MM/dd/yyyy")</h3>
-            </div>
-            <div class="col-3"></div>
-        </div>
+@if(!isLoading) {
 
-        <div class="row" style="margin-top:20px;">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <EmbedVid Path="@selecectedVideo" />
-            </div>
-            <div class="col-1"></div>
-        </div>
+    <article data-theme="light" style="margin-top:20px;">
+        <header>
+            <h2 style="text-align:center;">@vli.babyname on @vli.created.ToLocalTime().ToString("MM/dd/yyyy")</h2>
+            <button @onclick="GetAVideo" class="contrast" style="width: 100%;">Get Next Random Video</button>
+        </header>
 
-        <div class="row" style="margin-top:20px;">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <EmbedDisqus Path="@selecectedVideo" />
-            </div>
-            <div class="col-1"></div>
-        </div>
-    } else {
-        <div style="width: 100%;display: grid;place-items: center;">
-            <KidPic Height="175" Spin=true />
-        </div>
-    }
-
-
-    <br><br><br><br><br><br>
-
+        <EmbedVid Path="@selecectedVideo" />
+    </article>
     
-</div>
+    <article data-theme="light" style="margin-top:20px;">
+        <EmbedDisqus Path="@selecectedVideo" />
+    </article>
+
+} else {
+    <KidPic Height="175" Spin=true />
+}
+
 
 @code {
     private RealmUser user = new RealmUser{};
@@ -71,16 +48,22 @@
         isLoading = false;
     }
 
-
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
-            await GetAVideo();
-            
-        } catch(Exception ex) {
-            NavigationManager.NavigateTo("/");
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender) {
+            try{
+                user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
+                await GetAVideo();     
+                StateHasChanged();
+            } catch(Exception ex) {
+                Console.WriteLine("Error in RandomVid: " + ex.Message);
+                NavigationManager.NavigateTo("/");
+            }
         }
     }
 }

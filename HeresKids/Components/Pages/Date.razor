@@ -4,55 +4,40 @@
 @inject IJSRuntime JSRuntime;
 @using HeresKids.Datamodels;
 
-<div>    
-    @if(!isLoading) {
-        <div class="row" style="margin-top:20px;">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <EmbedVid Path="@selecectedVideo" />
-            </div>
-            <div class="col-1"></div>
-        </div>
 
-        <div class="row" style="margin-top:20px;">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <EmbedDisqus Path="@selecectedVideo" />
-            </div>
-            <div class="col-1"></div>
-        </div>
-
-        <div class="row" style="margin-top:20px;">
-            @foreach (var li in l)
-            {
-                    <div class="col-4" @onclick="@(e => SwitchVideoClick(e, li))" style="text-align: center;">
-                        <center>
-                            @if(li.isFavorite) {
-                                <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
-                            } else {
-                                <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
-                            }
-                            <br>
-                            <span style="text-transform: capitalize;">@li.createdby</span>
-                            <br>
-                            <span>@li.created.ToLocalTime().ToString("MMM dd")</span>
-                        </center>
-                    </div>
-                <br><br>
-            }
-        </div>
-
-    } else {
-        <div style="width: 100%;display: grid;place-items: center;">
-            <KidPic Spin=true Height="175" />
-        </div>
-    }
-
-
-    <br><br><br><br><br><br>
-
+@if(!isLoading) {
+    <article data-theme="light" style="margin-top:20px;">
+        <EmbedVid Path="@selecectedVideo" />
+    </article>
     
-</div>
+    <article data-theme="light" style="margin-top:20px;">
+        <EmbedDisqus Path="@selecectedVideo" />
+    </article>
+
+    <article class="grid" style="margin-top:20px;">
+        @foreach (var li in l)
+        {
+            <div @onclick="@(e => SwitchVideoClick(e, li))" style="text-align: center;">
+                <center>
+                    @if(li.isFavorite) {
+                        <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                    } else {
+                        <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                    }
+                    <br>
+                    <span style="text-transform: capitalize;">@li.createdby</span>
+                    <br>
+                    <span>@li.created.ToLocalTime().ToString("MMM dd")</span>
+                </center>
+            </div>
+        }
+    </article>
+
+} else {
+    <div style="width: 100%;display: grid;place-items: center;">
+        <KidPic Spin=true Height="175" />
+    </div>
+}
 
 @code {
     private RealmUser user = new RealmUser{};
@@ -79,19 +64,22 @@
     }
 
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
-        {
-            user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
-             isLoading = true;
-            string[] args = {Year.ToString(), Month.ToString(), Baby};
-            l = await JSRuntime.InvokeAsync<List<VideoListItem>>("realmShim_Function", "getVidsForDate", args);
-            SwitchVideo(l.FirstOrDefault().path);
-            isLoading = false;
-            
-        } catch(Exception ex) {
-            NavigationManager.NavigateTo("/");
+        if(firstRender) {
+            try
+            {
+                user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
+                isLoading = true;
+                string[] args = {Year.ToString(), Month.ToString(), Baby};
+                l = await JSRuntime.InvokeAsync<List<VideoListItem>>("realmShim_Function", "getVidsForDate", args);
+                SwitchVideo(l.FirstOrDefault().path);
+                isLoading = false;                
+                StateHasChanged();
+            } catch(Exception ex) {
+                Console.WriteLine("Error in Date: " + ex.Message);
+                NavigationManager.NavigateTo("/");
+            }
         }
     }
 }

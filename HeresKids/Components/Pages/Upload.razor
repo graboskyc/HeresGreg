@@ -7,53 +7,29 @@
 @using System.IO;
 @using System.Diagnostics;
 
-<div>
+<PageTitle>Upload a Video</PageTitle>
 
-    @if(babies!=null) {
-        <div class="row" style="margin-top:30px;">
-            @foreach (var b in babies)
-            {
-                <div class="col-6" style="padding:20px;">
-                    <input type="radio" id="@b.name" name="baby" value="@b.name" @onclick="@(e => SelectBaby(e, b))" style="visibility:hidden">
-                    <label for="@b.name" class="btn btn-lg" style="color:var(--gsky-light)!important;text-align:center;background-color:#@b.babycolor !important;width:100%;border-radius:25px;">@b.name</label><br>
-                </div>
-            }
-        </div>
-        
-        <div class="row" style="margin-top:30px;">
-            <div class="col-3"></div>
-            <div class="col-6">
-                @if(selectedBaby != null) {
-                    <label class="custom-file-label" for="customFile">@selFileTitle</label>
-                    <InputFile OnChange="@LoadFiles" class="form-control custom-file-input" id="customFile" />
-                }
+@if(babies!=null) {
+    <div class="grid" style="margin-top:30px;">
+        @foreach (var b in babies)
+        {
+            <div style="padding:20px;">
+                <input type="radio" id="@b.name" name="baby" value="@b.name" @onclick="@(e => SelectBaby(e, b))" style="visibility:hidden">
+                <label for="@b.name" class="btn btn-lg" style="font-size:2rem;color:var(--gsky-light)!important;text-align:center;background-color:#@b.babycolor !important;width:100%;border-radius:25px;">@b.name</label><br>
             </div>
-            <div class="col-3"></div>
-        </div>
-    }
-
-
-    <div class="row" style="margin-top:30px;">
-        <div class="col-3"></div>
-        <div class="col-6">
-            @if(!isLoading) {
-                <button class="btn btn-gsky btn-lg">Upload</button>
-            } else {
-                <button class="btn btn-gsky btn-lg" disabled >
-                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> 
-                    Uploading...
-                </button>
-            }
-        </div>
-        <div class="col-3"></div>
+        }
     </div>
-
-
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-</div>
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    
+    @if(selectedBaby != null) {
+        <label class="custom-file-label" for="customFile">@selFileTitle</label>
+        <InputFile OnChange="@LoadFiles" class="custom-file-input" id="customFile" />
+    }
+}
+@if(!isLoading) {
+    <button style="width:100%;">Upload</button>
+} else {
+    <button disabled aria-busy="true" aria-label="Loading..." style="width:100%;">Loading...</button>
+}
 
 @code {
     private RealmUser user = new RealmUser{};
@@ -105,22 +81,25 @@
     }
 
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
-        {
-            user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
-            isLoading = true;
-            string[] args = {};
-            babies = await JSRuntime.InvokeAsync<List<Babies>>("realmShim_Function", "getBabies", args);
-            selectedBaby = babies.FirstOrDefault();
-            selFileTitle = "Choose Video of " + selectedBaby.name;
-            Guid guid = Guid.NewGuid();
-            uploadName = guid.ToString().ToUpper() + ".mp4";
-            isLoading = false;
-            
-        } catch(Exception ex) {
-            NavigationManager.NavigateTo("/");
+        if(firstRender) {
+            try
+            {
+                user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
+                isLoading = true;
+                string[] args = {};
+                babies = await JSRuntime.InvokeAsync<List<Babies>>("realmShim_Function", "getBabies", args);
+                selectedBaby = babies.FirstOrDefault();
+                selFileTitle = "Choose Video of " + selectedBaby.name;
+                Guid guid = Guid.NewGuid();
+                uploadName = guid.ToString().ToUpper() + ".mp4";
+                isLoading = false;
+                StateHasChanged();
+            } catch(Exception ex) {
+                Console.WriteLine("Error in Upload: " + ex.Message);
+                NavigationManager.NavigateTo("/");
+            }
         }
     }
 }

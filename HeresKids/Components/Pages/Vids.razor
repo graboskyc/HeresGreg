@@ -5,68 +5,47 @@
 @inject IJSRuntime JSRuntime;
 @using HeresKids.Datamodels;
 
-<div>    
-    @if(!isLoading) {
-        <div class="row" style="margin-top:20px;">
-            @foreach (var li in l)
-            {
-                    <div class="col-3" @onclick="@(e => SwitchVideoClick(e, li))" style="text-align: center;">
-                        <center>
-                            @if(li.isFavorite) {
-                                <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
-                            } else {
-                                <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
-                            }
-                            <br>
-                            <span style="text-transform: capitalize;">@li.createdby</span>
-                            <br>
-                            <span>@li.created.ToLocalTime().ToString("MMM dd")</span>
-                        </center>
-                    </div>
-                <br><br>
-            }
-        </div>
-
-        <div class="row" style="margin-top:20px;">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <EmbedVid Path="@selecectedVideo" />
-            </div>
-            <div class="col-1"></div>
-        </div>
-
-        @if(isRightClick) {
-            <div class="row" style="margin-top:20px;">
-                <div class="col-3"></div>
-                <div class="col-3">
-                    <button @onclick="MarkAsFav" class="btn btn-gsky-secondary"><span class="oi oi-heart"></span></button>
-                </div>
-                <div class="col-3">
-                    <button @onclick="MarkAsArch" class="btn btn-gsky-warning"><span class="oi oi-trash"></span></button>
-                </div>
-                <div class="col-3"></div>
+<PageTitle>Here's The Kids</PageTitle>
+ 
+@if(!isLoading) {
+    <div class="grid" style="margin-top:20px;">
+        @foreach (var li in l)
+        {
+            <div style="text-align: center;" @onclick="@(e => SwitchVideoClick(e, li))" >
+                <center>
+                    @if(li.isFavorite) {
+                        <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                    } else {
+                        <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                    }
+                    <br>
+                    <span style="text-transform: capitalize;">@li.createdby</span>
+                    <br>
+                    <span>@li.created.ToLocalTime().ToString("MMM dd")</span>
+                </center>
             </div>
         }
+    </div>
 
-        <div class="row" style="margin-top:20px;">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <EmbedDisqus Path="@selecectedVideo" />
-            </div>
-            <div class="col-1"></div>
-        </div>
+    <article data-theme="light" style="margin-top:20px;">
+        <EmbedVid Path="@selecectedVideo" />
+    </article>
 
-    } else {
-        <div style="width: 100%;display: grid;place-items: center;">
-            <KidPic Spin=true Height="175" />
-        </div>
+    @if(isRightClick) {
+        <article class="grid" style="margin-top:20px;">
+                <button @onclick="MarkAsFav" class="btn btn-gsky-secondary"><span class="oi oi-heart"></span></button>
+
+                <button @onclick="MarkAsArch" class="btn btn-gsky-warning"><span class="oi oi-trash"></span></button>
+        </article>
     }
 
+    <article data-theme="light" style="margin-top:20px;">
+        <EmbedDisqus Path="@selecectedVideo" />
+    </article>
 
-    <br><br><br><br><br><br>
-
-    
-</div>
+} else {
+    <KidPic Spin=true Height="175" />
+}
 
 @code {
     private RealmUser user = new RealmUser{};
