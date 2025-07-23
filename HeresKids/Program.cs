@@ -1,26 +1,48 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace HeresKids
+using MongoDB.Driver;
+using HeresKids.Datamodels;
+using HeresKids.Components;
+using Microsoft.AspNetCore.DataProtection;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+
+builder.Services.AddHttpContextAccessor(); 
+builder.Services.AddHttpClient();
+
+builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/var/keys"));
+
+static void ConfigureMDBServices(IServiceCollection services)
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    
+    string MDBCONNSTR = Environment.GetEnvironmentVariable("MDBCONNSTR");
+    var settings = MongoClientSettings.FromConnectionString(MDBCONNSTR);
+    settings.ServerApi = new ServerApi(ServerApiVersion.V1);
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+    services.AddSingleton<IMongoClient>(new MongoClient(settings));
+    //services.AddSingleton<IMongoDatabase>(x => x.GetRequiredService<IMongoClient>().GetDatabase("prism"));
 }
+
+ConfigureMDBServices(builder.Services);
+
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+app.UseAntiforgery();
+
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+
+app.Run();
