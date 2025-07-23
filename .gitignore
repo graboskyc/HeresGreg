@@ -8,3 +8,4 @@ HeresKids/obj
 RealmExport/services/twil/config.json
 RealmExport/values/twilphone.json
 .env
+/.vscode

@@ -1,9 +1,11 @@
 @layout MainLayout;
 @page "/Vids";
 @page "/Home";
+@page "/";
 @inject NavigationManager NavigationManager;
 @inject IJSRuntime JSRuntime;
 @using HeresKids.Datamodels;
+@attribute [Authorize]
 
 <PageTitle>Here's The Kids</PageTitle>
  

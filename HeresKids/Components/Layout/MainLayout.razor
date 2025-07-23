@@ -21,7 +21,9 @@
         </header>
             
         <article style="min-height:90vh;">
-            @Body
+            <CascadingAuthenticationState>
+                @Body
+            </CascadingAuthenticationState>
         </article>
 
         <footer>

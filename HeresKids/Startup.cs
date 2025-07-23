@@ -50,7 +50,7 @@ namespace HeresKids
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapRazorPages();
             });
         }
     }

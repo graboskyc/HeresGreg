@@ -3,10 +3,14 @@ using MongoDB.Driver;
 using HeresKids.Datamodels;
 using HeresKids.Components;
 using Microsoft.AspNetCore.DataProtection;
+using MongoDB.Bson;
+using AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddHttpContextAccessor(); 
@@ -14,19 +18,35 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/var/keys"));
 
-static void ConfigureMDBServices(IServiceCollection services)
+string MDBCONNSTR = Environment.GetEnvironmentVariable("MDBCONNSTR").Trim();
+
+static void ConfigureMDBServices(IServiceCollection services, string connectionString)
 {
-    
-    string MDBCONNSTR = Environment.GetEnvironmentVariable("MDBCONNSTR");
-    var settings = MongoClientSettings.FromConnectionString(MDBCONNSTR);
+    var settings = MongoClientSettings.FromConnectionString(connectionString);
     settings.ServerApi = new ServerApi(ServerApiVersion.V1);
 
     services.AddSingleton<IMongoClient>(new MongoClient(settings));
     //services.AddSingleton<IMongoDatabase>(x => x.GetRequiredService<IMongoClient>().GetDatabase("prism"));
 }
 
-ConfigureMDBServices(builder.Services);
+ConfigureMDBServices(builder.Services, MDBCONNSTR);
 
+builder.Services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(identity =>
+    {
+        identity.User.RequireUniqueEmail = true;
+        identity.Password.RequireNonAlphanumeric = false;
+        identity.Password.RequireDigit = false;
+        identity.Password.RequireUppercase = false;
+        identity.Password.RequireLowercase = false;
+        identity.Password.RequiredLength = 6;
+        identity.SignIn.RequireConfirmedAccount = false;
+    },
+    mongo =>
+    {
+        mongo.ConnectionString = MDBCONNSTR;
+    });
+
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 var app = builder.Build();
 
@@ -38,11 +58,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+app.MapRazorPages();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 app.Run();
