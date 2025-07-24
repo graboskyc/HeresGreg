@@ -1,5 +1,6 @@
 @inherits LayoutComponentBase
 @inject NavigationManager NavigationManager;
+@inject AuthenticationStateProvider asp;
 
 <main class="container">
 
@@ -38,3 +39,12 @@
     </article>
 
 </main>
+
+@code {
+       protected override async Task OnInitializedAsync() {
+           var authState = await asp.GetAuthenticationStateAsync();
+           if (!authState.User.Identity.IsAuthenticated) {
+               NavigationManager.NavigateTo("/Login");
+           }
+       }
+}

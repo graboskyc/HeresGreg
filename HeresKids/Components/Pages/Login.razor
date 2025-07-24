@@ -43,6 +43,11 @@
     private string password;
     private string responseMessage = "";
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("captureEnter", "btn_login");
+    }
+
     private async void RunLogin()
     {
         Console.WriteLine("RunLogin called with username: " + username);
