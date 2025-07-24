@@ -2,37 +2,50 @@
 @page "/Upload";
 @page "/New";
 @inject NavigationManager NavigationManager;
-@inject IJSRuntime JSRuntime;
 @using HeresKids.Datamodels;
 @using System.IO;
 @using System.Diagnostics;
+@using HeresKids.Datamodels;
+@attribute [Authorize]
+
+@using MongoDB.Bson;
+@using MongoDB.Driver;
+@inject IMongoCollection<VideoListItem> VLICol;
+@inject IMongoCollection<Babies> BabiesCol;
+@inject AuthenticationStateProvider asp;
 
 <PageTitle>Upload a Video</PageTitle>
 
-@if(babies!=null) {
-    <div class="grid" style="margin-top:30px;">
-        @foreach (var b in babies)
-        {
-            <div style="padding:20px;">
-                <input type="radio" id="@b.name" name="baby" value="@b.name" @onclick="@(e => SelectBaby(e, b))" style="visibility:hidden">
-                <label for="@b.name" class="btn btn-lg" style="font-size:2rem;color:var(--gsky-light)!important;text-align:center;background-color:#@b.babycolor !important;width:100%;border-radius:25px;">@b.name</label><br>
+<AuthorizeView>
+    <Authorized>
+        @if(babies!=null) {
+            <div class="grid" style="margin-top:30px;">
+                @foreach (var b in babies)
+                {
+                    <div style="padding:20px;">
+                        <input type="radio" id="@b.name" name="baby" value="@b.name" @onclick="@(e => SelectBaby(e, b))" style="visibility:hidden">
+                        <label for="@b.name" class="btn btn-lg" style="font-size:2rem;color:var(--gsky-light)!important;text-align:center;background-color:#@b.babycolor !important;width:100%;border-radius:25px;">@b.name</label><br>
+                    </div>
+                }
             </div>
+            
+            @if(selectedBaby != null) {
+                <label class="custom-file-label" for="customFile">@selFileTitle</label>
+                <InputFile OnChange="@LoadFiles" class="custom-file-input" id="customFile" />
+            }
         }
-    </div>
-    
-    @if(selectedBaby != null) {
-        <label class="custom-file-label" for="customFile">@selFileTitle</label>
-        <InputFile OnChange="@LoadFiles" class="custom-file-input" id="customFile" />
-    }
-}
-@if(!isLoading) {
-    <button style="width:100%;">Upload</button>
-} else {
-    <button disabled aria-busy="true" aria-label="Loading..." style="width:100%;">Loading...</button>
-}
+        @if(!isLoading) {
+            <button style="width:100%;">Upload</button>
+        } else {
+            <button disabled aria-busy="true" aria-label="Loading..." style="width:100%;">Loading...</button>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this content. Please Login <a href="/Login">here</a>.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
-    private RealmUser user = new RealmUser{};
     private bool isLoading = true;
     private string selecectedVideo = null;
     private string selFileTitle = "Choose Video";
@@ -40,6 +53,9 @@
     private List<Babies> babies;
     private Babies selectedBaby;
     private string uploadName;
+    private List<string> _myBabies = new List<string>();
+    private string _un = "";
+    private string _email = "";
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
@@ -51,8 +67,16 @@
             await e.File.OpenReadStream(500000000).CopyToAsync(fs);
 
             // write to Realm
-            string[] args = {selectedBaby.name, selectedBaby.babycolor, uploadName};
-            await JSRuntime.InvokeVoidAsync("realmShim_Function", "setNewMedia", args);
+            VideoListItem vli = new VideoListItem {
+                path = uploadName,
+                createdby = _un,
+                created = DateTime.UtcNow,
+                babyname = selectedBaby.name,
+                babycolor = selectedBaby.babycolor,
+                isFavorite = false,
+                archived = false,
+                CreatedByEmail = _email
+            };
 
             // do thumbnail
             System.Diagnostics.Process ffmpeg = new System.Diagnostics.Process();
@@ -80,26 +104,24 @@
         selFileTitle = "Choose Video of " + selectedBaby.name;
     }
 
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if(firstRender) {
-            try
-            {
-                user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
-                isLoading = true;
-                string[] args = {};
-                babies = await JSRuntime.InvokeAsync<List<Babies>>("realmShim_Function", "getBabies", args);
-                selectedBaby = babies.FirstOrDefault();
-                selFileTitle = "Choose Video of " + selectedBaby.name;
-                Guid guid = Guid.NewGuid();
-                uploadName = guid.ToString().ToUpper() + ".mp4";
-                isLoading = false;
-                StateHasChanged();
-            } catch(Exception ex) {
-                Console.WriteLine("Error in Upload: " + ex.Message);
-                NavigationManager.NavigateTo("/");
-            }
-        }
+        var authState = await asp.GetAuthenticationStateAsync();
+        _myBabies = authState.User.Claims.Select(c => c.Value).ToList();
+        _un = authState.User.Identity?.Name?.Split('@')[0] ?? "";
+        _un = char.ToUpper(_un[0]) + _un.Substring(1);
+        _email = authState.User.Identity?.Name ?? "";
+
+        var result = await BabiesCol.Aggregate()
+            .Match(x => _myBabies.Contains(x.name))
+            .ToListAsync();
+        babies = result;
+        selectedBaby = babies.FirstOrDefault();
+        selFileTitle = "Choose Video of " + selectedBaby.name;
+        Guid guid = Guid.NewGuid();
+        uploadName = guid.ToString().ToUpper() + ".mp4";
+        isLoading = false;
+        StateHasChanged();
     }
+
 }

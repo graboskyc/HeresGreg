@@ -15,6 +15,7 @@ namespace HeresKids.Datamodels
         public string babycolor { get; set; }
         public string createdby { get; set; }
         public bool archived { get; set; }
+        public string CreatedByEmail { get; set; } 
 
     }
 }

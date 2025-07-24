@@ -15,6 +15,9 @@
                 <NavLink role="button" @onclick="@(() => NavigationManager.NavigateTo("/RandomVid"))">
                     <span class="material-symbols-outlined">shuffle</span>
                 </NavLink>
+                <NavLink role="button" @onclick="@(() => NavigationManager.NavigateTo("/DateList"))">
+                    <span class="material-symbols-outlined">calendar_month</span>
+                </NavLink>
                 <NavLink role="button" @onclick="@(() => NavigationManager.NavigateTo("/Upload"))">
                     <span class="material-symbols-outlined">upload</span>
                 </NavLink>
@@ -24,18 +27,6 @@
         <article style="min-height:90vh;">
             @Body
         </article>
-
-        <footer>
-            <div class="grid">
-                <NavLink role="button" @onclick="@(() => NavigationManager.NavigateTo("/DateList"))">
-                    <span class="material-symbols-outlined">calendar_month</span>
-                </NavLink>
-                <NavLink role="button" @onclick="@(() => NavigationManager.NavigateTo("/Profile"))">
-                    <span class="material-symbols-outlined">person</span>
-                    <span>@_un</span>
-                </NavLink>
-            </div>
-        </footer>
 
     </article>
 

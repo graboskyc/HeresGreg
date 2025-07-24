@@ -2,29 +2,41 @@
 @page "/Random";
 @page "/RandomVid";
 @inject NavigationManager NavigationManager;
-@inject IJSRuntime JSRuntime;
 @using HeresKids.Datamodels;
+@attribute [Authorize]
+
+@using MongoDB.Bson;
+@using MongoDB.Driver;
+@inject IMongoCollection<VideoListItem> VLICol;
+@inject AuthenticationStateProvider asp;
 
 <PageTitle>Random Video</PageTitle>
 
-@if(!isLoading) {
+<AuthorizeView>
+    <Authorized>
+        @if(!isLoading) {
+            <article data-theme="light" style="margin-top:20px;">
+                <header>
+                    <h2 style="text-align:center;">@vli.babyname on @vli.created.ToLocalTime().ToString("MM/dd/yyyy")</h2>
+                    <button @onclick="GetAVid" class="contrast" style="width: 100%;">Get Next Random Video</button>
+                </header>
 
-    <article data-theme="light" style="margin-top:20px;">
-        <header>
-            <h2 style="text-align:center;">@vli.babyname on @vli.created.ToLocalTime().ToString("MM/dd/yyyy")</h2>
-            <button @onclick="GetAVideo" class="contrast" style="width: 100%;">Get Next Random Video</button>
-        </header>
+                <EmbedVid Path="@selecectedVideo" />
+            </article>
+            
+            <article data-theme="light" style="margin-top:20px;">
+                <EmbedDisqus Path="@selecectedVideo" />
+            </article>
 
-        <EmbedVid Path="@selecectedVideo" />
-    </article>
-    
-    <article data-theme="light" style="margin-top:20px;">
-        <EmbedDisqus Path="@selecectedVideo" />
-    </article>
+        } else {
+            <KidPic Height="175" Spin=true />
+        }
 
-} else {
-    <KidPic Height="175" Spin=true />
-}
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this content. Please Login <a href="/Login">here</a>.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 
 @code {
@@ -33,6 +45,7 @@
     private string selecectedVideo = null;
 
     private VideoListItem vli;
+    private List<string> _babies = new List<string>();
 
 
     private void SwitchVideo(string path) {
@@ -40,30 +53,32 @@
         StateHasChanged();
     }
 
-    private async Task GetAVideo() {
-        isLoading = true;
-        string[] args = {};
-        vli = await JSRuntime.InvokeAsync<VideoListItem>("realmShim_Function", "getRandomVid", args);
-        SwitchVideo(vli.path);
-        isLoading = false;
-    }
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await asp.GetAuthenticationStateAsync();
+        _babies = authState.User.Claims.Select(c => c.Value).ToList();
+
+        await GetAVid();
     }
 
+    private async Task GetAVid() {
+        isLoading = true;
+        StateHasChanged();
+        var result = await VLICol.Aggregate()
+            .Match(x => x.archived == false)
+            .Match(x => _babies.Contains(x.babyname))
+            .Sample(1)
+            .ToListAsync();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if(firstRender) {
-            try{
-                user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
-                await GetAVideo();     
-                StateHasChanged();
-            } catch(Exception ex) {
-                Console.WriteLine("Error in RandomVid: " + ex.Message);
-                NavigationManager.NavigateTo("/");
-            }
+        if (result.Count > 0)
+        {
+            vli = result[0];
+            SwitchVideo(vli.path);
         }
+        isLoading = false;
+        StateHasChanged();
     }
+
+
 }

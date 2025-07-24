@@ -2,43 +2,55 @@
 @layout MainLayout;
 @page "/Date/{Year}/{Month}/{Baby}";
 @inject NavigationManager NavigationManager;
-@inject IJSRuntime JSRuntime;
 @using HeresKids.Datamodels;
+@using MongoDB.Bson;
+@using MongoDB.Driver;
+@inject IMongoCollection<VideoListItem> VLICol;
+@inject AuthenticationStateProvider asp;
 
 
-@if(!isLoading) {
-    <article data-theme="light" style="margin-top:20px;">
-        <EmbedVid Path="@selecectedVideo" />
-    </article>
-    
-    <article data-theme="light" style="margin-top:20px;">
-        <EmbedDisqus Path="@selecectedVideo" />
-    </article>
+<PageTitle>Videos of @Baby on @Month/@Year</PageTitle>
 
-    <article class="grid" style="margin-top:20px;">
-        @foreach (var li in l)
-        {
-            <div @onclick="@(e => SwitchVideoClick(e, li))" style="text-align: center;">
-                <center>
-                    @if(li.isFavorite) {
-                        <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
-                    } else {
-                        <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
-                    }
-                    <br>
-                    <span style="text-transform: capitalize;">@li.createdby</span>
-                    <br>
-                    <span>@li.created.ToLocalTime().ToString("MMM dd")</span>
-                </center>
+<AuthorizeView>
+    <Authorized>
+        @if(!isLoading) {
+            <article data-theme="light" style="margin-top:20px;">
+                <EmbedVid Path="@selecectedVideo" />
+            </article>
+            
+            <article data-theme="light" style="margin-top:20px;">
+                <EmbedDisqus Path="@selecectedVideo" />
+            </article>
+
+            <article class="grid" style="margin-top:20px;">
+                @foreach (var li in l)
+                {
+                    <div @onclick="@(e => SwitchVideoClick(e, li))" style="text-align: center;">
+                        <center>
+                            @if(li.isFavorite) {
+                                <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                            } else {
+                                <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                            }
+                            <br>
+                            <span style="text-transform: capitalize;">@li.createdby</span>
+                            <br>
+                            <span>@li.created.ToLocalTime().ToString("MMM dd")</span>
+                        </center>
+                    </div>
+                }
+            </article>
+
+        } else {
+            <div style="width: 100%;display: grid;place-items: center;">
+                <KidPic Spin=true Height="175" />
             </div>
         }
-    </article>
-
-} else {
-    <div style="width: 100%;display: grid;place-items: center;">
-        <KidPic Spin=true Height="175" />
-    </div>
-}
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this content. Please Login <a href="/Login">here</a>.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     private RealmUser user = new RealmUser{};
@@ -53,6 +65,7 @@
     
     private List<VideoListItem> l;
     private string selecectedVideo = null;
+    private List<string> _babies = new List<string>();
 
     private void SwitchVideoClick(MouseEventArgs e, VideoListItem lvi)
     {
@@ -65,22 +78,24 @@
     }
 
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if(firstRender) {
-            try
-            {
-                user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
-                isLoading = true;
-                string[] args = {Year.ToString(), Month.ToString(), Baby};
-                l = await JSRuntime.InvokeAsync<List<VideoListItem>>("realmShim_Function", "getVidsForDate", args);
-                SwitchVideo(l.FirstOrDefault().path);
-                isLoading = false;                
-                StateHasChanged();
-            } catch(Exception ex) {
-                Console.WriteLine("Error in Date: " + ex.Message);
-                NavigationManager.NavigateTo("/");
-            }
+        var authState = await asp.GetAuthenticationStateAsync();
+        _babies = authState.User.Claims.Select(c => c.Value).ToList();
+
+        var result = await VLICol.Aggregate()
+            .Match(x => x.archived == false)
+            .Match(x => _babies.Contains(x.babyname))
+            .Match(x => x.babyname == Baby)
+            .Match(x => x.created.Year.ToString() == Year && x.created.Month.ToString() == Month)
+            .ToListAsync();
+
+        if (result.Count > 0)
+        {
+            l = result;
+            SwitchVideo(l.FirstOrDefault().path);
         }
+        isLoading = false;
+        StateHasChanged();
     }
 }

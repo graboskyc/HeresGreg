@@ -15,7 +15,7 @@
                 @foreach (var li in bg)
                 {
                     <li>
-                        <a href="/Date/@li.forYear/@li.forMonth/@li.baby" style="font-color:var(--gsky-body-color) !important;">
+                        <a @onclick="() => NavigateToDate(li.forYear, li.forMonth, li.baby)" style="font-color:var(--gsky-body-color) !important;">
                             <b style="color:#@li.color">@li.baby</b> had @li.ct videos in @li.forMonth / @li.forYear
                         </a>
                     </li>
@@ -36,6 +36,11 @@
     private bool isLoading = true;
     
     private List<BabyGrouping> bg;
+
+    private void NavigateToDate(int year, int month, string baby)
+    {
+        NavigationManager.NavigateTo($"/Date/{year}/{month}/{baby}");
+    }
 
     protected override async Task OnInitializedAsync() {
         
