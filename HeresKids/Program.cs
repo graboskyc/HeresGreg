@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.DataProtection;
 using MongoDB.Bson;
 using AspNetCore.Identity.Mongo;
 using AspNetCore.Identity.Mongo.Model;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,16 @@ builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddHttpContextAccessor(); 
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient("Default", client =>
+{
+    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("DEPLOYMENTBASEURI"));
+});
+
+
+builder.Services.AddScoped<AuthenticationStateProvider, HeresKids.CustomAuthStateProvider>();
 
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/var/keys"));
+builder.Services.AddControllers();
 
 string MDBCONNSTR = Environment.GetEnvironmentVariable("MDBCONNSTR").Trim();
 
@@ -46,7 +54,6 @@ builder.Services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(identity =>
         mongo.ConnectionString = MDBCONNSTR;
     });
 
-builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 var app = builder.Build();
 
@@ -66,7 +73,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorPages();
+app.MapControllers();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 app.Run();

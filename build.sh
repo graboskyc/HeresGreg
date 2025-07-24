@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source .env
-echo "Using conn string ${MDBCONNSTR}"
+echo "Using conn string starting ${MDBCONNSTR:0:18}..."
 
 echo
 echo "+======================"
@@ -25,7 +25,7 @@ if [ $EXITCODE -eq 0 ]
 
     docker stop heresgregblazor
     docker rm heresgregblazor
-    docker run -t -i -d -p 9999:8080 --name heresgregblazor -e "MDBCONNSTR=${MDBCONNSTR}" --restart unless-stopped graboskyc/heresgregblazor:latest
+    docker run -t -i -d -p 9999:8080 --name heresgregblazor -e "MDBCONNSTR=${MDBCONNSTR}" -e "JWTKEY=${JWTKEY}" -e "DEPLOYMENTBASEURI=${DEPLOYMENTBASEURI}" --restart unless-stopped graboskyc/heresgregblazor:latest
 
     echo
     echo "+================================"

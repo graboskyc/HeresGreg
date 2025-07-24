@@ -1,54 +1,61 @@
 @layout MainLayout;
 @page "/Vids";
 @page "/Home";
-@page "/";
 @inject NavigationManager NavigationManager;
 @inject IJSRuntime JSRuntime;
 @using HeresKids.Datamodels;
 
 <PageTitle>Here's The Kids</PageTitle>
- 
-@if(!isLoading) {
-    <div class="grid" style="margin-top:20px;">
-        @foreach (var li in l)
-        {
-            <div style="text-align: center;" @onclick="@(e => SwitchVideoClick(e, li))" >
-                <center>
-                    @if(li.isFavorite) {
-                        <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
-                    } else {
-                        <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
-                    }
-                    <br>
-                    <span style="text-transform: capitalize;">@li.createdby</span>
-                    <br>
-                    <span>@li.created.ToLocalTime().ToString("MMM dd")</span>
-                </center>
+
+<AuthorizeView>
+    <Authorized>
+        @if(!isLoading) {
+            <div class="grid" style="margin-top:20px;">
+                @foreach (var li in l)
+                {
+                    <div style="text-align: center;" @onclick="@(e => SwitchVideoClick(e, li))" >
+                        <center>
+                            @if(li.isFavorite) {
+                                <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                            } else {
+                                <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                            }
+                            <br>
+                            <span style="text-transform: capitalize;">@li.createdby</span>
+                            <br>
+                            <span>@li.created.ToLocalTime().ToString("MMM dd")</span>
+                        </center>
+                    </div>
+                }
             </div>
+
+            <article data-theme="light" style="margin-top:20px;">
+                <EmbedVid Path="@selecectedVideo" />
+            </article>
+
+            @if(isRightClick) {
+                <article class="grid" style="margin-top:20px;">
+                        <button @onclick="MarkAsFav" class="btn btn-gsky-secondary"><span class="oi oi-heart"></span></button>
+
+                        <button @onclick="MarkAsArch" class="btn btn-gsky-warning"><span class="oi oi-trash"></span></button>
+                </article>
+            }
+
+            <article data-theme="light" style="margin-top:20px;">
+                <EmbedDisqus Path="@selecectedVideo" />
+            </article>
+
+        } else {
+            <KidPic Spin=true Height="175" />
         }
-    </div>
-
-    <article data-theme="light" style="margin-top:20px;">
-        <EmbedVid Path="@selecectedVideo" />
-    </article>
-
-    @if(isRightClick) {
-        <article class="grid" style="margin-top:20px;">
-                <button @onclick="MarkAsFav" class="btn btn-gsky-secondary"><span class="oi oi-heart"></span></button>
-
-                <button @onclick="MarkAsArch" class="btn btn-gsky-warning"><span class="oi oi-trash"></span></button>
-        </article>
-    }
-
-    <article data-theme="light" style="margin-top:20px;">
-        <EmbedDisqus Path="@selecectedVideo" />
-    </article>
-
-} else {
-    <KidPic Spin=true Height="175" />
-}
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this content. Please Login <a href="/Login">here</a>.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
+        
     private RealmUser user = new RealmUser{};
     private bool isLoading = true;
     private bool isRightClick = false;

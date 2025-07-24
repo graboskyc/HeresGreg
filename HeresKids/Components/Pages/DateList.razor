@@ -4,22 +4,28 @@
 @inject IJSRuntime JSRuntime;
 @using HeresKids.Datamodels;
 
-  
-@if(!isLoading) {
-    <ul style="margin-left:30px;font-size:1.4rem;line-height:200%">
-        @foreach (var li in bg)
-        {
-            <li>
-                <a href="/Date/@li.forYear/@li.forMonth/@li.baby" style="font-color:var(--gsky-body-color) !important;">
-                    <b style="color:#@li.color">@li.baby</b> had @li.ct videos in @li.forMonth / @li.forYear
-                </a>
-            </li>
-        }
-    </ul>
+<AuthorizeView>
+    <Authorized>
+        @if(!isLoading) {
+            <ul style="margin-left:30px;font-size:1.4rem;line-height:200%">
+                @foreach (var li in bg)
+                {
+                    <li>
+                        <a href="/Date/@li.forYear/@li.forMonth/@li.baby" style="font-color:var(--gsky-body-color) !important;">
+                            <b style="color:#@li.color">@li.baby</b> had @li.ct videos in @li.forMonth / @li.forYear
+                        </a>
+                    </li>
+                }
+            </ul>
 
-} else {
-    <KidPic Spin=true Height="175" />
-}
+        } else {
+            <KidPic Spin=true Height="175" />
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this content. Please Login <a href="/Login">here</a>.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     private RealmUser user = new RealmUser{};
