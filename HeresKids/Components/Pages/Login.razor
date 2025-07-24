@@ -69,7 +69,18 @@
                     var casp = asp as CustomAuthStateProvider;
                     casp?.AuthenticateUser(result.Token);
                     var authstate = await asp.GetAuthenticationStateAsync();
-                    NavigationManager.NavigateTo("/Vids");
+
+                    var uri = new Uri(NavigationManager.Uri);
+                    var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+                    var returnUrl = query["ReturnUrl"];
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        NavigationManager.NavigateTo(returnUrl);
+                    }
+                    else
+                    {
+                        NavigationManager.NavigateTo("/Vids");
+                    }
                 }
                 else
                 {

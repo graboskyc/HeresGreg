@@ -43,7 +43,8 @@ namespace HeresKids
             var claims = new List<Claim>();
 
             if(jwt != null) {
-                if(jwt != "") {
+                if (jwt != "")
+                {
                     var payload = jwt.Split('.')[1];
                     var jsonBytes = ParseBase64WithoutPadding(payload);
                     var decoded = JsonSerializer.Deserialize<Datamodels.CustomJWT>(jsonBytes);
@@ -51,10 +52,18 @@ namespace HeresKids
 
                     claims.Add(new Claim(ClaimTypes.Name, decoded.email));
 
-                    foreach(string group in decoded.BabyName) {
+                    foreach (string group in decoded.BabyName)
+                    {
                         claims.Add(new Claim(ClaimTypes.Role, group));
                     }
-                } else {
+
+                    foreach (string group in decoded.groups)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, group));
+                    }
+                }
+                else
+                {
                     claims.Add(new Claim(ClaimTypes.Name, "UNAUTHENTICATED"));
                 }
             } else {
