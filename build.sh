@@ -3,6 +3,9 @@
 source .env
 echo "Using conn string starting ${MDBCONNSTR:0:18}..."
 
+datehash=`date | md5sum | cut -d" " -f1`
+abbrvhash=${datehash: -8}
+
 echo
 echo "+======================"
 echo "| START: Heres Greg"
@@ -10,9 +13,9 @@ echo "+======================"
 echo
 
 echo 
-echo "GREG: Building container"
+echo "Building container using tag ${abbrvhash}"
 echo
-docker build -t graboskyc/heresgregblazor:latest .
+docker build -t graboskyc/heresgregblazor:${abbrvhash} .
 
 EXITCODE=$?
 
@@ -25,7 +28,7 @@ if [ $EXITCODE -eq 0 ]
 
     docker stop heresgregblazor
     docker rm heresgregblazor
-    docker run -t -i -d -p 9999:8080 --name heresgregblazor -e "MDBCONNSTR=${MDBCONNSTR}" -e "JWTKEY=${JWTKEY}" -e "DEPLOYMENTBASEURI=${DEPLOYMENTBASEURI}" --restart unless-stopped graboskyc/heresgregblazor:latest
+    docker run -t -i -d -p 9999:8080 --name heresgregblazor -e "MDBCONNSTR=${MDBCONNSTR}" -e "JWTKEY=${JWTKEY}" -e "DEPLOYMENTBASEURI=${DEPLOYMENTBASEURI}" --restart unless-stopped graboskyc/heresgregblazor:${abbrvhash}
 
     echo
     echo "+================================"
