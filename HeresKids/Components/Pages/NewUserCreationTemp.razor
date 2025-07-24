@@ -1,7 +1,9 @@
 @using AspNetCore.Identity.Mongo.Model
 @using Microsoft.AspNetCore.Identity
+@using AspNetCore.Identity.Mongo
+@using AspNetCore.Identity.Mongo.Stores
 @inject UserManager<MongoUser> UserManager
-@layout MainLayout;
+@layout LoginLayout;
 @page "/NewUserCreationTemp"
 
 <PageTitle>New User</PageTitle>
@@ -19,6 +21,9 @@
     <label for="txt_password">Password</label>
     <InputText id="txt_password" type="password" @bind-Value="newUser.Password" placeholder="Password"  />
 
+    <label for="txt_babies">Babies (CSV)</label>
+    <InputText id="txt_babies" @bind-Value="newUser.Babies" placeholder="Babies" />
+
     @if(!isLoading) {
         <button type="submit" style="width:100%;">Create User</button>
     } else {
@@ -32,6 +37,7 @@
     {
         public string Email { get; set; } = "";
         public string Password { get; set; } = "";
+        public string Babies { get; set; } = "Greg,Mallory,Charlie,Sophie";
     }
 
     private NewUserModel newUser = new NewUserModel();
@@ -43,8 +49,24 @@
         var identityUser = new MongoUser
         {
             UserName = newUser.Email,
-            Email = newUser.Email
+            Email = newUser.Email,
+            
         };
+        identityUser.Claims.Add(new IdentityUserClaim<string>
+        {
+            ClaimType = "Email",
+            ClaimValue = newUser.Email
+        });
+
+        foreach (var baby in newUser.Babies.Split(','))
+        {
+            identityUser.Claims.Add(new IdentityUserClaim<string>
+            {
+                ClaimType = "BabyName",
+                ClaimValue = baby.Trim()
+            });
+        }
+
         var result = await UserManager.CreateAsync(identityUser, newUser.Password);
         isLoading = false;
         if (result.Succeeded)

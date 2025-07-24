@@ -22,9 +22,11 @@ builder.Services.AddHttpClient("Default", client =>
 
 
 builder.Services.AddScoped<AuthenticationStateProvider, HeresKids.CustomAuthStateProvider>();
+builder.Services.AddScoped<HeresKids.CustomAuthStateProvider>();
 
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/var/keys"));
 builder.Services.AddControllers();
+builder.Services.AddSession();
 
 string MDBCONNSTR = Environment.GetEnvironmentVariable("MDBCONNSTR").Trim();
 
@@ -73,6 +75,7 @@ app.UseAuthorization();
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+app.UseSession();
 app.UseAntiforgery();
 
 app.MapControllers();

@@ -5,6 +5,8 @@
 @inject NavigationManager NavigationManager;
 @using HeresKids.Datamodels;
 @inject IMongoCollection<BabyGrouping> BGCol;
+@inject AuthenticationStateProvider asp;
+@attribute [Authorize]
 
 <AuthorizeView>
     <Authorized>

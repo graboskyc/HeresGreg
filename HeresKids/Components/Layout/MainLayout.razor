@@ -42,13 +42,23 @@
 </main>
 
 @code {
-        private string _un = "";
-       protected override async Task OnInitializedAsync() {
-           var authState = await asp.GetAuthenticationStateAsync();
-           if (!authState.User.Identity.IsAuthenticated) {
-               NavigationManager.NavigateTo("/Login");
-           } else {
-               _un = authState.User.Identity.Name.Split('@')[0];
-           }
-       }
+    private string _un = "";
+    private bool _hasRun = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (firstRender && !_hasRun) {
+            var authState = await asp.GetAuthenticationStateAsync();
+            if (!(authState.User.Identity?.IsAuthenticated ?? false)) {
+                NavigationManager.NavigateTo("/Login");
+            } else {
+                var name = authState.User.Identity?.Name?.Split('@')[0] ?? "";
+                if (!string.IsNullOrEmpty(name)) {
+                    _un = char.ToUpper(name[0]) + name.Substring(1);
+                } else {
+                    _un = "";
+                }
+            }
+            _hasRun = true;
+            StateHasChanged();
+        }
+    }
 }

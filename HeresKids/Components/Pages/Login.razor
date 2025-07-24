@@ -22,43 +22,38 @@
     }
 }
 
+<EditForm OnSubmit="RunLogin" Model="_loginCreds" >
+    <label for="txt_username">Email Address</label>
+    <InputText @bind-Value="_loginCreds.Email" id="txt_username" placeholder="Email" />
 
-<label for="txt_username">Email Address</label>
-<input type="text" name="txt_username" id="txt_username" @bind="username" @bind:event="onchange" placeholder="Email" />
+    <label for="txt_password">Password</label>
+    <InputText type="password" @bind-Value="_loginCreds.Password" id="txt_password" placeholder="Password" />
 
-<label for="txt_password">Password</label>
-<input type="password" name="txt_password" id="txt_password" @bind="password" @bind:event="onchange" placeholder="Password" />
-
-@if(!isLoading) {
-    <button @onclick="RunLogin" id="btn_login" style="width:100%;">Login</button>
-} else {
-    <button aria-busy="true" aria-label="Logging In..." style="width:100%;">Logging In...</button>
-}
+    @if(!isLoading) {
+        <input type="submit" id="btn_login" style="width:100%;" value="Login" />
+    } else {
+        <button aria-busy="true" aria-label="Logging In..." style="width:100%;">Logging In...</button>
+    }
+</EditForm>
 
 
 @code {
    private bool isLoading = false;
     private bool loginSuccess = false;
     private bool failedLogin = false;
-    private string username = "";
-    private string password;
     private string responseMessage = "";
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await JSRuntime.InvokeVoidAsync("captureEnter", "btn_login");
-    }
+    private LoginCreds _loginCreds = new LoginCreds();
 
     private async void RunLogin()
     {
-        Console.WriteLine("RunLogin called with username: " + username);
+        Console.WriteLine("RunLogin called with username: " + _loginCreds.Email);
         isLoading = true;        
         responseMessage = "";
         StateHasChanged();
         failedLogin = false;
         var loginRequest = new {
-            Email = username,
-            Password = password
+            Email = _loginCreds.Email,
+            Password = _loginCreds.Password
         };
         try
         {
@@ -102,6 +97,12 @@
         public bool Success { get; set; }
         public string? Message { get; set; }
         public string? Token { get; set; }
+    }
+
+    private class LoginCreds
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 
     

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo.Model;
 
 namespace HeresKids
 {
@@ -29,6 +31,7 @@ namespace HeresKids
             {
                 options.DetailedErrors = true;
             });
+            services.AddIdentityMongoDbProvider<MongoUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

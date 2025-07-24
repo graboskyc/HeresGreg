@@ -7,6 +7,8 @@
 @using MongoDB.Bson;
 @using MongoDB.Driver;
 @inject IMongoCollection<VideoListItem> VLICol;
+@inject AuthenticationStateProvider asp;
+@attribute [Authorize]
 
 <PageTitle>Here's The Kids</PageTitle>
 
@@ -58,14 +60,14 @@
 </AuthorizeView>
 
 @code {
-        
-    private RealmUser user = new RealmUser{};
     private bool isLoading = true;
     private bool isRightClick = false;
     private string selecectedVideo = null;
     private string selecectedVideoId = null;
 
     private List<VideoListItem> l;
+
+    private List<string> _babies = new List<string>();
     
 
     void HandleRightClick(MouseEventArgs args, string id)
@@ -109,6 +111,7 @@
         var result = await VLICol.Aggregate()
             .SortByDescending(x => x.created)
             .Match(x => x.archived == false)
+            .Match(x => _babies.Contains(x.babyname))
             .Limit(4)
             .SortBy(x => x.created)
             .ToListAsync();
@@ -121,6 +124,9 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await asp.GetAuthenticationStateAsync();
+        _babies = authState.User.Claims.Select(c => c.Value).ToList();
+        //Console.WriteLine("Babies: " + string.Join(", ", _babies));
         await GetVids();
     }
 }

@@ -9,6 +9,8 @@ namespace HeresKids
 {
     public class CustomAuthStateProvider : AuthenticationStateProvider {
         private string _token = "";
+        private AuthenticationState authState;
+
 
         public void SetToken(string token)
         {
@@ -28,10 +30,11 @@ namespace HeresKids
             var identity = new ClaimsIdentity(claims, "jwt");
             var user = new ClaimsPrincipal(identity);
             var state = new AuthenticationState(user);
+            authState = state;
 
-            NotifyAuthenticationStateChanged(Task.FromResult(state));
+            NotifyAuthenticationStateChanged(Task.FromResult(authState));
 
-            return Task.FromResult(state);
+            return Task.FromResult(authState);
         }
 
         // grabosky is dumb
@@ -48,7 +51,7 @@ namespace HeresKids
 
                     claims.Add(new Claim(ClaimTypes.Name, decoded.email));
 
-                    foreach(string group in decoded.groups) {
+                    foreach(string group in decoded.BabyName) {
                         claims.Add(new Claim(ClaimTypes.Role, group));
                     }
                 } else {

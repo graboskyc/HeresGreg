@@ -29,10 +29,15 @@ namespace HeresKids.Controllers
             var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, isPersistent: true, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                var claims = new[]
+                // Get claims from the logged-in user
+                var user = await _signInManager.UserManager.FindByEmailAsync(request.Email);
+                var userClaims = user != null ? await _signInManager.UserManager.GetClaimsAsync(user) : new List<Claim>();
+
+                var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, request.Email)
                 };
+                claims.AddRange(userClaims);
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWTKEY")));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
