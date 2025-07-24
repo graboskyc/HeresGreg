@@ -28,7 +28,7 @@ if [ $EXITCODE -eq 0 ]
 
     docker stop heresgregblazor
     docker rm heresgregblazor
-    docker run -t -i -d -p 9999:8080 --name heresgregblazor -e "MDBCONNSTR=${MDBCONNSTR}" -e "JWTKEY=${JWTKEY}" -e "DEPLOYMENTBASEURI=${DEPLOYMENTBASEURI}" --restart unless-stopped graboskyc/heresgregblazor:${abbrvhash}
+    docker run -t -i -d -p 9999:8080 --name heresgregblazor -e "MDBCONNSTR=${MDBCONNSTR}" -e "HOSTEDURI=${HOSTEDURI}" -e "JWTKEY=${JWTKEY}" -e "DEPLOYMENTBASEURI=${DEPLOYMENTBASEURI}" --restart unless-stopped graboskyc/heresgregblazor:${abbrvhash}
 
     echo
     echo "+================================"

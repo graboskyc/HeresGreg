@@ -28,9 +28,9 @@
                     <div @onclick="@(e => SwitchVideoClick(e, li))" style="text-align: center;">
                         <center>
                             @if(li.isFavorite) {
-                                <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                                <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url({2}media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor, Environment.GetEnvironmentVariable("HOSTEDURI").Trim())"></div>
                             } else {
-                                <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url(http://grabosky.dyndns.org:9999/media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor)"></div>
+                                <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url({2}media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor, Environment.GetEnvironmentVariable("HOSTEDURI").Trim())"></div>
                             }
                             <br>
                             <span style="text-transform: capitalize;">@li.createdby</span>

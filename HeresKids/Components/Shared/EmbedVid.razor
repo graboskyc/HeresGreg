@@ -25,9 +25,9 @@
 
     private async Task UpdateVidLoading(string value) {
         if(File.Exists("/app/wwwroot/media/smaller/"+value)) {
-            _currentVideoFullPath = "http://grabosky.dyndns.org:9999/media/smaller/"+value;
+            _currentVideoFullPath = Environment.GetEnvironmentVariable("HOSTEDURI").Trim()+"media/smaller/"+value;
         } else {
-            _currentVideoFullPath = "http://grabosky.dyndns.org:9999/media/"+value;
+            _currentVideoFullPath = Environment.GetEnvironmentVariable("HOSTEDURI").Trim()+"media/"+value;
         }
         Console.WriteLine("Changing Video");
         StateHasChanged();
