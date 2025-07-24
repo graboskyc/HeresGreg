@@ -1,6 +1,8 @@
 /////////////////////////////
 // Video handling
 /////////////////////////////
+var errCt = 0;
+
 window.disq_reset = function (newIdentifier, newUrl, newTitle) {
     console.log("Resetting Disqus:",newIdentifier, newUrl, newTitle);
     try {

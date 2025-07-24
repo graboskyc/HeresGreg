@@ -1,0 +1,88 @@
+@layout MainLayout;
+@page "/DateList";
+@using MongoDB.Bson
+@using MongoDB.Driver;
+@inject NavigationManager NavigationManager;
+@using HeresKids.Datamodels;
+@inject IMongoCollection<BabyGrouping> BGCol;
+@inject AuthenticationStateProvider asp;
+@attribute [Authorize]
+
+<AuthorizeView>
+    <Authorized>
+        @if(!isLoading) {
+            <ul style="margin-left:30px;font-size:1.4rem;line-height:200%">
+                @foreach (var li in bg)
+                {
+                    <li>
+                        <a @onclick="() => NavigateToDate(li.forYear, li.forMonth, li.baby)" style="font-color:var(--gsky-body-color) !important;">
+                            <b style="color:#@li.color">@li.baby</b> had @li.ct videos in @li.forMonth / @li.forYear
+                        </a>
+                    </li>
+                }
+            </ul>
+
+        } else {
+            <KidPic Spin=true Height="175" />
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this content. Please Login <a href="/Login">here</a>.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private bool isLoading = true;
+    
+    private List<BabyGrouping> bg;
+
+    private void NavigateToDate(int year, int month, string baby)
+    {
+        NavigationManager.NavigateTo($"/Date/{year}/{month}/{baby}");
+    }
+
+    protected override async Task OnInitializedAsync() {
+        
+        var pipeline = new List<BsonDocument>
+        {
+            new BsonDocument("$group", 
+            new BsonDocument
+                {
+                    { "_id", 
+            new BsonDocument
+                    {
+                        { "forYear", 
+            new BsonDocument("$year", "$created") }, 
+                        { "forMonth", 
+            new BsonDocument("$month", "$created") }, 
+                        { "baby", "$babyname" }, 
+                        { "color", "$babycolor" }
+                    } }, 
+                    { "ct", 
+            new BsonDocument("$sum", 1) }
+                }),
+            new BsonDocument("$sort", 
+            new BsonDocument
+                {
+                    { "_id.forYear", -1 }, 
+                    { "_id.forMonth", -1 }, 
+                    { "_id.baby", 1 }
+                }),
+            new BsonDocument("$project", 
+            new BsonDocument
+                {
+                    { "forYear", "$_id.forYear" }, 
+                    { "forMonth", "$_id.forMonth" }, 
+                    { "baby", "$_id.baby" }, 
+                    { "color", "$_id.color" }, 
+                    { "ct", 1 }, 
+                    { "_id", 0 }
+                })
+        };
+
+        var results = await BGCol.Aggregate<BabyGrouping>(pipeline).ToListAsync();
+        bg = results;
+        isLoading = false;
+    }
+
+}

@@ -1,0 +1,127 @@
+@layout MainLayout;
+@page "/Upload";
+@page "/New";
+@inject NavigationManager NavigationManager;
+@using HeresKids.Datamodels;
+@using System.IO;
+@using System.Diagnostics;
+@using HeresKids.Datamodels;
+@attribute [Authorize]
+
+@using MongoDB.Bson;
+@using MongoDB.Driver;
+@inject IMongoCollection<VideoListItem> VLICol;
+@inject IMongoCollection<Babies> BabiesCol;
+@inject AuthenticationStateProvider asp;
+
+<PageTitle>Upload a Video</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        @if(babies!=null) {
+            <div class="grid" style="margin-top:30px;">
+                @foreach (var b in babies)
+                {
+                    <div style="padding:20px;">
+                        <input type="radio" id="@b.name" name="baby" value="@b.name" @onclick="@(e => SelectBaby(e, b))" style="visibility:hidden">
+                        <label for="@b.name" class="btn btn-lg" style="font-size:2rem;color:var(--gsky-light)!important;text-align:center;background-color:#@b.babycolor !important;width:100%;border-radius:25px;">@b.name</label><br>
+                    </div>
+                }
+            </div>
+            
+            @if(selectedBaby != null) {
+                <label class="custom-file-label" for="customFile">@selFileTitle</label>
+                <InputFile OnChange="@LoadFiles" class="custom-file-input" id="customFile" />
+            }
+        }
+        @if(!isLoading) {
+            <button style="width:100%;">Upload</button>
+        } else {
+            <button disabled aria-busy="true" aria-label="Loading..." style="width:100%;">Loading...</button>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this content. Please Login <a href="/Login">here</a>.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private bool isLoading = true;
+    private string selecectedVideo = null;
+    private string selFileTitle = "Choose Video";
+
+    private List<Babies> babies;
+    private Babies selectedBaby;
+    private string uploadName;
+    private List<string> _myBabies = new List<string>();
+    private string _un = "";
+    private string _email = "";
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        try {
+            // upload it
+            await using FileStream fs = new("/app/wwwroot/media/"+uploadName, FileMode.Create);
+            await e.File.OpenReadStream(500000000).CopyToAsync(fs);
+
+            VideoListItem vli = new VideoListItem {
+                path = uploadName,
+                createdby = _un,
+                created = DateTime.UtcNow,
+                babyname = selectedBaby.name,
+                babycolor = selectedBaby.babycolor,
+                isFavorite = false,
+                archived = false,
+                CreatedByEmail = _email
+            };
+
+            // do thumbnail
+            System.Diagnostics.Process ffmpeg = new System.Diagnostics.Process();
+            string video = "/app/wwwroot/media/"+uploadName;
+            string thumb = video + ".jpg";
+
+            ffmpeg.StartInfo.Arguments = " -i " + video + " -ss 00:00:01.000 -vframes 1 " + thumb;
+            ffmpeg.StartInfo.FileName = "/ffmpeg/ffmpeg";
+            ffmpeg.Start();
+            ffmpeg.WaitForExit();
+            ffmpeg.Close();
+
+            VLICol.InsertOne(vli);
+
+            // redirect
+            NavigationManager.NavigateTo("/Vids");
+        } catch (Exception ex) {
+            Console.WriteLine(ex.ToString());
+        }
+    }
+
+    private void SelectBaby(MouseEventArgs e, Babies b)
+    {
+        Console.WriteLine(b.name, b.babycolor);
+        selectedBaby = b;
+        selFileTitle = "Choose Video of " + selectedBaby.name;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await asp.GetAuthenticationStateAsync();
+        _myBabies = authState.User.Claims.Select(c => c.Value).ToList();
+        _un = authState.User.Identity?.Name?.Split('@')[0] ?? "";
+        _un = char.ToUpper(_un[0]) + _un.Substring(1);
+        _email = authState.User.Identity?.Name ?? "";
+
+        var result = await BabiesCol.Aggregate()
+            .Match(x => _myBabies.Contains(x.name))
+            .ToListAsync();
+        babies = result;
+        selectedBaby = babies.FirstOrDefault();
+        selFileTitle = "Choose Video of " + selectedBaby.name;
+        Guid guid = Guid.NewGuid();
+        uploadName = guid.ToString().ToUpper() + ".mp4";
+        isLoading = false;
+        StateHasChanged();
+    }
+
+}

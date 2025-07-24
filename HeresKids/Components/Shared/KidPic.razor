@@ -1,0 +1,27 @@
+
+<div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+    @if(kidPic != null) {
+        @if(Spin) {
+            <img src="@kidPic" class="aniasset" height="@Height" />
+        } else {
+            <img src="@kidPic" height="@Height" />
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public bool Spin  { get;set;  }
+    [Parameter]
+    public string Height  { get;set;  }
+
+    [Parameter]
+    public string Size  { get;set;  }
+    private string kidPic = null;
+    protected override async Task OnInitializedAsync()
+    {
+        Random random = new Random();
+        int kid = random.Next(1, 5);
+        kidPic = "/resources/kid0"+kid.ToString()+".png";
+    }
+}

@@ -1,26 +1,85 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace HeresKids
+using MongoDB.Driver;
+using HeresKids.Datamodels;
+using HeresKids.Components;
+using Microsoft.AspNetCore.DataProtection;
+using MongoDB.Bson;
+using AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo.Model;
+using Microsoft.AspNetCore.Components.Authorization;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+
+builder.Services.AddHttpContextAccessor(); 
+builder.Services.AddHttpClient("Default", client =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("DEPLOYMENTBASEURI"));
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+
+builder.Services.AddScoped<AuthenticationStateProvider, HeresKids.CustomAuthStateProvider>();
+builder.Services.AddScoped<HeresKids.CustomAuthStateProvider>();
+
+builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/var/keys"));
+builder.Services.AddControllers();
+builder.Services.AddSession();
+
+string MDBCONNSTR = Environment.GetEnvironmentVariable("MDBCONNSTR").Trim();
+
+static void ConfigureMDBServices(IServiceCollection services, string connectionString)
+{
+    var settings = MongoClientSettings.FromConnectionString(connectionString);
+    settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+
+    services.AddSingleton<IMongoClient>(new MongoClient(settings));
+    services.AddSingleton<IMongoDatabase>(x => x.GetRequiredService<IMongoClient>().GetDatabase("greg"));
+    services.AddSingleton<IMongoCollection<VideoListItem>>(x => x.GetRequiredService<IMongoDatabase>().GetCollection<VideoListItem>("media"));
+    services.AddSingleton<IMongoCollection<BabyGrouping>>(x => x.GetRequiredService<IMongoDatabase>().GetCollection<BabyGrouping>("media"));
+    services.AddSingleton<IMongoCollection<Babies>>(x => x.GetRequiredService<IMongoDatabase>().GetCollection<Babies>("babies"));
 }
+
+ConfigureMDBServices(builder.Services, MDBCONNSTR);
+
+builder.Services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(identity =>
+    {
+        identity.User.RequireUniqueEmail = true;
+        identity.Password.RequireNonAlphanumeric = false;
+        identity.Password.RequireDigit = false;
+        identity.Password.RequireUppercase = false;
+        identity.Password.RequireLowercase = false;
+        identity.Password.RequiredLength = 6;
+        identity.SignIn.RequireConfirmedAccount = false;
+    },
+    mongo =>
+    {
+        mongo.ConnectionString = MDBCONNSTR;
+    });
+
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+app.UseSession();
+app.UseAntiforgery();
+
+app.MapControllers();
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+
+app.Run();

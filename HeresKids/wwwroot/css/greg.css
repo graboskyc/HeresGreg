@@ -9,7 +9,6 @@
 
 :root {
     font-size: 22px;
-    --gsky-body-color: #2e2e2e;
     --gsky-primary: #003f5c;
     --gsky-secondary: #7a5195;
     --gsky-highlight-1: #ef5675;
@@ -19,9 +18,6 @@
     --gsky-globalsize: 3rem;
 }
 
-body,.main,.content {
-    background-color: var(--gsky-body-color);
-}
 
 .ctr_bg {
     background-color: var(--gsky-light);
@@ -43,89 +39,10 @@ body,.main,.content {
     padding:50px;
 }
 
-.ctr_spin_parent {
-    display: grid;
-    place-items: center;
-    width: 100%;
-    resize: both;
-    overflow: hidden;
-    height:100vh;
-}
-.ctr_spin_child {
-    padding:1rem;
-    border-radius: 5px;
-    font-size: 2rem;
-    text-align: center;
-    height:100vh;
-}
-.ctr_ctr_child {
-    margin-top:5vh;
-    text-align:center;
-    overflow: hidden;
-    padding:10px;
-    vertical-align: middle;
-    width: 100%;
-    height:100vh;
-}
-
-.btn-gsky {
-    background-color: var(--gsky-primary);
-    color: var(--gsky-light);
-    text-align:center;
-    width:100%;
-    padding:5px;
-    margin-top:10px;
-    margin-bottom:10px;
-}
-
-.btn-gsky-secondary {
-    background-color: var(--gsky-secondary);
-    color: var(--gsky-light);
-    text-align:center;
-    width:100%;
-    padding:5px;
-    margin-top:10px;
-    margin-bottom:10px;
-}
-
-.btn-gsky-warning {
-    background-color: var(--gsky-highlight-1);
-    color: var(--gsky-body-color);
-    text-align:center;
-    width:100%;
-    padding:5px;
-    margin-top:10px;
-    margin-bottom:10px;
-}
-
 .active {
     color: var(--gsky-highlight-2);
 }
 
-.btn-gsky-base {
-    background-color:  var(--gsky-primary);
-    color:var(--gsky-light);
-    text-align:center;
-    padding:5px;
-    margin-top:10px;
-    margin-bottom:10px;
-}
-
-.page-title {
-    text-align: center;
-    padding-top:20px;
-    padding-bottom:20px;
-    font-size: 1.75rem;
-}
-
-.container {
-    background-color: var(--gsky-body-color);
-    min-height:120vh;
-}
-
-.content {
-    margin-bottom: var(--gsky-globalsize);
-}
 
 input [type="radio"] { 
     visibility:hidden; 

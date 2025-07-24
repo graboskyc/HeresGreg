@@ -1,0 +1,37 @@
+
+@inject IJSRuntime JSRuntime;
+@using System;
+@using System.IO;
+
+<div id="jumbomainvid" style="text-align:center;">
+    <div id="vidcntr" style="position: relative;" class="rr">
+        <video controls loop autoplay id="mainvid" class="rr" style="height:70vh;">
+            <source src="@_currentVideoFullPath" type="video/mp4" />
+        </video>
+    </div>
+</div>
+
+@code {
+    
+    private string _currentVideoFullPath = null;
+
+    [Parameter]
+    public string Path  { 
+        get { return _currentVideoFullPath; }
+        set {
+            InvokeAsync(async() => await UpdateVidLoading(value));
+        }
+    }
+
+    private async Task UpdateVidLoading(string value) {
+        if(File.Exists("/app/wwwroot/media/smaller/"+value)) {
+            _currentVideoFullPath = Environment.GetEnvironmentVariable("HOSTEDURI").Trim()+"media/smaller/"+value;
+        } else {
+            _currentVideoFullPath = Environment.GetEnvironmentVariable("HOSTEDURI").Trim()+"media/"+value;
+        }
+        Console.WriteLine("Changing Video");
+        StateHasChanged();
+        await JSRuntime.InvokeVoidAsync("loadVideo");
+    }
+
+}

@@ -1,0 +1,132 @@
+@layout MainLayout;
+@page "/Vids";
+@page "/Home";
+@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+@using HeresKids.Datamodels;
+@using MongoDB.Bson;
+@using MongoDB.Driver;
+@inject IMongoCollection<VideoListItem> VLICol;
+@inject AuthenticationStateProvider asp;
+@attribute [Authorize]
+
+<PageTitle>Here's The Kids</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        @if(!isLoading) {
+            <div class="grid" style="margin-top:20px;">
+                @foreach (var li in l)
+                {
+                    <div style="text-align: center;" @onclick="@(e => SwitchVideoClick(e, li))" >
+                        <center>
+                            @if(li.isFavorite) {
+                                <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url({2}media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor, Environment.GetEnvironmentVariable("HOSTEDURI").Trim())"></div>
+                            } else {
+                                <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url({2}media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor, Environment.GetEnvironmentVariable("HOSTEDURI").Trim())"></div>
+                            }
+                            <br>
+                            <span style="text-transform: capitalize;">@li.createdby</span>
+                            <br>
+                            <span>@li.created.ToLocalTime().ToString("MMM dd")</span>
+                        </center>
+                    </div>
+                }
+            </div>
+
+            <article data-theme="light" style="margin-top:20px;">
+                <EmbedVid Path="@selecectedVideo" />
+            </article>
+
+            @if(isRightClick) {
+                <article class="grid" style="margin-top:20px;">
+                        <button @onclick="MarkAsFav" class="btn btn-gsky-secondary"><span class="oi oi-heart"></span></button>
+
+                        <button @onclick="MarkAsArch" class="btn btn-gsky-warning"><span class="oi oi-trash"></span></button>
+                </article>
+            }
+
+            <article data-theme="light" style="margin-top:20px;">
+                <EmbedDisqus Path="@selecectedVideo" />
+            </article>
+
+        } else {
+            <KidPic Spin=true Height="175" />
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this content. Please Login <a href="/Login">here</a>.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private bool isLoading = true;
+    private bool isRightClick = false;
+    private string selecectedVideo = null;
+    private string selecectedVideoId = null;
+
+    private List<VideoListItem> l;
+
+    private List<string> _babies = new List<string>();
+    
+
+    void HandleRightClick(MouseEventArgs args, string id)
+    {
+        if (args.Button == 2) {
+            selecectedVideoId = id;
+            isRightClick = true;
+            StateHasChanged();
+        }
+    }
+
+    private void SwitchVideoClick(MouseEventArgs e, VideoListItem lvi)
+    {
+        isRightClick = false;
+        SwitchVideo(lvi.path);
+        selecectedVideoId = lvi._id.ToString();
+        isRightClick = true;
+    }
+
+    private void SwitchVideo(string path) {
+        selecectedVideo = path;
+        StateHasChanged();
+    }
+
+    private async Task MarkAsFav() {
+        //string[] args = {selecectedVideoId};
+        //await JSRuntime.InvokeVoidAsync("realmShim_Function", "setAsFav", args);
+        await GetVids();
+    }
+
+    private async Task MarkAsArch() {
+        //string[] args = {selecectedVideoId};
+        //await JSRuntime.InvokeVoidAsync("realmShim_Function", "setAsArch", args);
+        await GetVids();
+    }
+
+    private async Task GetVids() {
+        isLoading = true;
+        //string[] args = {};
+        //l = await JSRuntime.InvokeAsync<List<VideoListItem>>("realmShim_Function", "getLatestVids", args);
+        var result = await VLICol.Aggregate()
+            .SortByDescending(x => x.created)
+            .Match(x => x.archived == false)
+            .Match(x => _babies.Contains(x.babyname))
+            .Limit(4)
+            .SortBy(x => x.created)
+            .ToListAsync();
+        l = result;
+        SwitchVideo(l.Last().path);
+        isLoading = false;
+        isRightClick = false;
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await asp.GetAuthenticationStateAsync();
+        _babies = authState.User.Claims.Select(c => c.Value).ToList();
+        //Console.WriteLine("Babies: " + string.Join(", ", _babies));
+        await GetVids();
+    }
+}

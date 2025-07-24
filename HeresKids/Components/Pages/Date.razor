@@ -1,0 +1,100 @@
+@attribute [Authorize]
+@layout MainLayout;
+@page "/Date/{Year}/{Month}/{Baby}";
+@inject NavigationManager NavigationManager;
+@using HeresKids.Datamodels;
+@using MongoDB.Bson;
+@using MongoDB.Driver;
+@inject IMongoCollection<VideoListItem> VLICol;
+@inject AuthenticationStateProvider asp;
+
+
+<PageTitle>Videos of @Baby on @Month/@Year</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        @if(!isLoading) {
+            <article data-theme="light" style="margin-top:20px;">
+                <EmbedVid Path="@selecectedVideo" />
+            </article>
+            
+            <article data-theme="light" style="margin-top:20px;">
+                <EmbedDisqus Path="@selecectedVideo" />
+            </article>
+
+            <article class="grid" style="margin-top:20px;">
+                @foreach (var li in l)
+                {
+                    <div @onclick="@(e => SwitchVideoClick(e, li))" style="text-align: center;">
+                        <center>
+                            @if(li.isFavorite) {
+                                <div class="vidThumb" style="@String.Format("border-radius: 50% 50% 50% 50% / 21% 21% 79% 79% ;background: url({2}media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor, Environment.GetEnvironmentVariable("HOSTEDURI").Trim())"></div>
+                            } else {
+                                <div class="vidThumb" style="@String.Format("border-radius: 50%;background: url({2}media/{0}.jpg);background-size:cover;background-repeat:no-repeat;height:64px;width:64px;background-position: center center;z-index:0;border:5px solid #{1}", li.path, li.babycolor, Environment.GetEnvironmentVariable("HOSTEDURI").Trim())"></div>
+                            }
+                            <br>
+                            <span style="text-transform: capitalize;">@li.createdby</span>
+                            <br>
+                            <span>@li.created.ToLocalTime().ToString("MMM dd")</span>
+                        </center>
+                    </div>
+                }
+            </article>
+
+        } else {
+            <div style="width: 100%;display: grid;place-items: center;">
+                <KidPic Spin=true Height="175" />
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this content. Please Login <a href="/Login">here</a>.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private bool isLoading = true;
+
+    [Parameter]
+    public string Year {get; set;}
+    [Parameter]
+    public string Month {get; set;}
+    [Parameter]
+    public string Baby {get; set;}
+    
+    private List<VideoListItem> l;
+    private string selecectedVideo = null;
+    private List<string> _babies = new List<string>();
+
+    private void SwitchVideoClick(MouseEventArgs e, VideoListItem lvi)
+    {
+        SwitchVideo(lvi.path);
+    }
+
+    private void SwitchVideo(string path) {
+        selecectedVideo = path;
+        StateHasChanged();
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await asp.GetAuthenticationStateAsync();
+        _babies = authState.User.Claims.Select(c => c.Value).ToList();
+
+        var result = await VLICol.Aggregate()
+            .Match(x => x.archived == false)
+            .Match(x => _babies.Contains(x.babyname))
+            .Match(x => x.babyname == Baby)
+            .Match(x => x.created.Year.ToString() == Year && x.created.Month.ToString() == Month)
+            .ToListAsync();
+
+        if (result.Count > 0)
+        {
+            l = result;
+            SwitchVideo(l.FirstOrDefault().path);
+        }
+        isLoading = false;
+        StateHasChanged();
+    }
+}

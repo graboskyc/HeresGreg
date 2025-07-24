@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using AspNetCore.Identity.Mongo;
+using AspNetCore.Identity.Mongo.Model;
 
 namespace HeresKids
 {
@@ -25,7 +27,11 @@ namespace HeresKids
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor(options =>
+            {
+                options.DetailedErrors = true;
+            });
+            services.AddIdentityMongoDbProvider<MongoUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +53,7 @@ namespace HeresKids
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapRazorPages();
             });
         }
     }
