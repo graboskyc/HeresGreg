@@ -15,7 +15,7 @@
 <AuthorizeView>
     <Authorized>
         @if(!isLoading) {
-            <div class="grid" style="margin-top:20px;">
+            <div style="margin-top:20px;display: grid;grid-template-columns: repeat(4, 1fr);grid-template-rows: 1fr;grid-column-gap: 0px;grid-row-gap: 0px;">
                 @foreach (var li in l)
                 {
                     <div style="text-align: center;" @onclick="@(e => SwitchVideoClick(e, li))" >
@@ -39,7 +39,7 @@
             </article>
 
             @if(isRightClick) {
-                <article style="margin-top:20px;display: grid;grid-template-columns: repeat(4, 1fr);grid-template-rows: 1fr;grid-column-gap: 0px;grid-row-gap: 0px;">
+                <article class="grid" style="margin-top:20px;">
                         <button @onclick="MarkAsFav" class="btn btn-gsky-secondary"><span class="oi oi-heart"></span></button>
 
                         <button @onclick="MarkAsArch" class="btn btn-gsky-warning"><span class="oi oi-trash"></span></button>
