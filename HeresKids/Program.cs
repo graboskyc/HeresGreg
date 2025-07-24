@@ -34,7 +34,8 @@ static void ConfigureMDBServices(IServiceCollection services, string connectionS
     settings.ServerApi = new ServerApi(ServerApiVersion.V1);
 
     services.AddSingleton<IMongoClient>(new MongoClient(settings));
-    //services.AddSingleton<IMongoDatabase>(x => x.GetRequiredService<IMongoClient>().GetDatabase("prism"));
+    services.AddSingleton<IMongoDatabase>(x => x.GetRequiredService<IMongoClient>().GetDatabase("greg"));
+    services.AddSingleton<IMongoCollection<VideoListItem>>(x => x.GetRequiredService<IMongoDatabase>().GetCollection<VideoListItem>("media"));
 }
 
 ConfigureMDBServices(builder.Services, MDBCONNSTR);

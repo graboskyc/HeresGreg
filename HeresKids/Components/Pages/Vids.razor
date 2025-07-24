@@ -4,6 +4,9 @@
 @inject NavigationManager NavigationManager;
 @inject IJSRuntime JSRuntime;
 @using HeresKids.Datamodels;
+@using MongoDB.Bson;
+@using MongoDB.Driver;
+@inject IMongoCollection<VideoListItem> VLICol;
 
 <PageTitle>Here's The Kids</PageTitle>
 
@@ -78,7 +81,7 @@
     {
         isRightClick = false;
         SwitchVideo(lvi.path);
-        selecectedVideoId = lvi._id;
+        selecectedVideoId = lvi._id.ToString();
         isRightClick = true;
     }
 
@@ -88,21 +91,28 @@
     }
 
     private async Task MarkAsFav() {
-        string[] args = {selecectedVideoId};
-        await JSRuntime.InvokeVoidAsync("realmShim_Function", "setAsFav", args);
+        //string[] args = {selecectedVideoId};
+        //await JSRuntime.InvokeVoidAsync("realmShim_Function", "setAsFav", args);
         await GetVids();
     }
 
     private async Task MarkAsArch() {
-        string[] args = {selecectedVideoId};
-        await JSRuntime.InvokeVoidAsync("realmShim_Function", "setAsArch", args);
+        //string[] args = {selecectedVideoId};
+        //await JSRuntime.InvokeVoidAsync("realmShim_Function", "setAsArch", args);
         await GetVids();
     }
 
     private async Task GetVids() {
         isLoading = true;
-        string[] args = {};
-        l = await JSRuntime.InvokeAsync<List<VideoListItem>>("realmShim_Function", "getLatestVids", args);
+        //string[] args = {};
+        //l = await JSRuntime.InvokeAsync<List<VideoListItem>>("realmShim_Function", "getLatestVids", args);
+        var result = await VLICol.Aggregate()
+            .SortByDescending(x => x.created)
+            .Match(x => x.archived == false)
+            .Limit(4)
+            .SortBy(x => x.created)
+            .ToListAsync();
+        l = result;
         SwitchVideo(l.Last().path);
         isLoading = false;
         isRightClick = false;
@@ -111,13 +121,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            user = await JSRuntime.InvokeAsync<RealmUser>("getUserDetails");
-            await GetVids();
-            
-        } catch(Exception ex) {
-            NavigationManager.NavigateTo("/");
-        }
+        await GetVids();
     }
 }
