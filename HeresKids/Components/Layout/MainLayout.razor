@@ -9,13 +9,13 @@
             <h1>Here's The Kids</h1>
 
             <div class="grid">
-                <NavLink role="button" href="/Vids" Match="NavLinkMatch.All">
+                <NavLink role="button" @onclick="@(() => NavigationManager.NavigateTo("/Vids"))" Match="NavLinkMatch.All">
                     <span class="material-symbols-outlined">home</span>
                 </NavLink>
-                <NavLink role="button" href="/RandomVid">
+                <NavLink role="button" @onclick="@(() => NavigationManager.NavigateTo("/RandomVid"))">
                     <span class="material-symbols-outlined">shuffle</span>
                 </NavLink>
-                <NavLink role="button" href="/Upload">
+                <NavLink role="button" @onclick="@(() => NavigationManager.NavigateTo("/Upload"))">
                     <span class="material-symbols-outlined">upload</span>
                 </NavLink>
             </div>
@@ -27,10 +27,10 @@
 
         <footer>
             <div class="grid">
-                <NavLink role="button" href="/DateList">
+                <NavLink role="button" @onclick="@(() => NavigationManager.NavigateTo("/DateList"))">
                     <span class="material-symbols-outlined">calendar_month</span>
                 </NavLink>
-                <NavLink role="button" href="/Profile">
+                <NavLink role="button" @onclick="@(() => NavigationManager.NavigateTo("/Profile"))">
                     <span class="material-symbols-outlined">person</span>
                     <span>@_un</span>
                 </NavLink>

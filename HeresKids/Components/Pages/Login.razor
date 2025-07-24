@@ -67,7 +67,7 @@
                 {
                     Console.WriteLine("Login successful with token: " + result.Token);
                     var casp = asp as CustomAuthStateProvider;
-                    casp?.SetToken(result.Token);
+                    casp?.AuthenticateUser(result.Token);
                     var authstate = await asp.GetAuthenticationStateAsync();
                     NavigationManager.NavigateTo("/Vids");
                 }

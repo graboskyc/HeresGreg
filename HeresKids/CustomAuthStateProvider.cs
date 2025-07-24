@@ -12,7 +12,7 @@ namespace HeresKids
         private AuthenticationState authState;
 
 
-        public void SetToken(string token)
+        public void AuthenticateUser(string token)
         {
             _token = token;
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
