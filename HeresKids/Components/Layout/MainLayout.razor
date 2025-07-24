@@ -32,6 +32,7 @@
                 </NavLink>
                 <NavLink role="button" href="/Profile">
                     <span class="material-symbols-outlined">person</span>
+                    <span>@_un</span>
                 </NavLink>
             </div>
         </footer>
@@ -41,10 +42,13 @@
 </main>
 
 @code {
+        private string _un = "";
        protected override async Task OnInitializedAsync() {
            var authState = await asp.GetAuthenticationStateAsync();
            if (!authState.User.Identity.IsAuthenticated) {
                NavigationManager.NavigateTo("/Login");
+           } else {
+               _un = authState.User.Identity.Name.Split('@')[0];
            }
        }
 }
