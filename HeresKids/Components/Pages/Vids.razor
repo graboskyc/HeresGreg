@@ -39,7 +39,7 @@
             </article>
 
             @if(isRightClick) {
-                <article class="grid" style="margin-top:20px;">
+                <article style="margin-top:20px;display: grid;grid-template-columns: repeat(4, 1fr);grid-template-rows: 1fr;grid-column-gap: 0px;grid-row-gap: 0px;">
                         <button @onclick="MarkAsFav" class="btn btn-gsky-secondary"><span class="oi oi-heart"></span></button>
 
                         <button @onclick="MarkAsArch" class="btn btn-gsky-warning"><span class="oi oi-trash"></span></button>
