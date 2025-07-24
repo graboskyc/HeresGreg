@@ -18,11 +18,8 @@
     <HeadOutlet @rendermode="@RenderMode.InteractiveServer" />
 </head>
 
-@using Microsoft.AspNetCore.Components.Authorization
 <body data-theme="dark">
-    <CascadingAuthenticationState>
-        <Routes @rendermode="@RenderMode.InteractiveServer" />
-    </CascadingAuthenticationState>
+    <Routes @rendermode="@RenderMode.InteractiveServer" />
     <script src="_framework/blazor.web.js"></script>
     <script src="_framework/blazor.server.js"></script>
     <script src="js/realmHooks.js"></script>

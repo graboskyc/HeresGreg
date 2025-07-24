@@ -36,7 +36,7 @@ namespace HeresKids.Pages.Account
             if (result.Succeeded)
             {
                 Console.WriteLine("User logged in successfully.");
-                return Redirect("/Vids");
+                return LocalRedirect("/Vids");
             }
             else
             {
