@@ -40,9 +40,9 @@
 
             @if(isRightClick) {
                 <article class="grid" style="margin-top:20px;">
-                        <button @onclick="MarkAsFav" class="btn btn-gsky-secondary"><span class="oi oi-heart"></span></button>
+                        <button @onclick="MarkAsFav" class="contrast"><span class="material-symbols-outlined">favorite</span></button>
 
-                        <button @onclick="MarkAsArch" class="btn btn-gsky-warning"><span class="oi oi-trash"></span></button>
+                        <button @onclick="MarkAsArch" style="background-color: #5C160D; border-color: #30130a;"><span class="material-symbols-outlined">delete</span></button>
                 </article>
             }
 
