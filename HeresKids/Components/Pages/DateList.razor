@@ -4,27 +4,47 @@
 @using MongoDB.Driver;
 @inject NavigationManager NavigationManager;
 @using HeresKids.Datamodels;
+@using System.Globalization
 @inject IMongoCollection<BabyGrouping> BGCol;
 @inject AuthenticationStateProvider asp;
 @attribute [Authorize]
 
 <AuthorizeView>
     <Authorized>
-        @if(!isLoading) {
-            <ul style="margin-left:30px;font-size:1.4rem;line-height:200%">
-                @foreach (var li in bg)
-                {
-                    <li>
-                        <a @onclick="() => NavigateToDate(li.forYear, li.forMonth, li.baby)" style="font-color:var(--gsky-body-color) !important;">
-                            <b style="color:#@li.color">@li.baby</b> had @li.ct videos in @li.forMonth / @li.forYear
-                        </a>
-                    </li>
-                }
-            </ul>
-
-        } else {
-            <KidPic Spin=true Height="175" />
-        }
+        <article data-theme="light">
+            @if(!isLoading) {
+                    @foreach (var year in groupByYear)
+                    {
+                        <details @attributes="GetAtts(year.Key)">
+                            <summary class="secondary" role="button">
+                                <span>@year.Key</span>
+                                <span>&nbsp;</span>
+                                <span class="material-symbols-outlined">expand</span>
+                            </summary>
+                            <ul>
+                                @foreach (var li in year) {
+                                    <li style="list-style-type: none;">
+                                        <div role="group">
+                                            <a role="button" class="outline" style="text-decoration: none;color: #373c44;" @onclick="() => NavigateToDate(li.forYear, li.forMonth, li.baby)" >
+                                                See the @li.ct videos of
+                                                <b style="color:#@li.color">@li.baby</b> 
+                                                from
+                                                @CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(li.forMonth)  @li.forYear
+                                            </a>
+                                            <a role="button" class="outline" style="text-decoration: none;color: #373c44;" @onclick="() => NavigateToDate(li.forYear, li.forMonth, li.baby)" >
+                                                <span class="material-symbols-outlined">arrow_forward</span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </details>
+                        
+                    }
+            } else {
+                <KidPic Spin=true Height="175" />
+            }
+        </article>
     </Authorized>
     <NotAuthorized>
         <p>You are not authorized to view this content. Please Login <a href="/Login">here</a>.</p>
@@ -34,7 +54,7 @@
 @code {
     private bool isLoading = true;
     
-    private List<BabyGrouping> bg;
+    IEnumerable<IGrouping<int, BabyGrouping>>? groupByYear = null;
 
     private void NavigateToDate(int year, int month, string baby)
     {
@@ -81,8 +101,18 @@
         };
 
         var results = await BGCol.Aggregate<BabyGrouping>(pipeline).ToListAsync();
-        bg = results;
+        groupByYear = results.GroupBy(x=> x.forYear);
+        
         isLoading = false;
+    }
+
+    private Dictionary<string, object> GetAtts(int year)
+    {
+        Dictionary<string, object> attributes = new Dictionary<string, object>();
+        if (year == DateTime.Now.Year) {
+            attributes.Add("open", "true");
+        }
+        return attributes;
     }
 
 }
